@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>PostgRESTSharp</id>
+    <version>0.0.1-alpha</version>
+    <title>C# wrapper for PostgREST REST API server.</title>
+    <authors>Eugene Duvenage</authors>
+    <owners>Eugene Duvenage</owners>
+    <description></description>
+    <projectUrl>https://github.com/postgrestsharp/postgrestsharp</projectUrl>
+    <iconUrl>https://raw.github.com/postgrestsharp/postgrestsharp/master/logo.png</iconUrl>
+    <licenseUrl>https://raw.github.com/postgrestsharp/postgrestsharp/master/LICENSE.txt</licenseUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright (c) 2015 Eugene Duvenage</copyright>
+    <tags>C# Postgrest</tags>
+  </metadata>
+</package>

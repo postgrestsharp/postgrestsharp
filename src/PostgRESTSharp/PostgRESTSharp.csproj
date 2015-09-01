@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7992EB2A-3102-41D6-A746-AB9ADF116CDE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>PostgRESTSharp</RootNamespace>
+    <AssemblyName>PostgRESTSharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ReleaseVersion>0.0.1-alpha</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="Inflector">
+      <HintPath>..\packages\Inflector.1.0.0.0\lib\net45\Inflector.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.3.0.1\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="synoptic">
+      <HintPath>..\packages\synoptic.0.1.2.10602\lib\synoptic.dll</HintPath>
+    </Reference>
+    <Reference Include="Synoptic.Service">
+      <HintPath>..\packages\synoptic.0.1.2.10602\lib\Synoptic.Service.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IMetaModel.cs" />
+    <Compile Include="IMetaModelBuilder.cs" />
+    <Compile Include="IMetaModelConvention.cs" />
+    <Compile Include="IMetaModelQueryProvider.cs" />
+    <Compile Include="IMetaModelRetriever.cs" />
+    <Compile Include="IMetaModelTypeConvertor.cs" />
+    <Compile Include="InfoSchemaColumn.cs" />
+    <Compile Include="InfoSchemaForeignKeys.cs" />
+    <Compile Include="InfoSchemaKeyColumnUsage.cs" />
+    <Compile Include="InfoSchemaTable.cs" />
+    <Compile Include="IViewMetaModel.cs" />
+    <Compile Include="IViewMetaModelBuilder.cs" />
+    <Compile Include="IViewMetaModelBuilderConvention.cs" />
+    <Compile Include="MetaModel.cs" />
+    <Compile Include="MetaModelBuilder.cs" />
+    <Compile Include="MetaModelColumn.cs" />
+    <Compile Include="MetaModelRelation.cs" />
+    <Compile Include="MetaModelRetriever.cs" />
+    <Compile Include="MetaModelTypeEnum.cs" />
+    <Compile Include="MetaModelViewColumn.cs" />
+    <Compile Include="RelationDirectionEnum.cs" />
+    <Compile Include="SingleRESTViewMetaModelBuilderConvention.cs" />
+    <Compile Include="ViewMetaModel.cs" />
+    <Compile Include="ViewMetaModelBuilder.cs" />
+    <Compile Include="ViewMetaModelBuilderResult.cs" />
+    <Compile Include="ViewMetaModelRelation.cs" />
+    <Compile Include="ViewMetaModelSource.cs" />
+    <Compile Include="ViewModelBuilderConventionLevel.cs" />
+    <Compile Include="ViewModelBuilderConventionType.cs" />
+    <Compile Include="Text\ITextUtility.cs" />
+    <Compile Include="Text\TextUtility.cs" />
+    <Compile Include="Data\IDbConnectionProvider.cs" />
+    <Compile Include="PgSql\PgSqlDataStorageQueryProvider.cs" />
+    <Compile Include="PgSql\PgSqlDataStorageTypeConvertor.cs" />
+    <Compile Include="PgSql\PgSqlDbConnectionProvider.cs" />
+    <Compile Include="Configuration\IConnectionStringConfigurationProvider.cs" />
+    <Compile Include="Configuration\SimpleConnectionStringConfigurationProvider.cs" />
+    <Compile Include="Commands\GenerateViewScriptsCommand.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="PrefixedHierarchical" ResourceNamePolicy="FileFormatDefault" />
+          <TextStylePolicy inheritsSet="null" scope="text/x-csharp" />
+          <CSharpFormattingPolicy AfterDelegateDeclarationParameterComma="True" inheritsSet="Mono" inheritsScope="text/x-csharp" scope="text/x-csharp" />
+          <TextStylePolicy FileWidth="120" TabsToSpaces="False" inheritsSet="VisualStudio" inheritsScope="text/plain" scope="text/plain" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Text\" />
+    <Folder Include="Data\" />
+    <Folder Include="PgSql\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
