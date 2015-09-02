@@ -74,12 +74,24 @@
     <Compile Include="RelationDirectionEnum.cs" />
     <Compile Include="MultiRESTViewMetaModelBuilderConvention.cs" />
     <Compile Include="SingleRESTViewMetaModelBuilderConvention.cs" />
+    <Compile Include="Templates\NancyRESTModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NancyRESTModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\NancyRESTModels2.cs" />
+    <Compile Include="Templates\NancyRESTModule.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NancyRESTModule.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\NancyRESTModule2.cs" />
     <Compile Include="Templates\ViewScript.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewScript.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\GenerateViewScript2.cs" />
+    <Compile Include="Templates\ViewScript2.cs" />
     <Compile Include="Templates\ViewsScript.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -122,6 +134,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Templates\NancyRESTModels.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NancyRESTModels.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\NancyRESTModule.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NancyRESTModule.cs</LastGenOutput>
+    </Content>
     <Content Include="Templates\ViewScript.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ViewScript.cs</LastGenOutput>

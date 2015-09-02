@@ -3,17 +3,18 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-CREATE SCHEMA "<#=ViewSchemaVersion#>"
+CREATE SCHEMA IF NOT EXISTS "<#=ViewSchemaVersion#>"
   AUTHORIZATION <#=ViewSchemaOwner#>;
 
 <#foreach (var view in MetaModels){#>
--- <#=view.ViewName#> --
+
+-- Start <#=view.ViewName#> --
 
 CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>".<#=view.ViewName#> AS 
  SELECT <#=GetColumns(view)#>
    FROM <#=GetSources(view)#>;
 
-ALTER TABLE "<#=ViewSchemaVersion#>".<#=view.ViewName#>
+ALTER VIEW "<#=ViewSchemaVersion#>".<#=view.ViewName#>
   OWNER TO <#=ViewSchemaOwner#>;
 
 -- End <#=view.ViewName#> --

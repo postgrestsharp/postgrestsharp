@@ -28,7 +28,7 @@ namespace PostgRESTSharp.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("CREATE SCHEMA \"");
+            this.Write("CREATE SCHEMA IF NOT EXISTS \"");
             
             #line 6 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
@@ -49,72 +49,72 @@ foreach (var view in MetaModels){
             
             #line default
             #line hidden
-            this.Write("-- ");
+            this.Write("\r\n-- Start ");
             
-            #line 10 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 11 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(view.ViewName));
             
             #line default
             #line hidden
             this.Write(" --\r\n\r\nCREATE OR REPLACE VIEW \"");
             
-            #line 12 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
             
             #line default
             #line hidden
             this.Write("\".");
             
-            #line 12 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(view.ViewName));
             
             #line default
             #line hidden
             this.Write(" AS \r\n SELECT ");
             
-            #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 14 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetColumns(view)));
             
             #line default
             #line hidden
             this.Write("\r\n   FROM ");
             
-            #line 14 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetSources(view)));
             
             #line default
             #line hidden
-            this.Write(";\r\n\r\nALTER TABLE \"");
+            this.Write(";\r\n\r\nALTER VIEW \"");
             
-            #line 16 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
             
             #line default
             #line hidden
             this.Write("\".");
             
-            #line 16 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(view.ViewName));
             
             #line default
             #line hidden
             this.Write("\r\n  OWNER TO ");
             
-            #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 18 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaOwner));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\n-- End ");
             
-            #line 19 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 20 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(view.ViewName));
             
             #line default
             #line hidden
             this.Write(" --\r\n\r\n");
             
-            #line 21 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
+            #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewsScript.tt"
 }
             
             #line default

@@ -3,3 +3,16 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+CREATE SCHEMA IF NOT EXISTS "<#=ViewSchemaVersion#>"
+  AUTHORIZATION <#=ViewSchemaOwner#>;
+
+-- Start <#=MetaModel.ViewName#> --
+
+CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>".<#=MetaModel.ViewName#> AS 
+ SELECT <#=GetColumns(MetaModel)#>
+   FROM <#=GetSources(MetaModel)#>;
+
+ALTER VIEW "<#=ViewSchemaVersion#>".<#=MetaModel.ViewName#>
+  OWNER TO <#=ViewSchemaOwner#>;
+
+-- End <#=MetaModel.ViewName#> --

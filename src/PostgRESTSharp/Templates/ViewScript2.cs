@@ -1,18 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace PostgRESTSharp.Templates
 {
-    public partial class ViewsScript
+    public partial class ViewScript
     {
-        public ViewsScript(IEnumerable<IViewMetaModel> metaModels, string viewSchemaOwner, int viewSchemaVersion)
+        public ViewScript(IViewMetaModel metaModel, string viewSchemaOwner, int viewSchemaVersion)
         {
-            this.MetaModels = new List<IViewMetaModel>(metaModels);
+            this.MetaModel = metaModel;
             this.ViewSchemaOwner = viewSchemaOwner;
             this.ViewSchemaVersion = viewSchemaVersion.ToString();
         }
 
-        public IEnumerable<IViewMetaModel> MetaModels { get; protected set; }
+        public IViewMetaModel MetaModel { get; protected set; }
 
         public string ViewSchemaOwner { get; protected set; }
 

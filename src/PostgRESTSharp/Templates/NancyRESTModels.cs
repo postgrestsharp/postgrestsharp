@@ -18,9 +18,9 @@ namespace PostgRESTSharp.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
+    #line 1 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\NancyRESTModels.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class ViewScript : ViewScriptBase
+    public partial class NancyRESTModels : NancyRESTModelsBase
     {
 #line hidden
         /// <summary>
@@ -28,84 +28,6 @@ namespace PostgRESTSharp.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("CREATE SCHEMA IF NOT EXISTS \"");
-            
-            #line 6 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
-            
-            #line default
-            #line hidden
-            this.Write("\"\r\n  AUTHORIZATION ");
-            
-            #line 7 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaOwner));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n\r\n-- Start ");
-            
-            #line 9 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
-            
-            #line default
-            #line hidden
-            this.Write(" --\r\n\r\nCREATE OR REPLACE VIEW \"");
-            
-            #line 11 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
-            
-            #line default
-            #line hidden
-            this.Write("\".");
-            
-            #line 11 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
-            
-            #line default
-            #line hidden
-            this.Write(" AS \r\n SELECT ");
-            
-            #line 12 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetColumns(MetaModel)));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n   FROM ");
-            
-            #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetSources(MetaModel)));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n\r\nALTER VIEW \"");
-            
-            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
-            
-            #line default
-            #line hidden
-            this.Write("\".");
-            
-            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
-            
-            #line default
-            #line hidden
-            this.Write("\r\n  OWNER TO ");
-            
-            #line 16 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaOwner));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n\r\n-- End ");
-            
-            #line 18 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\ViewScript.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
-            
-            #line default
-            #line hidden
-            this.Write(" --");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -117,7 +39,7 @@ namespace PostgRESTSharp.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class ViewScriptBase
+    public class NancyRESTModelsBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;
