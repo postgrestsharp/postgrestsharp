@@ -1,5 +1,5 @@
 ﻿
-namespace PostgrestSharp.Pgsql
+namespace PostgRESTSharp.Pgsql
 {
     public class PgSqlDataStorageTypeConvertor : IMetaModelTypeConvertor
     {

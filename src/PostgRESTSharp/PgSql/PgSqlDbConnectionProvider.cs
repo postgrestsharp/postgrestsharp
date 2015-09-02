@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using PostgrestSharp.Configuration;
-using PostgrestSharp.Data;
+using PostgRESTSharp.Configuration;
+using PostgRESTSharp.Data;
 
-namespace PostgrestSharp.Pgsql
+namespace PostgRESTSharp.Pgsql
 {
     public class PgSqlDbConnectionProvider : IDbConnectionProvider
     {

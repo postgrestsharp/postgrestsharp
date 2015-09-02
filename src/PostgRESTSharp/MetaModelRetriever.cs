@@ -1,9 +1,9 @@
 ﻿using Dapper;
 using System.Collections.Generic;
 using System.Data;
-using PostgrestSharp.Data;
+using PostgRESTSharp.Data;
 
-namespace PostgrestSharp
+namespace PostgRESTSharp
 {
     public class MetaModelRetriever : IMetaModelRetriever
     {

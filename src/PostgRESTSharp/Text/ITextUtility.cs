@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PostgrestSharp.Text
+namespace PostgRESTSharp.Text
 {
 	public interface ITextUtility
 	{

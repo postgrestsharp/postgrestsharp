@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PostgrestSharp
+namespace PostgRESTSharp
 {
     public class InfoSchemaColumn
     {

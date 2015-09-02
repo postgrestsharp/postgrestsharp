@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -49,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IViewMetaModelProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IMetaModel.cs" />
     <Compile Include="IMetaModelBuilder.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="ViewMetaModel.cs" />
     <Compile Include="ViewMetaModelBuilder.cs" />
     <Compile Include="ViewMetaModelBuilderResult.cs" />
+    <Compile Include="ViewMetaModelProcessor.cs" />
     <Compile Include="ViewMetaModelRelation.cs" />
     <Compile Include="ViewMetaModelSource.cs" />
     <Compile Include="ViewModelBuilderConventionLevel.cs" />
@@ -103,11 +105,6 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
-    <Folder Include="Text\" />
-    <Folder Include="Data\" />
-    <Folder Include="PgSql\" />
-    <Folder Include="Configuration\" />
-    <Folder Include="Commands\" />
     <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>

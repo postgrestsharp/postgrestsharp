@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostgrestSharp.Pgsql
+namespace PostgRESTSharp.Pgsql
 {
     public class PgSqlDataStorageQueryProvider : IMetaModelQueryProvider
     {

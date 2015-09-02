@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace PostgrestSharp
+namespace PostgRESTSharp
 {
     public interface IMetaModelRetriever
     {

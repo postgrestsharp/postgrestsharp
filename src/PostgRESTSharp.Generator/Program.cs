@@ -1,7 +1,7 @@
 ﻿using StructureMap;
 using StructureMap.Graph;
 using Synoptic;
-using PostgrestSharp;
+using PostgRESTSharp;
 using PostgRESTSharp.Commands;
 
 namespace PostgRESTSharp.Generator

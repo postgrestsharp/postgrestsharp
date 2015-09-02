@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using PostgrestSharp.Text;
+using PostgRESTSharp.Text;
 
-namespace PostgrestSharp
+namespace PostgRESTSharp
 {
     public class MetaModelBuilder : IMetaModelBuilder
     {

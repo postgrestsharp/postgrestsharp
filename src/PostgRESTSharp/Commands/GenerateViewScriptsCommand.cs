@@ -1,6 +1,6 @@
 ﻿using System;
 using Synoptic;
-using PostgrestSharp;
+using PostgRESTSharp;
 using System.Collections.Generic;
 using System.Linq;
 

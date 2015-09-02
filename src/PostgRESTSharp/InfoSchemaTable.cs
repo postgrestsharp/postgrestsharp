@@ -1,4 +1,4 @@
-﻿namespace PostgrestSharp
+﻿namespace PostgRESTSharp
 {
     public class InfoSchemaTable
     {

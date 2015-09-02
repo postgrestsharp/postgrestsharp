@@ -1,7 +1,7 @@
 ﻿using System;
 using Inflector;
 
-namespace PostgrestSharp.Text
+namespace PostgRESTSharp.Text
 {
 	public class TextUtility : ITextUtility
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PostgrestSharp.Configuration
+namespace PostgRESTSharp.Configuration
 {
 	public class SimpleConnectionStringConfigurationProvider : IConnectionStringConfigurationProvider
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace PostgrestSharp.Data
+namespace PostgRESTSharp.Data
 {
 	public interface IDbConnectionProvider
 	{
