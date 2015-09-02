@@ -24,19 +24,17 @@ namespace PostgRESTSharp
                 bool isPrimary = true;
                 foreach(var tableName in tableNames)
                 {
+                    currentTableName = this.BuildTableName(currentTableName, tableName);
+                    var table = additionalStorageModels.Where(x => x.DatabaseName == storageModel.DatabaseName && x.SchemaName == storageModel.SchemaName && x.TableName == currentTableName).FirstOrDefault();
                     //find the actual table
-                    IMetaModel table = null;
+
                     if(isPrimary)
                     {
-                        currentTableName = tableName;
-                        table = additionalStorageModels.Where(x => x.DatabaseName == storageModel.DatabaseName && x.SchemaName == storageModel.SchemaName && x.TableName == currentTableName).FirstOrDefault();
                         model.SetPrimaryTableSource(table);
                         isPrimary = false;
                     }
                     else
                     {
-                        currentTableName += "$" + tableName;
-                        table = additionalStorageModels.Where(x => x.DatabaseName == storageModel.DatabaseName && x.SchemaName == storageModel.SchemaName && x.TableName == currentTableName).FirstOrDefault();
                         // establish the join column between this and the primary source
                         // I should get this from the foreign key but its not there
                         int a = 0;
@@ -46,6 +44,8 @@ namespace PostgRESTSharp
                     // add the columns from the table
                     foreach (var col in table.Columns)
                     {
+                        // use conventions here to check if a column should be included
+
                         model.AddColumn(col, table);
                     }
                     currentTable = table;
@@ -60,7 +60,19 @@ namespace PostgRESTSharp
 			}
 		}
 
-		public ViewModelBuilderConventionType ConventionType { get; protected set; }
+        private string BuildTableName(string currentTableName, string tableName)
+        {
+            if (currentTableName.Length == 0)
+            {
+                return tableName;
+            }
+            else
+            {
+                return string.Format("{0}${1}", currentTableName, tableName);
+            }
+        }
+
+        public ViewModelBuilderConventionType ConventionType { get; protected set; }
 
 		public ViewModelBuilderConventionLevel Level  { get; protected set; }
 
