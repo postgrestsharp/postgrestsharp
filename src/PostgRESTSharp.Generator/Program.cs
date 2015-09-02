@@ -1,37 +1,44 @@
-﻿using StructureMap;
+﻿using PostgRESTSharp.Commands;
+using PostgRESTSharp.Configuration;
+using PostgRESTSharp.Data;
+using PostgRESTSharp.Pgsql;
+using StructureMap;
 using StructureMap.Graph;
 using Synoptic;
-using PostgRESTSharp;
-using PostgRESTSharp.Commands;
 
 namespace PostgRESTSharp.Generator
 {
-	class MainClass
-	{
-		public static void Main (string[] args)
-		{
-			IContainer container = new Container(x =>
-				{
-					x.Scan(y =>
-						{
-							y.LookForRegistries();
-							y.WithDefaultConventions();
-							y.AssembliesFromApplicationBaseDirectory();
-							y.AddAllTypesOf<IViewMetaModelBuilderConvention>();
-						});
-				});
+    internal class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            IContainer container = new Container(x =>
+                {
+                    x.Scan(y =>
+                        {
+                            y.LookForRegistries();
+                            y.WithDefaultConventions();
+                            y.AssembliesFromApplicationBaseDirectory();
+                            y.AddAllTypesOf<IViewMetaModelBuilderConvention>();
+                        });
 
-			var resolver = new StructureMapCommandDependencyResolver(container);
+                    x.For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();
+                    x.For<IDbConnectionProvider>().Singleton().Use<PgSqlDbConnectionProvider>();
+                    x.For<IMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
+                    x.For<IMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
+                });
 
-			// register the available commands
-			new CommandRunner()
-				.WithDependencyResolver(resolver)
-				.WithCommandsFromAssembly(typeof(GenerateViewScriptsCommand).Assembly)
-				.Run(args);
+            var resolver = new StructureMapCommandDependencyResolver(container);
 
-			System.Console.WriteLine("Press any key to continue...");
+            // register the available commands
+            new CommandRunner()
+                .WithDependencyResolver(resolver)
+                .WithCommandsFromAssembly(typeof(GenerateViewScriptsCommand).Assembly)
+                .Run(args);
 
-			System.Console.ReadKey();
-		}
-	}
+            System.Console.WriteLine("Press any key to continue...");
+
+            System.Console.ReadKey();
+        }
+    }
 }

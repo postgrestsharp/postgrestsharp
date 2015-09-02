@@ -19,7 +19,7 @@ namespace PostgRESTSharp
 
 		public string ColumnName { get; protected set; }
 
-		public string StorageDataType { get; protected set; }
+        public string StorageDataType { get; protected set; }
 
 		public long StorageDataTypeLength { get; protected set; }
 

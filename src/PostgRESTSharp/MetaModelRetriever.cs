@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using PostgRESTSharp.Data;
+using PostgRESTSharp.Configuration;
 
 namespace PostgRESTSharp
 {

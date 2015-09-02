@@ -1,0 +1,21 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+CREATE SCHEMA "<#=ViewSchemaVersion#>"
+  AUTHORIZATION <#=ViewSchemaOwner#>;
+
+<#foreach (var view in MetaModels){#>
+-- <#=view.ViewName#> --
+
+CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>".<#=view.ViewName#> AS 
+ SELECT <#=GetColumns(view)#>
+   FROM <#=GetSources(view)#>;
+
+ALTER TABLE "<#=ViewSchemaVersion#>".<#=view.ViewName#>
+  OWNER TO <#=ViewSchemaOwner#>;
+
+-- End <#=view.ViewName#> --
+
+<#}#>
