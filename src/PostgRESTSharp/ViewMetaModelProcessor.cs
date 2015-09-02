@@ -17,7 +17,7 @@ namespace PostgRESTSharp
             List<IViewMetaModel> views = new List<IViewMetaModel>();
             foreach (var tableModel in models.Where(x => x.MetaModelType == MetaModelTypeEnum.Table))
             {
-                var result = viewBuilder.BuildModel(tableModel, models.Where(x => x.DatabaseName != tableModel.DatabaseName && x.SchemaName != tableModel.SchemaName && x.TableName != tableModel.TableName), viewSchemaVersion.ToString());
+                var result = viewBuilder.BuildModel(tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)), viewSchemaVersion.ToString());
                 if (result != null)
                 {
                     views.Add(result);
