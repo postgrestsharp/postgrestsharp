@@ -4,7 +4,7 @@ namespace PostgRESTSharp.Configuration
 {
 	public interface IConnectionStringConfigurationProvider
 	{
-		string ConnectionString { get; }
+		string ConnectionString { get; set;  }
 	}
 }
 

@@ -72,7 +72,20 @@
     <Compile Include="MetaModelTypeEnum.cs" />
     <Compile Include="MetaModelViewColumn.cs" />
     <Compile Include="RelationDirectionEnum.cs" />
+    <Compile Include="MultiRESTViewMetaModelBuilderConvention.cs" />
     <Compile Include="SingleRESTViewMetaModelBuilderConvention.cs" />
+    <Compile Include="Templates\ViewScript.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewScript.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\GenerateViewScript2.cs" />
+    <Compile Include="Templates\ViewsScript.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ViewsScript.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\ViewsScript2.cs" />
     <Compile Include="ViewMetaModel.cs" />
     <Compile Include="ViewMetaModelBuilder.cs" />
     <Compile Include="ViewMetaModelBuilderResult.cs" />
@@ -104,10 +117,21 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup>
-    <Folder Include="Templates\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Templates\ViewScript.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ViewScript.cs</LastGenOutput>
+    </Content>
+    <Content Include="Templates\ViewsScript.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>ViewsScript.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
 </Project>
