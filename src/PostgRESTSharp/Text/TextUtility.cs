@@ -32,7 +32,7 @@ namespace PostgRESTSharp.Text
 
 		public string ToCapitalCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ");
+			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
 			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 			var result = "";
 			foreach (var word in words)

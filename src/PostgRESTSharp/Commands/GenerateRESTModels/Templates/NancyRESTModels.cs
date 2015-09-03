@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace PostgRESTSharp.Templates
+namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 {
     using System.Linq;
     using System.Text;
@@ -18,9 +18,9 @@ namespace PostgRESTSharp.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\dev\postgrestsharp\src\PostgRESTSharp\Templates\NancyRESTModule.tt"
+    #line 1 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public partial class NancyRESTModule : NancyRESTModuleBase
+    public partial class NancyRESTModels : NancyRESTModelsBase
     {
 #line hidden
         /// <summary>
@@ -28,6 +28,56 @@ namespace PostgRESTSharp.Templates
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("using System;\r\n\r\nnamespace ");
+            
+            #line 8 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
+            
+            #line default
+            #line hidden
+            this.Write(" \r\n{\r\n");
+            
+            #line 10 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+foreach(var viewMetaModel in MetaModels){
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n\r\n\t// GET Model\r\n\tpublic class ");
+            
+            #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(viewMetaModel.ModelName));
+            
+            #line default
+            #line hidden
+            this.Write("GETModel\r\n\t{\r\n");
+            
+            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+foreach(var property in GetProperties(viewMetaModel)) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t");
+            
+            #line 16 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(property));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t}\r\n");
+            
+            #line 19 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("}\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -39,7 +89,7 @@ namespace PostgRESTSharp.Templates
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
-    public class NancyRESTModuleBase
+    public class NancyRESTModelsBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

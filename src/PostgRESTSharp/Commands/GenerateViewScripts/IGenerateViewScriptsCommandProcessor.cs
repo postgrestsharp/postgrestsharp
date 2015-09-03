@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PostgRESTSharp.Templates;
 
-namespace PostgRESTSharp.Commands
+namespace PostgRESTSharp.Commands.GenerateViewScripts
 {
 	public interface IGenerateViewScriptsCommandProcessor
 	{

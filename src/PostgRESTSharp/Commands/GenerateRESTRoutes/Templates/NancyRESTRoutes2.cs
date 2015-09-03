@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostgRESTSharp.Templates
+namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
 {
     public partial class NancyRESTModule
     {

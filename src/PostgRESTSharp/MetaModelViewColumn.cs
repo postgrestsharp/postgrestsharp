@@ -4,11 +4,12 @@ namespace PostgRESTSharp
 {
     public class MetaModelViewColumn
     {
-        public MetaModelViewColumn(string columnName, string storageDataType, long storageDataTypeLength, int order, bool isKeyColumn, IMetaModel table, MetaModelColumn tableColumn, IEnumerable<ViewMetaModelRelation> relatedViews)
+        public MetaModelViewColumn(string columnName, string storageDataType, long storageDataTypeLength, string modelDataType, int order, bool isKeyColumn, IMetaModel table, MetaModelColumn tableColumn, IEnumerable<ViewMetaModelRelation> relatedViews)
         {
             this.ColumnName = columnName;
             this.StorageDataType = storageDataType;
             this.StorageDataTypeLength = storageDataTypeLength;
+            this.ModelDataType = modelDataType;
             this.Order = order;
             this.IsKeyColumn = isKeyColumn;
             this.RelatedViews = new List<ViewMetaModelRelation>(relatedViews);
@@ -17,6 +18,8 @@ namespace PostgRESTSharp
         }
 
         public string ColumnName { get; protected set; }
+
+        public string ModelDataType { get; protected set; }
 
         public string StorageDataType { get; protected set; }
 

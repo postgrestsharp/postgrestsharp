@@ -1,22 +1,26 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using PostgRESTSharp.Text;
 
 namespace PostgRESTSharp
 {
 	public class MultiRESTViewMetaModelBuilderConvention : IViewMetaModelBuilderConvention
 	{
-		public MultiRESTViewMetaModelBuilderConvention()
+        private ITextUtility textUtility;
+
+        public MultiRESTViewMetaModelBuilderConvention(ITextUtility textUtility)
 		{
 			this.Level = ViewModelBuilderConventionLevel.Convention;
 			this.ConventionType = ViewModelBuilderConventionType.Inclusion;
-		}
+            this.textUtility = textUtility;
+        }
 
 		public ViewMetaModelBuilderResult BuildModel (IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName)
 		{
 			if (storageModel.TableName.Contains ("$")) 
 			{
-				var model = new ViewMetaModel (storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased);
+				var model = new ViewMetaModel (storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased, this.textUtility.ToCapitalCase(storageModel.TableName));
                 // there are multiple tables involved
                 IMetaModel currentTable = null;
                 string currentTableName = "";
@@ -26,6 +30,13 @@ namespace PostgRESTSharp
                 {
                     currentTableName = this.BuildTableName(currentTableName, tableName);
                     var table = additionalStorageModels.Where(x => x.DatabaseName == storageModel.DatabaseName && x.SchemaName == storageModel.SchemaName && x.TableName == currentTableName).FirstOrDefault();
+                    if(table == null)
+                    {
+                        if(currentTableName == storageModel.TableName)
+                        {
+                            table = storageModel;
+                        }
+                    }
                     //find the actual table
 
                     if(isPrimary)
@@ -36,17 +47,40 @@ namespace PostgRESTSharp
                     else
                     {
                         // establish the join column between this and the primary source
-                        // I should get this from the foreign key but its not there
-                        int a = 0;
-                        // model.AddJoinSource(table, )
+                        var relation = currentTable.Relations.Where(x => x.RelationTableName == currentTableName).FirstOrDefault();
+                        if(relation != null)
+                        {
+                            // get the source column
+                            var sourceColumnName = relation.RelationColumns.FirstOrDefault();
+                            var sourceColumn = currentTable.Columns.Where(x => x.ColumnName == sourceColumnName).FirstOrDefault();
+                            // get the related table column
+                            var joinColumnName = relation.UniqueColumns.FirstOrDefault();
+                            var joinColumn = table.Columns.Where(x => x.ColumnName == joinColumnName).FirstOrDefault();
+                            model.AddJoinSource(table, joinColumn, sourceColumn);
+                        }
+
+                        // 
                     }
 
                     // add the columns from the table
-                    foreach (var col in table.Columns)
+                    if (table != null)
                     {
-                        // use conventions here to check if a column should be included
+                        foreach (var col in table.Columns)
+                        {
+                            // always exclude join columns
+                            var joinTable = model.JoinSources.Where(x => x.JoinSource == table).FirstOrDefault();
+                            if ( joinTable!= null)
+                            {
+                                if(joinTable.JoinColumn == col)
+                                {
+                                    continue;
+                                }
+                            }
 
-                        model.AddColumn(col, table);
+                            // use conventions here to check if a column should be included
+
+                            model.AddColumn(col, table);
+                        }
                     }
                     currentTable = table;
                     

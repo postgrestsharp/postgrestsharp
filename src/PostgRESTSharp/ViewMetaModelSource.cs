@@ -4,8 +4,11 @@ namespace PostgRESTSharp
 {
 	public class ViewMetaModelSource
 	{
-		public ViewMetaModelSource ()
+		public ViewMetaModelSource (IMetaModel joinSource, MetaModelColumn joinColumn, MetaModelColumn sourceColumn)
 		{
+            this.JoinSource = joinSource;
+            this.JoinColumn = joinColumn;
+            this.SourceColumn = sourceColumn;
 		}
 
 		public IMetaModel JoinSource { get; protected set; }

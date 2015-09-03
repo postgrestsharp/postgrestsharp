@@ -12,7 +12,9 @@ namespace PostgRESTSharp
 
 		string ViewName { get; }
 
-		IEnumerable<MetaModelViewColumn> Columns { get; }
+        string ModelName { get; }
+
+        IEnumerable<MetaModelViewColumn> Columns { get; }
 
 		IMetaModel PrimarySource { get; }
 

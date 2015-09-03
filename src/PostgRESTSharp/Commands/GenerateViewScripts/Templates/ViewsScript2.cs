@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace PostgRESTSharp.Templates
+namespace PostgRESTSharp.Commands.GenerateViewScripts.Templates
 {
     public partial class ViewsScript
     {

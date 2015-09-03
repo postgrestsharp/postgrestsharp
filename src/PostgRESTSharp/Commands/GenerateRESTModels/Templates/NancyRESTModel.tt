@@ -3,3 +3,16 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+using System;
+
+namespace <#=Namespace#> 
+{
+	// GET Model
+	public class <#=MetaModel.ModelName#>GETModel
+	{
+<#foreach(var property in GetProperties()) {#>
+		<#=property#>
+<#}#>
+	}
+}
+

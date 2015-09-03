@@ -1,4 +1,4 @@
-﻿using PostgRESTSharp.Commands;
+﻿using PostgRESTSharp.Commands.GenerateViewScripts;
 using PostgRESTSharp.Configuration;
 using PostgRESTSharp.Data;
 using PostgRESTSharp.Pgsql;

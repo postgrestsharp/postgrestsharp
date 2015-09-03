@@ -49,6 +49,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GenerateRESTModels\GenerateRESTModelsCommand.cs" />
+    <Compile Include="Commands\GenerateRESTModels\GenerateRESTModelsCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateRESTModels\IGenerateRESTModelsCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NancyRESTModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModel2.cs" />
     <Compile Include="IViewMetaModelProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IMetaModel.cs" />
@@ -74,30 +83,30 @@
     <Compile Include="RelationDirectionEnum.cs" />
     <Compile Include="MultiRESTViewMetaModelBuilderConvention.cs" />
     <Compile Include="SingleRESTViewMetaModelBuilderConvention.cs" />
-    <Compile Include="Templates\NancyRESTModels.cs">
+    <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModels.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>NancyRESTModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\NancyRESTModels2.cs" />
-    <Compile Include="Templates\NancyRESTModule.cs">
+    <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModels2.cs" />
+    <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRoutes.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>NancyRESTModule.tt</DependentUpon>
+      <DependentUpon>NancyRESTRoutes.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\NancyRESTModule2.cs" />
-    <Compile Include="Templates\ViewScript.cs">
+    <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRoutes2.cs" />
+    <Compile Include="Commands\GenerateViewScripts\Templates\ViewScript.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewScript.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\ViewScript2.cs" />
-    <Compile Include="Templates\ViewsScript.cs">
+    <Compile Include="Commands\GenerateViewScripts\Templates\ViewScript2.cs" />
+    <Compile Include="Commands\GenerateViewScripts\Templates\ViewsScript.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ViewsScript.tt</DependentUpon>
     </Compile>
-    <Compile Include="Templates\ViewsScript2.cs" />
+    <Compile Include="Commands\GenerateViewScripts\Templates\ViewsScript2.cs" />
     <Compile Include="ViewMetaModel.cs" />
     <Compile Include="ViewMetaModelBuilder.cs" />
     <Compile Include="ViewMetaModelBuilderResult.cs" />
@@ -114,10 +123,10 @@
     <Compile Include="PgSql\PgSqlDbConnectionProvider.cs" />
     <Compile Include="Configuration\IConnectionStringConfigurationProvider.cs" />
     <Compile Include="Configuration\SimpleConnectionStringConfigurationProvider.cs" />
-    <Compile Include="Commands\GenerateViewScriptsCommand.cs" />
-    <Compile Include="Commands\GenerateViewScriptsCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateViewScripts\GenerateViewScriptsCommand.cs" />
+    <Compile Include="Commands\GenerateViewScripts\GenerateViewScriptsCommandProcessor.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
-    <Compile Include="Commands\IGenerateViewScriptsCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateViewScripts\IGenerateViewScriptsCommandProcessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -137,19 +146,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Templates\NancyRESTModels.tt">
+    <Content Include="Commands\GenerateRESTModels\Templates\NancyRESTModel.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>NancyRESTModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Commands\GenerateRESTModels\Templates\NancyRESTModels.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>NancyRESTModels.cs</LastGenOutput>
     </Content>
-    <Content Include="Templates\NancyRESTModule.tt">
+    <Content Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRoutes.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>NancyRESTModule.cs</LastGenOutput>
+      <LastGenOutput>NancyRESTRoutes.cs</LastGenOutput>
     </Content>
-    <Content Include="Templates\ViewScript.tt">
+    <Content Include="Commands\GenerateViewScripts\Templates\ViewScript.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ViewScript.cs</LastGenOutput>
     </Content>
-    <Content Include="Templates\ViewsScript.tt">
+    <Content Include="Commands\GenerateViewScripts\Templates\ViewsScript.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>ViewsScript.cs</LastGenOutput>
     </Content>
