@@ -38,14 +38,14 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
             this.Write(" \r\n{\r\n\t// GET Model\r\n\tpublic class ");
             
             #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(viewMetaModel.ModelName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
             
             #line default
             #line hidden
             this.Write("GETModel\r\n\t{\r\n\t\tpublic ");
             
             #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(viewMetaModel.ModelName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
             
             #line default
             #line hidden
@@ -59,11 +59,11 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
             this.Write(")\r\n\t\t{\r\n");
             
             #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
-foreach(var assignment in GetConstructorAssignments(viewMetaModel)) {
+foreach(var assignment in GetConstructorAssignments()) {
             
             #line default
             #line hidden
-            this.Write("\t\t");
+            this.Write("\t\t\t");
             
             #line 18 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(assignment));
@@ -80,7 +80,7 @@ foreach(var assignment in GetConstructorAssignments(viewMetaModel)) {
             this.Write("\t\t\r\n\t\t}\r\n\t\t\r\n");
             
             #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
-foreach(var property in GetProperties(viewMetaModel)) {
+foreach(var property in GetProperties()) {
             
             #line default
             #line hidden

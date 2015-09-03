@@ -25,5 +25,18 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
                 yield return string.Format("public {0} {1} {{ get; protected set; }}", col.ModelDataType, col.ColumnName);
             }
         }
+
+        public string GetConstructorArgs()
+        {
+             return string.Join(", ",  this.MetaModel.Columns.Select(x=> string.Format("{0} {1}", x.ModelDataType, x.ColumnName)));
+        }
+
+        public IEnumerable<string> GetConstructorAssignments()
+        {
+            foreach (var col in this.MetaModel.Columns)
+            {
+                yield return string.Format("{0} = {0};" , col.ColumnName);
+            }
+        }
     }
 }

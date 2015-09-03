@@ -10,16 +10,16 @@ using Nancy.ModelBinding;
 namespace <#=Namespace#> 
 {
 	// GET Model
-	public class <#=viewMetaModel.ModelName#>GETModel
+	public class <#=MetaModel.ModelName#>GETModel
 	{
-		public <#=viewMetaModel.ModelName#>GETModel(<#=GetConstructorArgs()#>)
+		public <#=MetaModel.ModelName#>GETModel(<#=GetConstructorArgs()#>)
 		{
-<#foreach(var assignment in GetConstructorAssignments(viewMetaModel)) {#>
-		<#=assignment#>
+<#foreach(var assignment in GetConstructorAssignments()) {#>
+			<#=assignment#>
 <#}#>		
 		}
 		
-<#foreach(var property in GetProperties(viewMetaModel)) {#>
+<#foreach(var property in GetProperties()) {#>
 		<#=property#>
 <#}#>
 	}

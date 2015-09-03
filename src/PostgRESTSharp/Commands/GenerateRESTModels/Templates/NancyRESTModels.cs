@@ -49,30 +49,65 @@ foreach(var viewMetaModel in MetaModels){
             
             #line default
             #line hidden
-            this.Write("GETModel\r\n\t{\r\n");
+            this.Write("GETModel\r\n\t{\r\n\t\tpublic ");
             
             #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(viewMetaModel.ModelName));
+            
+            #line default
+            #line hidden
+            this.Write("GETModel(");
+            
+            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetConstructorArgs(viewMetaModel)));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n\t\t{\r\n");
+            
+            #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+foreach(var assignment in GetConstructorAssignments(viewMetaModel)) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t");
+            
+            #line 18 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(assignment));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 19 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\r\n\t\t}\r\n\r\n");
+            
+            #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
 foreach(var property in GetProperties(viewMetaModel)) {
             
             #line default
             #line hidden
             this.Write("\t\t");
             
-            #line 16 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 23 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 24 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t}\r\n");
             
-            #line 19 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 26 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
 }
             
             #line default
