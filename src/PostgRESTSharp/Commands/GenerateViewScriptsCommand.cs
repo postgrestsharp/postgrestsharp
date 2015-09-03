@@ -20,13 +20,18 @@ namespace PostgRESTSharp.Commands
 		private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
+		private IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor;
 
-        public GenerateViewScriptsCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider, IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor, IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
+        public GenerateViewScriptsCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider, 
+			IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor, 
+			IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor,
+			IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
 		{
 			this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
             this.viewMetaModelProcessor = viewMetaModelProcessor;
 			this.metaModelBuilderConventions = metaModelBuilderConventions;
             this.connectionStringConfigProvider = connectionStringConfigProvider;
+			this.generateViewScriptsCommandProcessor = generateViewScriptsCommandProcessor;
 		}
 
 		[CommandAction]
@@ -48,42 +53,10 @@ namespace PostgRESTSharp.Commands
 			var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == MetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
 
-            // generate the files
-            var splitFiles = bool.Parse(splitGeneratedFiles);
-            if(splitFiles)
-            {
-                // check that we have a valid prefix and not a sql filename
-                if(fileName == DEFAULT_VIEWS_FILENAME)
-                {
-                    fileName = DEFAULT_VIEW_PREFIX;
-                }
-                
+			var splitFiles = bool.Parse(splitGeneratedFiles);
 
-                // we need to generate one file per view
-                foreach(var view in views)
-                {
-                    var viewScript = new ViewScript(view, viewSchemaOwner, viewSchemaVersion);
-                    string contents = viewScript.TransformText();
+			this.generateViewScriptsCommandProcessor.Process (tables, views, splitFiles, viewSchemaOwner, viewSchemaVersion, fileName, outputDirectory);
 
-                    string viewfileName = Path.Combine(outputDirectory, string.Format("{0}_{1}.sql", fileName,view.ViewName));
-                    using (var sw = new StreamWriter(viewfileName))
-                    {
-                        sw.Write(contents);
-                        sw.Flush();
-                    }
-                }
-            }
-            else
-            {
-                var viewScript = new ViewsScript(views, viewSchemaOwner, viewSchemaVersion);
-                string contents = viewScript.TransformText();
-                string viewFileName = Path.Combine(outputDirectory, fileName);
-                using (var sw = new StreamWriter(viewFileName))
-                {
-                    sw.Write(contents);
-                    sw.Flush();
-                }
-            }
 		}
 	}
 }

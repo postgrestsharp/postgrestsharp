@@ -4,6 +4,6 @@ namespace PostgRESTSharp
 {
     public interface IMetaModelRetriever
     {
-        IEnumerable<MetaModel> RetrieveMetaModels(string databaseName, string[] includedSchemas, string[] excludedStorageObjects);
+        IEnumerable<IMetaModel> RetrieveMetaModels(string databaseName, string[] includedSchemas, string[] excludedStorageObjects);
     }
 }

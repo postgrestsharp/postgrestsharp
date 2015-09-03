@@ -19,9 +19,9 @@ namespace PostgRESTSharp
             this.metamodelBuilder = metamodelBuilder;
         }
 
-        public IEnumerable<MetaModel> RetrieveMetaModels(string databaseName, string[] includedSchemas, string[] excludedStorageObjects)
+        public IEnumerable<IMetaModel> RetrieveMetaModels(string databaseName, string[] includedSchemas, string[] excludedStorageObjects)
         {
-            List<MetaModel> metaModels = new List<MetaModel>();
+            List<IMetaModel> metaModels = new List<IMetaModel>();
             Dictionary<string, IMetaModel> allMetaModels = new Dictionary<string, IMetaModel>();
 
             using (IDbConnection conn = this.connectionProvider.GetConnection())

@@ -115,6 +115,9 @@
     <Compile Include="Configuration\IConnectionStringConfigurationProvider.cs" />
     <Compile Include="Configuration\SimpleConnectionStringConfigurationProvider.cs" />
     <Compile Include="Commands\GenerateViewScriptsCommand.cs" />
+    <Compile Include="Commands\GenerateViewScriptsCommandProcessor.cs" />
+    <Compile Include="Commands\CommandProcessor.cs" />
+    <Compile Include="Commands\IGenerateViewScriptsCommandProcessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
