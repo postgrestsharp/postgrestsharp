@@ -45,7 +45,7 @@ namespace PostgRESTSharp.Text
 
 		public string ToPluralCapitalCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ");
+			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
 			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 			words [words.Length - 1] = ToPlural (words [words.Length - 1]);
 			var result = "";
@@ -59,7 +59,7 @@ namespace PostgRESTSharp.Text
 
 		public string ToCamelCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ");
+			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
 			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 			var result = "";
 			foreach (var word in words)
@@ -75,7 +75,7 @@ namespace PostgRESTSharp.Text
 
 		public string ToPluralCamelCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ");
+			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
 			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
 			words [words.Length - 1] = ToPlural (words [words.Length - 1]);
 			var result = "";

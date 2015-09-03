@@ -6,9 +6,9 @@
 CREATE SCHEMA IF NOT EXISTS "<#=ViewSchemaVersion#>"
   AUTHORIZATION <#=ViewSchemaOwner#>;
 
-CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>".<#=MetaModel.ViewName#> AS 
+CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>" AS 
  SELECT <#=GetColumns(MetaModel)#>
    FROM <#=GetSources(MetaModel)#>;
 
-ALTER VIEW "<#=ViewSchemaVersion#>".<#=MetaModel.ViewName#>
+ALTER VIEW "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>"
   OWNER TO <#=ViewSchemaOwner#>;

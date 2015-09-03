@@ -4,13 +4,22 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 using System;
+using Nancy;
+using Nancy.ModelBinding;
 
 namespace <#=Namespace#> 
 {
 	// GET Model
-	public class <#=MetaModel.ModelName#>GETModel
+	public class <#=viewMetaModel.ModelName#>GETModel
 	{
-<#foreach(var property in GetProperties()) {#>
+		public <#=viewMetaModel.ModelName#>GETModel(<#=GetConstructorArgs()#>)
+		{
+<#foreach(var assignment in GetConstructorAssignments(viewMetaModel)) {#>
+		<#=assignment#>
+<#}#>		
+		}
+		
+<#foreach(var property in GetProperties(viewMetaModel)) {#>
 		<#=property#>
 <#}#>
 	}

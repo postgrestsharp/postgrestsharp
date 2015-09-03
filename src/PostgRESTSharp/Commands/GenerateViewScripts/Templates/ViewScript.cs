@@ -49,14 +49,14 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts.Templates
             
             #line default
             #line hidden
-            this.Write("\".");
+            this.Write("\".\"");
             
             #line 9 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
             
             #line default
             #line hidden
-            this.Write(" AS \r\n SELECT ");
+            this.Write("\" AS \r\n SELECT ");
             
             #line 10 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetColumns(MetaModel)));
@@ -77,14 +77,14 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts.Templates
             
             #line default
             #line hidden
-            this.Write("\".");
+            this.Write("\".\"");
             
             #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
             
             #line default
             #line hidden
-            this.Write("\r\n  OWNER TO ");
+            this.Write("\"\r\n  OWNER TO ");
             
             #line 14 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaOwner));
