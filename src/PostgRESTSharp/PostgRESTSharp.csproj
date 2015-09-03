@@ -127,6 +127,9 @@
     <Compile Include="Commands\GenerateViewScripts\GenerateViewScriptsCommandProcessor.cs" />
     <Compile Include="Commands\CommandProcessor.cs" />
     <Compile Include="Commands\GenerateViewScripts\IGenerateViewScriptsCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateRESTRoutes\IGenerateRESTRoutesCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateRESTRoutes\GenerateRESTRoutesCommandProcessor.cs" />
+    <Compile Include="Commands\GenerateRESTRoutes\GenerateRESTRoutesCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

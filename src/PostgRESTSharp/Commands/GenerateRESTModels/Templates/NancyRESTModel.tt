@@ -14,11 +14,13 @@ namespace <#=Namespace#>
 	{
 		public <#=MetaModel.ModelName#>GETModel(<#=GetConstructorArgs()#>)
 		{
+			this._links = new RestLinks();
 <#foreach(var assignment in GetConstructorAssignments()) {#>
 			<#=assignment#>
 <#}#>		
 		}
-		
+
+		public RestLinks _links {get; protected set; }
 <#foreach(var property in GetProperties()) {#>
 		<#=property#>
 <#}#>

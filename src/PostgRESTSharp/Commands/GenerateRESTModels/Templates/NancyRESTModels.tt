@@ -19,6 +19,7 @@ namespace <#=Namespace#>
 <#}#>		
 		}
 
+		public RestLinks _links {get; protected set; }
 <#foreach(var property in GetProperties(viewMetaModel)) {#>
 		<#=property#>
 <#}#>
