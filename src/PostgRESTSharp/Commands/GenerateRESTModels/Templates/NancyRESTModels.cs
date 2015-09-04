@@ -84,30 +84,30 @@ foreach(var assignment in GetConstructorAssignments(viewMetaModel)) {
             
             #line default
             #line hidden
-            this.Write("\t\t\r\n\t\t}\r\n\r\n");
+            this.Write("\t\t\r\n\t\t}\r\n\r\n\r\n");
             
-            #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 23 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
 foreach(var property in GetProperties(viewMetaModel)) {
             
             #line default
             #line hidden
             this.Write("\t\t");
             
-            #line 23 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 24 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 24 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 25 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
 }
             
             #line default
             #line hidden
             this.Write("\t}\r\n");
             
-            #line 26 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
+            #line 27 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModels.tt"
 }
             
             #line default
