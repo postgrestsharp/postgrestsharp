@@ -28,6 +28,14 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
         /// </summary>
         public virtual string TransformText()
         {
+            this.Write("using ");
+            
+            #line 6 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoutes.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ModelNamespace));
+            
+            #line default
+            #line hidden
+            this.Write(";");
             return this.GenerationEnvironment.ToString();
         }
     }

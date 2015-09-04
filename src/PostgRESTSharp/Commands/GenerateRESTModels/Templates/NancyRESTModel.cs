@@ -28,35 +28,35 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System;\r\nusing Nancy;\r\nusing Nancy.ModelBinding;\r\n\r\nnamespace ");
+            this.Write("using System;\r\nusing PostgRESTSharp.Shared;\r\n\r\nnamespace ");
             
-            #line 10 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 9 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write(" \r\n{\r\n\t// GET Model\r\n\tpublic class ");
             
-            #line 13 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 12 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
             
             #line default
             #line hidden
             this.Write("GETModel\r\n\t{\r\n\t\tpublic ");
             
-            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 14 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
             
             #line default
             #line hidden
             this.Write("GETModel(");
             
-            #line 15 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 14 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetConstructorArgs()));
             
             #line default
             #line hidden
-            this.Write(")\r\n\t\t{\r\n");
+            this.Write(")\r\n\t\t{\r\n\t\t\tthis._links = new RestLinks();\r\n");
             
             #line 17 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
 foreach(var assignment in GetConstructorAssignments()) {
@@ -77,28 +77,35 @@ foreach(var assignment in GetConstructorAssignments()) {
             
             #line default
             #line hidden
-            this.Write("\t\t\r\n\t\t}\r\n\t\t\r\n");
+            this.Write("\t\t\r\n\t\t}\r\n\r\n\t\tpublic RestLinks _links {get; protected set; }\r\n");
             
-            #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 23 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
 foreach(var property in GetProperties()) {
             
             #line default
             #line hidden
             this.Write("\t\t");
             
-            #line 23 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 24 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(property));
             
             #line default
             #line hidden
             this.Write("\r\n");
             
-            #line 24 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            #line 25 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\t}\r\n}\r\n\r\n");
+            this.Write("\r\n\t\tpublic object GetPrimaryKeyValue()\r\n\t\t{\r\n\t\t\treturn this.");
+            
+            #line 29 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTModels\Templates\NancyRESTModel.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetPrimaryKeyColumnName()));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n\t\t}\r\n\t}\r\n}\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
     }

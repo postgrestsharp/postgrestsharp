@@ -5,7 +5,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 {
 	public interface IGenerateRESTRoutesCommandProcessor
 	{
-		void Process(IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace);
+		void Process(IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace);
 	}
 }
 

@@ -1,10 +1,7 @@
 ﻿using PostgRESTSharp.Commands.GenerateRESTModels.Templates;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PostgRESTSharp.Commands.GenerateRESTModels
 {
@@ -18,21 +15,21 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
                 // check that we have a valid prefix and not a sql filename
                 if (fileName == GenerateRESTModelsCommand.DEFAULT_RESTMODELS_FILENAME)
                 {
-                    fileName = GenerateRESTModelsCommand.DEFAULT_RESTMODEL_PREFIX;
+                    fileName = "";
                 }
 
                 // we need to generate one file per view
-                foreach (var view in views)
+                foreach (var view in views.Where(x => x.HasKey))
                 {
                     var restModel = new NancyRESTModel(view, fileNamespace);
                     string contents = restModel.TransformText();
-                    string viewFileName = Path.Combine(outputDirectory, string.Format("{0}_{1}.cs", fileName, view.ModelName));
+                    string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", view.ModelName));
                     this.WriteFileContents(viewFileName, contents);
                 }
             }
             else
             {
-                var viewScript = new NancyRESTModels(views, fileNamespace);
+                var viewScript = new NancyRESTModels(views.Where(x => x.HasKey), fileNamespace);
                 string contents = viewScript.TransformText();
                 string viewFileName = Path.Combine(outputDirectory, fileName);
                 this.WriteFileContents(viewFileName, contents);

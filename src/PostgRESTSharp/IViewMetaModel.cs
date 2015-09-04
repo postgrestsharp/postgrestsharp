@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 
@@ -14,15 +14,19 @@ namespace PostgRESTSharp
 
         string ModelName { get; }
 
+        string ModelNamePluralised { get; }
+
         IEnumerable<MetaModelViewColumn> Columns { get; }
 
 		IMetaModel PrimarySource { get; }
 
 		IEnumerable<ViewMetaModelSource> JoinSources { get; }
 
+        bool HasKey { get; }
+
 		void AddColumn (MetaModelColumn storageColumn, IMetaModel storageColumnSource);
 
-		void AddJoinSource (IMetaModel joinSource, MetaModelColumn joinColumn, MetaModelColumn sourceColumn);
+		void AddJoinSource (IMetaModel joinSource, MetaModelColumn joinColumn, IMetaModel source, MetaModelColumn sourceColumn);
 	}
 }
 

@@ -4,8 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 using System;
-using Nancy;
-using Nancy.ModelBinding;
+using PostgRESTSharp.Shared;
 
 namespace <#=Namespace#> 
 {
@@ -24,6 +23,11 @@ namespace <#=Namespace#>
 <#foreach(var property in GetProperties()) {#>
 		<#=property#>
 <#}#>
+
+		public object GetPrimaryKeyValue()
+		{
+			return this.<#=GetPrimaryKeyColumnName()#>;
+		}
 	}
 }
 

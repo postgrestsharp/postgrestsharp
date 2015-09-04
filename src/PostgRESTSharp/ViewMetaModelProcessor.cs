@@ -24,7 +24,34 @@ namespace PostgRESTSharp
                 }
             }
 
-            // go back any reprocess the view relations
+            // go back and reprocess the view relations
+            foreach (var view in views)
+            {
+                // look for foreign keys in all tables that make up the view
+                List<IMetaModel> sources = new List<IMetaModel>();
+                sources.Add(view.PrimarySource);
+                sources.AddRange(view.JoinSources.Select(x => x.JoinSource));
+
+                foreach (var source in sources)
+                {
+                    foreach (var relation in source.Relations)
+                    {
+                        var relatedViewName = relation.StorageModel.ModelNameCamelCased;
+                        var relatedView = views.Where(x => x.ViewName == relatedViewName).FirstOrDefault();
+                        var relationColumn = view.Columns.Where(x => x.TableColumn.ColumnName == relation.RelationColumns.First()).FirstOrDefault();
+                        if (relatedView != null && relationColumn != null)
+                        {
+                            var viewRelation = new ViewMetaModelRelation(relatedView, relation.Direction, relationColumn);
+                            relationColumn.AddRelation(viewRelation);
+                        }
+                        else
+                        {
+                            int a = 0;
+
+                        }
+                    }
+                }
+            }
 
             return views;
         }

@@ -18,7 +18,9 @@ namespace PostgRESTSharp
         {
             if (!storageModel.TableName.Contains("$"))
             {
-                var model = new ViewMetaModel(storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased, this.textUtility.ToCapitalCase(storageModel.TableName));
+                var model = new ViewMetaModel(storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased, 
+                    this.textUtility.ToCapitalCase(storageModel.TableName),
+                    this.textUtility.ToPluralCapitalCase(storageModel.TableName));
                 // there is only one table involved
                 model.SetPrimaryTableSource(storageModel);
 

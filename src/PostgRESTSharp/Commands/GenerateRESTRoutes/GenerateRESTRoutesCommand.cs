@@ -9,8 +9,8 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 	[Command(Name = "generaterestroutes", Description = "Generate REST Routes")]
 	public class GenerateRESTRoutesCommand
 	{
-		public const string DEFAULT_RESTMODELS_FILENAME = "RestModules.cs";
-		public const string DEFAULT_RESTMODEL_PREFIX = "RestModule";
+		public const string DEFAULT_RESTROUTES_FILENAME = "RestModules.cs";
+		public const string DEFAULT_RESTROUTE_PREFIX = "RestModule";
 
 		private IMetaModelRetriever dataStorageMetaModelRetriever;
 		private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
@@ -31,16 +31,17 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 		}
 
 		[CommandAction]
-		public void All([CommandParameter(Prototype = "d|database", Description = "The database name to generate models for.", IsRequired = true)]string database,
+		public void All([CommandParameter(Prototype = "d|database", Description = "The database name to generate routes for.", IsRequired = true)]string database,
 			[CommandParameter(Prototype = "i|includedSchemas", Description = "Comma separated list of schemas to include during table discovery.", IsRequired = true)]string includedSchemas,
-			[CommandParameter(Prototype = "o|out", Description = "The output directory for the generated scripts.", IsRequired = true)]string outputDirectory,
+			[CommandParameter(Prototype = "o|out", Description = "The output directory for the generated routes.", IsRequired = true)]string outputDirectory,
 			[CommandParameter(Prototype = "v|version", Description = "The view schema version.", IsRequired = true, DefaultValue = 1)]int viewSchemaVersion,
 			[CommandParameter(Prototype = "s|schemaOwner", Description = "The view schema owner.", IsRequired = true, DefaultValue = "thetruetrade")]string viewSchemaOwner,
-			[CommandParameter(Prototype = "p|splitFiles", Description = "Split generated REST models into a file per model.", IsRequired = true, DefaultValue = "false")]string splitGeneratedFiles,
+			[CommandParameter(Prototype = "p|splitFiles", Description = "Split generated REST routes into a file per model.", IsRequired = true, DefaultValue = "false")]string splitGeneratedFiles,
 			[CommandParameter(Prototype = "c|connectionString", Description = "The connection string to use to connect to the database.", IsRequired = true)]string connectionString,
-			[CommandParameter(Prototype = "f|fileName", Description = "The filename to use for the generated models or the fileName prefix if splitting generated files.", IsRequired = true, DefaultValue = DEFAULT_RESTMODELS_FILENAME)]string fileName,
-			[CommandParameter(Prototype = "n|namespace", Description = "The namespace used for the generated models.", IsRequired =true)]string fileNamespace
-		)
+			[CommandParameter(Prototype = "f|fileName", Description = "The filename to use for the generated routes or the fileName prefix if splitting generated files.", IsRequired = true, DefaultValue = DEFAULT_RESTROUTES_FILENAME)]string fileName,
+			[CommandParameter(Prototype = "n|namespace", Description = "The namespace used for the generated routes.", IsRequired =true)]string fileNamespace,
+            [CommandParameter(Prototype = "m|modelnamespace", Description = "The model namespace used for the generated routes.", IsRequired = true)]string modelNamespace
+        )
 		{
 			// setup the connection
 			this.connectionStringConfigProvider.ConnectionString = connectionString;
@@ -51,7 +52,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 
 			var splitFiles = bool.Parse(splitGeneratedFiles);
 
-			this.generateRESTRoutesCommandProcessor.Process(views, splitFiles, fileName, outputDirectory, fileNamespace);
+			this.generateRESTRoutesCommandProcessor.Process(views, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace);
 		}
 	}
 }

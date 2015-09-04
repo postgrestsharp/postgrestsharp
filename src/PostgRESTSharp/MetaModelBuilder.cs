@@ -44,9 +44,12 @@ namespace PostgRESTSharp
 
             foreach (var fk in foreignKeys)
             {
-                RelationDirectionEnum direction = fk.Direction == "FORWARD" ? RelationDirectionEnum.Forward : RelationDirectionEnum.Reverse;
-                var storRelation = new MetaModelRelation(fk.FkTableCatalog, fk.FkTableSchema, fk.FkTableName, fk.UqTableName, fk.FkConstraintName, new string[] { fk.FkColumnName }, new string[] { fk.UqColumnName }, direction);
-                relations.Add(storRelation);
+                if (!fk.UqTableName.Contains("$"))
+                {
+                    RelationDirectionEnum direction = fk.Direction == "FORWARD" ? RelationDirectionEnum.Forward : RelationDirectionEnum.Reverse;
+                    var storRelation = new MetaModelRelation(fk.FkTableCatalog, fk.FkTableSchema, fk.FkTableName, fk.UqTableName, fk.FkConstraintName, new string[] { fk.FkColumnName }, new string[] { fk.UqColumnName }, direction);
+                    relations.Add(storRelation);
+                }
             }
 
 			MetaModelTypeEnum type = table.TableType == "VIEW" ? MetaModelTypeEnum.View : MetaModelTypeEnum.Table;

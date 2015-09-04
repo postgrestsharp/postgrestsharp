@@ -20,7 +20,9 @@ namespace PostgRESTSharp
 		{
 			if (storageModel.TableName.Contains ("$")) 
 			{
-				var model = new ViewMetaModel (storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased, this.textUtility.ToCapitalCase(storageModel.TableName));
+				var model = new ViewMetaModel (storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased, 
+                    this.textUtility.ToCapitalCase(storageModel.TableName),
+                    this.textUtility.ToPluralCapitalCase(storageModel.TableName));
                 // there are multiple tables involved
                 IMetaModel currentTable = null;
                 string currentTableName = "";
@@ -56,7 +58,7 @@ namespace PostgRESTSharp
                             // get the related table column
                             var joinColumnName = relation.UniqueColumns.FirstOrDefault();
                             var joinColumn = table.Columns.Where(x => x.ColumnName == joinColumnName).FirstOrDefault();
-                            model.AddJoinSource(table, joinColumn, sourceColumn);
+                            model.AddJoinSource(table, joinColumn, currentTable, sourceColumn);
                         }
 
                         // 

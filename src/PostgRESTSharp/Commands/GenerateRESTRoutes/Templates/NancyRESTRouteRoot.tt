@@ -3,4 +3,12 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-using <#=ModelNamespace#>;
+{
+    "_links": {
+<#foreach(var view in Views){#>
+	  "<#=view.ViewName#>" : {
+	    "href": "./<#=view.ViewName.ToLower()#>"
+	  },
+<#}#>
+    }
+}

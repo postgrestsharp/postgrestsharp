@@ -1,0 +1,63 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+using Nancy;
+using Nancy.ModelBinding;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using PostgRESTSharp.Shared;
+using <#=ModelNamespace#>;
+
+namespace <#=Namespace#> 
+{
+    public class <#=ClassName#> : NancyModule
+    {
+    	public <#=ClassName#>(IRestLinkBuilder linkBuilder) 
+    	{
+    		Get["/<#=CollectionRouteUrl#>", true] = async (ctx, ct) =>
+    		{
+    			var client = new HttpClient();
+				string route = "http://DEVB-PG01:3000/<#=UnderlyingCollectionRouteUrl#>?order=<#=PrimaryKeyColumnName#>.asc";
+    			var res = await client.GetAsync(route);
+    			var content = await res.Content.ReadAsStringAsync();
+				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
+				foreach(var model in models)
+				{
+					Url url = new Url();
+					url.HostName = this.Request.Url.HostName;
+					url.Port = this.Request.Url.Port;
+					url.BasePath = this.Request.Url.Path;
+					url.Path = "/" + model.GetPrimaryKeyValue();
+					linkBuilder.AddSelfLink(model._links, url);
+				}
+
+				return this.Negotiate.WithModel(models).WithHeader("Accept","application/json");
+    		};
+
+    		Get["/<#=CollectionRouteUrl#>/{<#=PrimaryKeyColumnName#>}", true] = async (ctx, ct) =>
+    		{
+    			var client = new HttpClient();
+				string route = string.Format("http://DEVB-PG01:3000/<#=UnderlyingCollectionRouteUrl#>?<#=PrimaryKeyColumnName#>=eq.{0}", ctx.<#=PrimaryKeyColumnName#>);
+    			var res = await client.GetAsync(route);
+    			var content = await res.Content.ReadAsStringAsync();
+
+				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
+				var model = models.First();
+				linkBuilder.AddSelfLink(model._links, this.Request.Url);
+
+<#foreach(var relation in GetRelations()){#>
+<#if(relation.Direction == RelationDirectionEnum.Forward) {#>
+				linkBuilder.AddRootLink(model._links, this.Request.Url, "<#=GetRelationUrl(relation)#>", "<#=GetRelationName(relation)#>", model.<#=relation.RelationColumn.ColumnName#>.ToString());
+<#}else{#>
+
+<#}#>
+<#}#>
+				return this.Negotiate.WithModel(model).WithHeader("Accept","application/json");
+    		};
+    	}
+    }
+}
