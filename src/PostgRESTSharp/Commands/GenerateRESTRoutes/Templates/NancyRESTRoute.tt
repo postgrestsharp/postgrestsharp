@@ -32,7 +32,7 @@ namespace <#=Namespace#>
 					url.Port = this.Request.Url.Port;
 					url.BasePath = this.Request.Url.Path;
 					url.Path = "/" + model.GetPrimaryKeyValue();
-					linkBuilder.AddSelfLink(model._links, url);
+					model.BuildLinks(linkBuilder, url);
 				}
 
 				return this.Negotiate.WithModel(models).WithHeader("Accept","application/json");
@@ -47,15 +47,7 @@ namespace <#=Namespace#>
 
 				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
 				var model = models.First();
-				linkBuilder.AddSelfLink(model._links, this.Request.Url);
-
-<#foreach(var relation in GetRelations()){#>
-<#if(relation.Direction == RelationDirectionEnum.Forward) {#>
-				linkBuilder.AddRootLink(model._links, this.Request.Url, "<#=GetRelationUrl(relation)#>", "<#=GetRelationName(relation)#>", model.<#=relation.RelationColumn.ColumnName#>.ToString());
-<#}else{#>
-
-<#}#>
-<#}#>
+				model.BuildLinks(linkBuilder, this.Request.Url);
 				return this.Negotiate.WithModel(model).WithHeader("Accept","application/json");
     		};
     	}

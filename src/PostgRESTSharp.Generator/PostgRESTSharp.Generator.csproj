@@ -16,6 +16,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <Commandlineparameters>generateviewscripts all -d:"thetruetrade" -i:"public" -o:"/home/eugene/Development/tmp/ConsoleRunner/Scripts" -v:1 -s:"thetruetrade" -p:"false" -c:"Server=127.0.0.1;UserName=thetruetrade;Password=thetruetrade;Database=thetruetrade" -c:"views.sql"</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>

@@ -5,6 +5,7 @@
 <#@ import namespace="System.Collections.Generic" #>
 using System;
 using PostgRESTSharp.Shared;
+using Nancy;
 
 namespace <#=Namespace#> 
 {
@@ -27,6 +28,18 @@ namespace <#=Namespace#>
 		public object GetPrimaryKeyValue()
 		{
 			return this.<#=GetPrimaryKeyColumnName()#>;
+		}
+
+		public void BuildLinks(IRestLinkBuilder linkBuilder, Url currentUrl)
+		{
+			linkBuilder.AddSelfLink(this._links, currentUrl);
+<#foreach(var relation in GetRelations()){#>
+<#if(relation.Direction == RelationDirectionEnum.Forward) {#>
+			linkBuilder.AddRootLink(this._links, currentUrl, "<#=GetRelationUrl(relation)#>", "<#=GetRelationName(relation)#>", this.<#=relation.RelationColumn.ColumnName#>.ToString());
+<#}else{#>
+
+<#}#>
+<#}#>
 		}
 	}
 }

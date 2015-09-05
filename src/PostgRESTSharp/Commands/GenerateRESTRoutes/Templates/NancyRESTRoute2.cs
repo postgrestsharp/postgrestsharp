@@ -35,25 +35,5 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
         public string PrimaryKeyColumnName { get; protected set; }
 
         public string GETModelName { get; protected set; }
-
-        public IEnumerable<ViewMetaModelRelation> GetRelations()
-        {
-            return this.MetaModel.Columns.Where(x => x.RelatedView != null).Select(y=>y.RelatedView);
-        }
-
-        public string GetRelationUrl(ViewMetaModelRelation relation)
-        {
-            return relation.RelatedView.ModelNamePluralised.ToLower();
-        }
-
-        public string GetRelationName(ViewMetaModelRelation relation)
-        {
-            var colName = relation.RelationColumn.ColumnName.ToLower();
-            if(colName.EndsWith("id"))
-            {
-                colName = colName.Substring(0, colName.Length - 2);
-            }
-            return colName;
-        }
     }
 }
