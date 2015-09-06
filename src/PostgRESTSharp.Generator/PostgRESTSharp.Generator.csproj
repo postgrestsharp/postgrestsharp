@@ -16,7 +16,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <Commandlineparameters>generateviewscripts all -d:"thetruetrade" -i:"public" -o:"/home/eugene/Development/tmp/ConsoleRunner/Scripts" -v:1 -s:"thetruetrade" -p:"false" -c:"Server=127.0.0.1;UserName=thetruetrade;Password=thetruetrade;Database=thetruetrade" -c:"views.sql"</Commandlineparameters>
+    <Commandlineparameters>generaterestroutes all -d:"thetruetrade" -i:"public" -o:"/home/eugene/Development/tmp/ConsoleRunner/Modules" -v:1 -s:"thetruetrade" -p:"true" -c:"Server=127.0.0.1;UserName=thetruetrade;Password=thetruetrade;Database=thetruetrade" -n:"PostgRESTTest.Modules" -m:"PostgRESTTest.Models" -r:"false"</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>false</Optimize>

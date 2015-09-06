@@ -12,16 +12,16 @@ namespace <#=Namespace#>
 	// GET Model
 	public class <#=MetaModel.ModelName#>GETModel
 	{
-		public <#=MetaModel.ModelName#>GETModel(<#=GetConstructorArgs()#>)
+		public <#=MetaModel.ModelName#>GETModel(<#=GetConstructorArgs(RESTModelTypeEnum.Get)#>)
 		{
 			this._links = new RestLinks();
-<#foreach(var assignment in GetConstructorAssignments()) {#>
+<#foreach(var assignment in GetConstructorAssignments(RESTModelTypeEnum.Get)) {#>
 			<#=assignment#>
 <#}#>		
 		}
 
 		public RestLinks _links {get; protected set; }
-<#foreach(var property in GetProperties()) {#>
+<#foreach(var property in GetProperties(RESTModelTypeEnum.Get)) {#>
 		<#=property#>
 <#}#>
 
@@ -42,5 +42,44 @@ namespace <#=Namespace#>
 <#}#>
 		}
 	}
+
+<#if(!IsReadOnly){#>
+	// POST Model
+	public class <#=MetaModel.ModelName#>POSTModel
+	{
+		public <#=MetaModel.ModelName#>POSTModel(<#=GetConstructorArgs(RESTModelTypeEnum.Post)#>)
+		{
+<#foreach(var assignment in GetConstructorAssignments(RESTModelTypeEnum.Post)) {#>
+			<#=assignment#>
+<#}#>	
+		}
+
+<#foreach(var property in GetProperties(RESTModelTypeEnum.Post)) {#>
+		<#=property#>
+<#}#>
+	}
+
+	// POST Response Model
+	public class <#=MetaModel.ModelName#>POSTResponseModel
+	{
+		public <#=MetaModel.ModelName#>POSTResponseModel(<#=GetConstructorArgs(RESTModelTypeEnum.PostResponse)#>)
+		{
+			this._links = new RestLinks();
+<#foreach(var assignment in GetConstructorAssignments(RESTModelTypeEnum.PostResponse)) {#>
+			<#=assignment#>
+<#}#>	
+		}
+
+		public RestLinks _links {get; protected set; }
+<#foreach(var property in GetProperties(RESTModelTypeEnum.PostResponse)) {#>
+		<#=property#>
+<#}#>
+
+		public void BuildSelfLink(IRestLinkBuilder linkBuilder, Url currentUrl)
+		{
+			linkBuilder.AddSelfLink(this._links, currentUrl);
+		}
+	} 
+<#}#>
 }
 

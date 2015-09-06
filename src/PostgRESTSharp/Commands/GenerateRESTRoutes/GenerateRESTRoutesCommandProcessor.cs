@@ -7,7 +7,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 {
     public class GenerateRESTRoutesCommandProcessor : CommandProcessor, IGenerateRESTRoutesCommandProcessor
     {
-        public void Process(IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace)
+		public void Process(IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace, bool isReadOnly)
         {
             // write out the root route
 
@@ -23,7 +23,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
                 // we need to generate one file per view
                 foreach (var view in views.Where(x => x.HasKey))
                 {
-                    var restModel = new NancyRESTRoute(view, fileNamespace, modelNamespace);
+					var restModel = new NancyRESTRoute(view, fileNamespace, modelNamespace, isReadOnly);
                     string contents = restModel.TransformText();
                     string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", view.ModelName));
                     this.WriteFileContents(viewFileName, contents);

@@ -142,6 +142,7 @@
     <Compile Include="Commands\GenerateRESTRoutes\IGenerateRESTRoutesCommandProcessor.cs" />
     <Compile Include="Commands\GenerateRESTRoutes\GenerateRESTRoutesCommandProcessor.cs" />
     <Compile Include="Commands\GenerateRESTRoutes\GenerateRESTRoutesCommand.cs" />
+    <Compile Include="RESTModelTypeEnum.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

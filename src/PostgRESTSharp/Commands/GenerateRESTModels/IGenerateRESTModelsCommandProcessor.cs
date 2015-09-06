@@ -8,6 +8,6 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
 {
     public interface IGenerateRESTModelsCommandProcessor
     {
-        void Process(IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace);
+		void Process(IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, bool isReadOnly);
     }
 }

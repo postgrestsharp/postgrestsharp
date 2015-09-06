@@ -21,175 +21,235 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates {
             this.GenerationEnvironment = null;
             
             #line 6 ""
-            this.Write("using Nancy;\nusing Nancy.ModelBinding;\nusing System.Net.Http;\nusing Newtonsoft.Json;\nusing System.Collections.Generic;\nusing System.Linq;\nusing PostgRESTSharp.Shared;\nusing ");
+            this.Write("using Nancy;\nusing Nancy.Extensions;\nusing Nancy.ModelBinding;\nusing System.Net.Http;\nusing Newtonsoft.Json;\nusing System.Collections.Generic;\nusing System.Linq;\nusing PostgRESTSharp.Shared;\nusing ");
             
             #line default
             #line hidden
             
-            #line 13 ""
+            #line 14 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNamespace));
             
             #line default
             #line hidden
             
-            #line 13 ""
+            #line 14 ""
             this.Write(";\n\nnamespace ");
             
             #line default
             #line hidden
             
-            #line 15 ""
+            #line 16 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             
-            #line 15 ""
+            #line 16 ""
             this.Write(" \n{\n    public class ");
             
             #line default
             #line hidden
             
-            #line 17 ""
+            #line 18 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             
-            #line 17 ""
+            #line 18 ""
             this.Write(" : NancyModule\n    {\n    \tpublic ");
             
             #line default
             #line hidden
             
-            #line 19 ""
+            #line 20 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             
-            #line 19 ""
-            this.Write("(IRestLinkBuilder linkBuilder) \n    \t{\n    \t\tGet[\"/");
+            #line 20 ""
+            this.Write("(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser) \n    \t{\n    \t\tGet[\"/");
             
             #line default
             #line hidden
             
-            #line 21 ""
+            #line 22 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(CollectionRouteUrl));
             
             #line default
             #line hidden
             
-            #line 21 ""
-            this.Write("\", true] = async (ctx, ct) =>\n    \t\t{\n    \t\t\tvar client = new HttpClient();\n\t\t\t\tstring route = \"http://DEVB-PG01:3000/");
+            #line 22 ""
+            this.Write("\", true] = async (ctx, ct) =>\n    \t\t{\n    \t\t\tvar client = new HttpClient();\n\t\t\t\tstring route = \"http://localhost:3000/");
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(UnderlyingCollectionRouteUrl));
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write("?order=");
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyColumnName));
             
             #line default
             #line hidden
             
-            #line 24 ""
+            #line 25 ""
             this.Write(".asc\";\n    \t\t\tvar res = await client.GetAsync(route);\n    \t\t\tvar content = await res.Content.ReadAsStringAsync();\n\t\t\t\tvar models = JsonConvert.DeserializeObject<List<");
             
             #line default
             #line hidden
             
-            #line 27 ""
+            #line 28 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
             
             #line default
             #line hidden
             
-            #line 27 ""
-            this.Write(">>(content);\n\t\t\t\tforeach(var model in models)\n\t\t\t\t{\n\t\t\t\t\tUrl url = new Url();\n\t\t\t\t\turl.HostName = this.Request.Url.HostName;\n\t\t\t\t\turl.Port = this.Request.Url.Port;\n\t\t\t\t\turl.BasePath = this.Request.Url.Path;\n\t\t\t\t\turl.Path = \"/\" + model.GetPrimaryKeyValue();\n\t\t\t\t\tmodel.BuildLinks(linkBuilder, url);\n\t\t\t\t}\n\n\t\t\t\treturn this.Negotiate.WithModel(models).WithHeader(\"Accept\",\"application/json\");\n    \t\t};\n\n    \t\tGet[\"/");
+            #line 28 ""
+            this.Write(">>(content);\n\t\t\t\tforeach(var model in models)\n\t\t\t\t{\n\t\t\t\t\tUrl url = new Url();\n\t\t\t\t\turl.HostName = this.Request.Url.HostName;\n\t\t\t\t\turl.Port = this.Request.Url.Port;\n\t\t\t\t\turl.BasePath = this.Request.Url.Path;\n\t\t\t\t\turl.Path = \"/\" + model.GetPrimaryKeyValue();\n\t\t\t\t\tmodel.BuildLinks(linkBuilder, url);\n\t\t\t\t}\n\n\t\t\t\treturn models;\n    \t\t};\n\n");
             
             #line default
             #line hidden
             
-            #line 41 ""
+            #line 42 ""
+if(!IsReadOnly){
+            
+            #line default
+            #line hidden
+            
+            #line 43 ""
+            this.Write("\t\t\tPost[\"/");
+            
+            #line default
+            #line hidden
+            
+            #line 43 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(CollectionRouteUrl));
             
             #line default
             #line hidden
             
-            #line 41 ""
-            this.Write("/{");
+            #line 43 ""
+            this.Write("\", true] = async (ctx, ct) =>\n    \t\t{\n\t\t\t\tvar model = this.Request.Body.AsString();\n    \t\t\tvar client = new HttpClient();\n\t\t\t\tstring route = \"http://localhost:3000/");
             
             #line default
             #line hidden
             
-            #line 41 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyColumnName));
-            
-            #line default
-            #line hidden
-            
-            #line 41 ""
-            this.Write("}\", true] = async (ctx, ct) =>\n    \t\t{\n    \t\t\tvar client = new HttpClient();\n\t\t\t\tstring route = string.Format(\"http://DEVB-PG01:3000/");
-            
-            #line default
-            #line hidden
-            
-            #line 44 ""
+            #line 47 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(UnderlyingCollectionRouteUrl));
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 47 ""
+            this.Write("\";\n    \t\t\tvar res = await client.PostAsync(route, new StringContent(model));\n    \t\t\tvar pkVal = locationHeaderParser.ParseLocationHeader<int>(\"id\", res.Headers.Location);\n    \t\t\tvar responseModel = new ");
+            
+            #line default
+            #line hidden
+            
+            #line 50 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(POSTResponseModelName));
+            
+            #line default
+            #line hidden
+            
+            #line 50 ""
+            this.Write("(pkVal);\n    \t\t\tresponseModel.BuildSelfLink(linkBuilder, this.Request.Url);\n    \t\t\treturn responseModel;\n    \t\t};\n");
+            
+            #line default
+            #line hidden
+            
+            #line 54 ""
+}
+            
+            #line default
+            #line hidden
+            
+            #line 55 ""
+            this.Write("\n    \t\tGet[\"/");
+            
+            #line default
+            #line hidden
+            
+            #line 56 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(CollectionRouteUrl));
+            
+            #line default
+            #line hidden
+            
+            #line 56 ""
+            this.Write("/{");
+            
+            #line default
+            #line hidden
+            
+            #line 56 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyColumnName));
+            
+            #line default
+            #line hidden
+            
+            #line 56 ""
+            this.Write("}\", true] = async (ctx, ct) =>\n    \t\t{\n    \t\t\tvar client = new HttpClient();\n\t\t\t\tstring route = string.Format(\"http://DEVB-PG01:3000/");
+            
+            #line default
+            #line hidden
+            
+            #line 59 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(UnderlyingCollectionRouteUrl));
+            
+            #line default
+            #line hidden
+            
+            #line 59 ""
             this.Write("?");
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 59 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyColumnName));
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 59 ""
             this.Write("=eq.{0}\", ctx.");
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 59 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(PrimaryKeyColumnName));
             
             #line default
             #line hidden
             
-            #line 44 ""
+            #line 59 ""
             this.Write(");\n    \t\t\tvar res = await client.GetAsync(route);\n    \t\t\tvar content = await res.Content.ReadAsStringAsync();\n\n\t\t\t\tvar models = JsonConvert.DeserializeObject<List<");
             
             #line default
             #line hidden
             
-            #line 48 ""
+            #line 63 ""
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
             
             #line default
             #line hidden
             
-            #line 48 ""
-            this.Write(">>(content);\n\t\t\t\tvar model = models.First();\n\t\t\t\tmodel.BuildLinks(linkBuilder, this.Request.Url);\n\t\t\t\treturn this.Negotiate.WithModel(model).WithHeader(\"Accept\",\"application/json\");\n    \t\t};\n    \t}\n    }\n}");
+            #line 63 ""
+            this.Write(">>(content);\n\t\t\t\tvar model = models.First();\n\t\t\t\tmodel.BuildLinks(linkBuilder, this.Request.Url);\n\t\t\t\treturn model;\n    \t\t};\n    \t}\n    }\n}");
             
             #line default
             #line hidden

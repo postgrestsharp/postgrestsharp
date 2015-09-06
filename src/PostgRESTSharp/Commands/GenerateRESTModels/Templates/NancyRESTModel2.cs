@@ -8,32 +8,65 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 {
     public partial class NancyRESTModel
     {
-        public NancyRESTModel(IViewMetaModel metaModel, string fileNamespace)
+		public NancyRESTModel(IViewMetaModel metaModel, string fileNamespace, bool isReadOnly)
         {
             this.MetaModel = metaModel;
             this.Namespace = fileNamespace;
+			this.IsReadOnly = isReadOnly;
         }
 
         public IViewMetaModel MetaModel { get; protected set; }
 
         public string Namespace { get; protected set; }
 
-        public IEnumerable<string> GetProperties()
+		public bool IsReadOnly { get; protected set; }
+
+		public IEnumerable<string> GetProperties(RESTModelTypeEnum type)
         {
-            foreach (var col in this.MetaModel.Columns)
+			var columns = this.MetaModel.Columns;
+			switch(type) 
+			{
+				case RESTModelTypeEnum.Post:
+					columns = this.MetaModel.Columns.Where (x => !x.IsPrimaryKeyColumn);
+					break;
+				case RESTModelTypeEnum.PostResponse:
+					columns = this.MetaModel.Columns.Where (x => x.IsPrimaryKeyColumn);
+					break;
+			}
+			foreach (var col in columns)
             {
                 yield return string.Format("public {0} {1} {{ get; protected set; }}", ConvertToNullableIfReq(col.ModelDataType), col.ColumnName);
             }
         }
 
-        public string GetConstructorArgs()
+		public string GetConstructorArgs(RESTModelTypeEnum type)
         {
-             return string.Join(", ",  this.MetaModel.Columns.Select(x=> string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnName)));
+			var columns = this.MetaModel.Columns;
+			switch(type) 
+			{
+				case RESTModelTypeEnum.Post:
+					columns = this.MetaModel.Columns.Where (x => !x.IsPrimaryKeyColumn);
+					break;
+				case RESTModelTypeEnum.PostResponse:
+					columns = this.MetaModel.Columns.Where (x => x.IsPrimaryKeyColumn);
+					break;
+			}
+            return string.Join(", ",  columns.Select(x=> string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnName)));
         }
 
-        public IEnumerable<string> GetConstructorAssignments()
+		public IEnumerable<string> GetConstructorAssignments(RESTModelTypeEnum type)
         {
-            foreach (var col in this.MetaModel.Columns)
+			var columns = this.MetaModel.Columns;
+			switch(type) 
+			{
+				case RESTModelTypeEnum.Post:
+					columns = this.MetaModel.Columns.Where (x => !x.IsPrimaryKeyColumn);
+				break;
+			case RESTModelTypeEnum.PostResponse:
+					columns = this.MetaModel.Columns.Where (x => x.IsPrimaryKeyColumn);
+				break;
+			}
+            foreach (var col in columns)
             {
                 yield return string.Format("this.{0} = {0};" , col.ColumnName);
             }
@@ -41,7 +74,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
         public string GetPrimaryKeyColumnName()
         {
-            return this.MetaModel.Columns.Where(x => x.IsKeyColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
+            return this.MetaModel.Columns.Where(x => x.IsPrimaryKeyColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
         }
 
 		public IEnumerable<ViewMetaModelRelation> GetRelations()

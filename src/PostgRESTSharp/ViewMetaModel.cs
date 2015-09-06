@@ -41,7 +41,9 @@ namespace PostgRESTSharp
         {
             var col = new MetaModelViewColumn(storageColumn.FieldNameCamelCased, storageColumn.StorageDataType, storageColumn.StorageDataTypeLength,
                 storageColumn.FieldDataType, this.columns.Count,
-                storageColumn.IsPrimaryKeyColumn || storageColumn.IsUnique ? true : false, storageColumnSource, storageColumn);
+                storageColumn.IsPrimaryKeyColumn || storageColumn.IsUnique ? true : false, 
+				storageColumn.IsPrimaryKeyColumn,
+				storageColumnSource, storageColumn);
             this.columns.Add(col);
         }
 

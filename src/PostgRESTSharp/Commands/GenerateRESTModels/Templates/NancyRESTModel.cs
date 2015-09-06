@@ -63,7 +63,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates {
             #line hidden
             
             #line 15 ""
-            this.Write(this.ToStringHelper.ToStringWithCulture(GetConstructorArgs()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetConstructorArgs(RESTModelTypeEnum.Get)));
             
             #line default
             #line hidden
@@ -75,7 +75,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates {
             #line hidden
             
             #line 18 ""
-foreach(var assignment in GetConstructorAssignments()) {
+foreach(var assignment in GetConstructorAssignments(RESTModelTypeEnum.Get)) {
             
             #line default
             #line hidden
@@ -111,7 +111,7 @@ foreach(var assignment in GetConstructorAssignments()) {
             #line hidden
             
             #line 25 ""
-foreach(var property in GetProperties()) {
+foreach(var property in GetProperties(RESTModelTypeEnum.Get)) {
             
             #line default
             #line hidden
@@ -237,7 +237,247 @@ if(relation.Direction == RelationDirectionEnum.Forward) {
             #line hidden
             
             #line 44 ""
-            this.Write("\t\t}\n\t}\n}\n\n");
+            this.Write("\t\t}\n\t}\n\n");
+            
+            #line default
+            #line hidden
+            
+            #line 47 ""
+if(!IsReadOnly){
+            
+            #line default
+            #line hidden
+            
+            #line 48 ""
+            this.Write("\t// POST Model\n\tpublic class ");
+            
+            #line default
+            #line hidden
+            
+            #line 49 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
+            
+            #line default
+            #line hidden
+            
+            #line 49 ""
+            this.Write("POSTModel\n\t{\n\t\tpublic ");
+            
+            #line default
+            #line hidden
+            
+            #line 51 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
+            
+            #line default
+            #line hidden
+            
+            #line 51 ""
+            this.Write("POSTModel(");
+            
+            #line default
+            #line hidden
+            
+            #line 51 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetConstructorArgs(RESTModelTypeEnum.Post)));
+            
+            #line default
+            #line hidden
+            
+            #line 51 ""
+            this.Write(")\n\t\t{\n");
+            
+            #line default
+            #line hidden
+            
+            #line 53 ""
+foreach(var assignment in GetConstructorAssignments(RESTModelTypeEnum.Post)) {
+            
+            #line default
+            #line hidden
+            
+            #line 54 ""
+            this.Write("\t\t\t");
+            
+            #line default
+            #line hidden
+            
+            #line 54 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(assignment));
+            
+            #line default
+            #line hidden
+            
+            #line 54 ""
+            this.Write("\n");
+            
+            #line default
+            #line hidden
+            
+            #line 55 ""
+}
+            
+            #line default
+            #line hidden
+            
+            #line 56 ""
+            this.Write("\t\n\t\t}\n\n");
+            
+            #line default
+            #line hidden
+            
+            #line 59 ""
+foreach(var property in GetProperties(RESTModelTypeEnum.Post)) {
+            
+            #line default
+            #line hidden
+            
+            #line 60 ""
+            this.Write("\t\t");
+            
+            #line default
+            #line hidden
+            
+            #line 60 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(property));
+            
+            #line default
+            #line hidden
+            
+            #line 60 ""
+            this.Write("\n");
+            
+            #line default
+            #line hidden
+            
+            #line 61 ""
+}
+            
+            #line default
+            #line hidden
+            
+            #line 62 ""
+            this.Write("\t}\n\n\t// POST Response Model\n\tpublic class ");
+            
+            #line default
+            #line hidden
+            
+            #line 65 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
+            
+            #line default
+            #line hidden
+            
+            #line 65 ""
+            this.Write("POSTResponseModel\n\t{\n\t\tpublic ");
+            
+            #line default
+            #line hidden
+            
+            #line 67 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ModelName));
+            
+            #line default
+            #line hidden
+            
+            #line 67 ""
+            this.Write("POSTResponseModel(");
+            
+            #line default
+            #line hidden
+            
+            #line 67 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(GetConstructorArgs(RESTModelTypeEnum.PostResponse)));
+            
+            #line default
+            #line hidden
+            
+            #line 67 ""
+            this.Write(")\n\t\t{\n\t\t\tthis._links = new RestLinks();\n");
+            
+            #line default
+            #line hidden
+            
+            #line 70 ""
+foreach(var assignment in GetConstructorAssignments(RESTModelTypeEnum.PostResponse)) {
+            
+            #line default
+            #line hidden
+            
+            #line 71 ""
+            this.Write("\t\t\t");
+            
+            #line default
+            #line hidden
+            
+            #line 71 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(assignment));
+            
+            #line default
+            #line hidden
+            
+            #line 71 ""
+            this.Write("\n");
+            
+            #line default
+            #line hidden
+            
+            #line 72 ""
+}
+            
+            #line default
+            #line hidden
+            
+            #line 73 ""
+            this.Write("\t\n\t\t}\n\n\t\tpublic RestLinks _links {get; protected set; }\n");
+            
+            #line default
+            #line hidden
+            
+            #line 77 ""
+foreach(var property in GetProperties(RESTModelTypeEnum.PostResponse)) {
+            
+            #line default
+            #line hidden
+            
+            #line 78 ""
+            this.Write("\t\t");
+            
+            #line default
+            #line hidden
+            
+            #line 78 ""
+            this.Write(this.ToStringHelper.ToStringWithCulture(property));
+            
+            #line default
+            #line hidden
+            
+            #line 78 ""
+            this.Write("\n");
+            
+            #line default
+            #line hidden
+            
+            #line 79 ""
+}
+            
+            #line default
+            #line hidden
+            
+            #line 80 ""
+            this.Write("\n\t\tpublic void BuildSelfLink(IRestLinkBuilder linkBuilder, Url currentUrl)\n\t\t{\n\t\t\tlinkBuilder.AddSelfLink(this._links, currentUrl);\n\t\t}\n\t} \n");
+            
+            #line default
+            #line hidden
+            
+            #line 86 ""
+}
+            
+            #line default
+            #line hidden
+            
+            #line 87 ""
+            this.Write("}\n\n");
             
             #line default
             #line hidden

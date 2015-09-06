@@ -4,6 +4,7 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 using Nancy;
+using Nancy.Extensions;
 using Nancy.ModelBinding;
 using System.Net.Http;
 using Newtonsoft.Json;
@@ -16,12 +17,12 @@ namespace <#=Namespace#>
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IRestLinkBuilder linkBuilder) 
+    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser) 
     	{
     		Get["/<#=CollectionRouteUrl#>", true] = async (ctx, ct) =>
     		{
     			var client = new HttpClient();
-				string route = "http://DEVB-PG01:3000/<#=UnderlyingCollectionRouteUrl#>?order=<#=PrimaryKeyColumnName#>.asc";
+				string route = "http://localhost:3000/<#=UnderlyingCollectionRouteUrl#>?order=<#=PrimaryKeyColumnName#>.asc";
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
 				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
@@ -35,8 +36,22 @@ namespace <#=Namespace#>
 					model.BuildLinks(linkBuilder, url);
 				}
 
-				return this.Negotiate.WithModel(models).WithHeader("Accept","application/json");
+				return models;
     		};
+
+<#if(!IsReadOnly){#>
+			Post["/<#=CollectionRouteUrl#>", true] = async (ctx, ct) =>
+    		{
+				var model = this.Request.Body.AsString();
+    			var client = new HttpClient();
+				string route = "http://localhost:3000/<#=UnderlyingCollectionRouteUrl#>";
+    			var res = await client.PostAsync(route, new StringContent(model));
+    			var pkVal = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
+    			var responseModel = new <#=POSTResponseModelName#>(pkVal);
+    			responseModel.BuildSelfLink(linkBuilder, this.Request.Url);
+    			return responseModel;
+    		};
+<#}#>
 
     		Get["/<#=CollectionRouteUrl#>/{<#=PrimaryKeyColumnName#>}", true] = async (ctx, ct) =>
     		{
@@ -48,7 +63,7 @@ namespace <#=Namespace#>
 				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
 				var model = models.First();
 				model.BuildLinks(linkBuilder, this.Request.Url);
-				return this.Negotiate.WithModel(model).WithHeader("Accept","application/json");
+				return model;
     		};
     	}
     }

@@ -40,6 +40,8 @@
     <Compile Include="RestLink.cs" />
     <Compile Include="RestLinkBuilder.cs" />
     <Compile Include="RestLinksJavaScriptConverter.cs" />
+    <Compile Include="ILocationHeaderParser.cs" />
+    <Compile Include="LocationHeaderParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

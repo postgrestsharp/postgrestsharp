@@ -41,7 +41,8 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
             [CommandParameter(Prototype = "p|splitFiles", Description = "Split generated REST models into a file per model.", IsRequired = true, DefaultValue = "false")]string splitGeneratedFiles,
             [CommandParameter(Prototype = "c|connectionString", Description = "The connection string to use to connect to the database.", IsRequired = true)]string connectionString,
             [CommandParameter(Prototype = "f|fileName", Description = "The filename to use for the generated models or the fileName prefix if splitting generated files.", IsRequired = true, DefaultValue = DEFAULT_RESTMODELS_FILENAME)]string fileName,
-            [CommandParameter(Prototype = "n|namespace", Description = "The namespace used for the generated models.", IsRequired =true)]string fileNamespace
+            [CommandParameter(Prototype = "n|namespace", Description = "The namespace used for the generated models.", IsRequired =true)]string fileNamespace,
+			[CommandParameter(Prototype = "r|readOnly", Description = "Generate read only models.", IsRequired = true, DefaultValue = "true")]string readOnly
         )
         {
             // setup the connection
@@ -53,7 +54,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
 
             var splitFiles = bool.Parse(splitGeneratedFiles);
 
-            this.generateRESTModelsCommandProcessor.Process(views, splitFiles, fileName, outputDirectory, fileNamespace);
+			this.generateRESTModelsCommandProcessor.Process(views, splitFiles, fileName, outputDirectory, fileNamespace, bool.Parse(readOnly));
         }
     }
 }

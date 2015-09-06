@@ -2,7 +2,7 @@
 {
     public class MetaModelViewColumn
     {
-        public MetaModelViewColumn(string columnName, string storageDataType, long storageDataTypeLength, string modelDataType, int order, bool isKeyColumn, IMetaModel table, MetaModelColumn tableColumn)
+        public MetaModelViewColumn(string columnName, string storageDataType, long storageDataTypeLength, string modelDataType, int order, bool isKeyColumn, bool isPrimaryKeyColumn, IMetaModel table, MetaModelColumn tableColumn)
         {
             this.ColumnName = columnName;
             this.StorageDataType = storageDataType;
@@ -12,6 +12,7 @@
             this.IsKeyColumn = isKeyColumn;
             this.Table = table;
             this.TableColumn = tableColumn;
+			this.IsPrimaryKeyColumn = isPrimaryKeyColumn;
         }
 
         public string ColumnName { get; protected set; }
@@ -25,6 +26,8 @@
         public int Order { get; protected set; }
 
         public bool IsKeyColumn { get; protected set; }
+
+		public bool IsPrimaryKeyColumn { get; protected set; }
 
         public ViewMetaModelRelation RelatedView { get; protected set; }
 
