@@ -49,7 +49,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 
 			// get the models to generate
 			var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == MetaModelTypeEnum.Table);
-			var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
+			var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion).Where(x => x.HasViewKey); ;
 
 			var splitFiles = bool.Parse(splitGeneratedFiles);
 

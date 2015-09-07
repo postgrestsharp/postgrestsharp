@@ -74,7 +74,20 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
         public string GetPrimaryKeyColumnName()
         {
-            return this.MetaModel.Columns.Where(x => x.IsPrimaryKeyColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
+            // there must either be a pk or a single UK
+            if(this.MetaModel.Columns.Where(x => x.IsPrimaryKeyColumn).Any())
+            {
+                return this.MetaModel.Columns.Where(x => x.IsPrimaryKeyColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
+            }
+            else
+            {
+                if(this.MetaModel.Columns.Where(x=>x.IsUniqueColumn).Count() == 1)
+                {
+                    return this.MetaModel.Columns.Where(x => x.IsUniqueColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
+                }
+            }
+
+            throw new Exception("View has not primary key or no single unique column");
         }
 
 		public IEnumerable<ViewMetaModelRelation> GetRelations()

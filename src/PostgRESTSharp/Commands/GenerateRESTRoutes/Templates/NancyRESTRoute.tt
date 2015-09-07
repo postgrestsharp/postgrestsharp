@@ -17,12 +17,12 @@ namespace <#=Namespace#>
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser) 
+    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
     	{
     		Get["/<#=CollectionRouteUrl#>", true] = async (ctx, ct) =>
     		{
     			var client = new HttpClient();
-				string route = "http://localhost:3000/<#=UnderlyingCollectionRouteUrl#>?order=<#=PrimaryKeyColumnName#>.asc";
+				string route = "http://" + postgRESTConfigProvider.Url + "/<#=UnderlyingCollectionRouteUrl#>?order=<#=PrimaryKeyColumnName#>.asc";
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
 				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
@@ -44,7 +44,7 @@ namespace <#=Namespace#>
     		{
 				var model = this.Request.Body.AsString();
     			var client = new HttpClient();
-				string route = "http://localhost:3000/<#=UnderlyingCollectionRouteUrl#>";
+				string route = "http://" + postgRESTConfigProvider.Url + "/<#=UnderlyingCollectionRouteUrl#>";
     			var res = await client.PostAsync(route, new StringContent(model));
     			var pkVal = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
     			var responseModel = new <#=POSTResponseModelName#>(pkVal);
@@ -56,7 +56,7 @@ namespace <#=Namespace#>
     		Get["/<#=CollectionRouteUrl#>/{<#=PrimaryKeyColumnName#>}", true] = async (ctx, ct) =>
     		{
     			var client = new HttpClient();
-				string route = string.Format("http://DEVB-PG01:3000/<#=UnderlyingCollectionRouteUrl#>?<#=PrimaryKeyColumnName#>=eq.{0}", ctx.<#=PrimaryKeyColumnName#>);
+				string route = string.Format("http://" + postgRESTConfigProvider.Url + "/<#=UnderlyingCollectionRouteUrl#>?<#=PrimaryKeyColumnName#>=eq.{0}", ctx.<#=PrimaryKeyColumnName#>);
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
 

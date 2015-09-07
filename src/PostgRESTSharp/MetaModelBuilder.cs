@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using PostgRESTSharp.Text;
+﻿using PostgRESTSharp.Text;
+using System.Collections.Generic;
 
 namespace PostgRESTSharp
 {
@@ -25,7 +25,7 @@ namespace PostgRESTSharp
 
             string modelName = this.textUtility.ToCapitalCase(table.TableName);
             string camelCasedModelName = this.textUtility.ToCamelCase(table.TableName);
-			string pluralisedModelName = this.textUtility.ToPluralCapitalCase(table.TableName);
+            string pluralisedModelName = this.textUtility.ToPluralCapitalCase(table.TableName);
 
             foreach (var col in tableColumns)
             {
@@ -44,15 +44,12 @@ namespace PostgRESTSharp
 
             foreach (var fk in foreignKeys)
             {
-                if (!fk.UqTableName.Contains("$"))
-                {
-                    RelationDirectionEnum direction = fk.Direction == "FORWARD" ? RelationDirectionEnum.Forward : RelationDirectionEnum.Reverse;
-                    var storRelation = new MetaModelRelation(fk.FkTableCatalog, fk.FkTableSchema, fk.FkTableName, fk.UqTableName, fk.FkConstraintName, new string[] { fk.FkColumnName }, new string[] { fk.UqColumnName }, direction);
-                    relations.Add(storRelation);
-                }
+                RelationDirectionEnum direction = fk.Direction == "FORWARD" ? RelationDirectionEnum.Forward : RelationDirectionEnum.Reverse;
+                var storRelation = new MetaModelRelation(fk.FkTableCatalog, fk.FkTableSchema, fk.FkTableName, fk.UqTableName, fk.FkConstraintName, new string[] { fk.FkColumnName }, new string[] { fk.UqColumnName }, direction);
+                relations.Add(storRelation);
             }
 
-			MetaModelTypeEnum type = table.TableType == "VIEW" ? MetaModelTypeEnum.View : MetaModelTypeEnum.Table;
+            MetaModelTypeEnum type = table.TableType == "VIEW" ? MetaModelTypeEnum.View : MetaModelTypeEnum.Table;
 
             return new MetaModel(table.TableCatalog, table.TableSchema, table.TableName, columns, relations,
                                             modelName, camelCasedModelName, pluralisedModelName, type);

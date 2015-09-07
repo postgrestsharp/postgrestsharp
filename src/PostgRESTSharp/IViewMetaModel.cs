@@ -24,7 +24,9 @@ namespace PostgRESTSharp
 
         bool HasKey { get; }
 
-		void AddColumn (MetaModelColumn storageColumn, IMetaModel storageColumnSource);
+        bool HasViewKey { get; }
+
+        void AddColumn (MetaModelColumn storageColumn, IMetaModel storageColumnSource);
 
 		void AddJoinSource (IMetaModel joinSource, MetaModelColumn joinColumn, IMetaModel source, MetaModelColumn sourceColumn);
 	}

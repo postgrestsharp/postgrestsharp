@@ -35,6 +35,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="IRestLinkBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestLink.cs" />

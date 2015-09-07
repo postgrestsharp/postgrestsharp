@@ -37,13 +37,34 @@ namespace PostgRESTSharp
 
         public bool HasKey { get { return this.Columns.Where(x => x.IsKeyColumn).Any(); } }
 
+        public bool HasViewKey
+        {
+            get
+            {
+                if (this.Columns.Where(x => x.IsPrimaryKeyColumn).Any())
+                {
+                    return true;
+                }
+                else
+                {
+                    if (this.Columns.Where(x => x.IsUniqueColumn).Count() == 1)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }
+
         public void AddColumn(MetaModelColumn storageColumn, IMetaModel storageColumnSource)
         {
             var col = new MetaModelViewColumn(storageColumn.FieldNameCamelCased, storageColumn.StorageDataType, storageColumn.StorageDataTypeLength,
                 storageColumn.FieldDataType, this.columns.Count,
                 storageColumn.IsPrimaryKeyColumn || storageColumn.IsUnique ? true : false, 
 				storageColumn.IsPrimaryKeyColumn,
-				storageColumnSource, storageColumn);
+                storageColumn.IsUnique,
+                storageColumnSource, storageColumn);
             this.columns.Add(col);
         }
 
