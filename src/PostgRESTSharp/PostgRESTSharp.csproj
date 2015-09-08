@@ -81,6 +81,7 @@
       <DependentUpon>NancyRESTRouteRoot.tt</DependentUpon>
     </Compile>
     <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRouteRoot2.cs" />
+    <Compile Include="IRESTResourceProcessor.cs" />
     <Compile Include="IViewMetaModelProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IMetaModel.cs" />
@@ -107,6 +108,12 @@
     <Compile Include="RAML\StringExtensions.cs" />
     <Compile Include="RelationDirectionEnum.cs" />
     <Compile Include="MultiRESTViewMetaModelBuilderConvention.cs" />
+    <Compile Include="RESTResourceProcessor.cs" />
+    <Compile Include="REST\IRESTResource.cs" />
+    <Compile Include="REST\RESTVerbEnum.cs" />
+    <Compile Include="REST\RESTMethod.cs" />
+    <Compile Include="REST\RESTParameter.cs" />
+    <Compile Include="REST\RESTResource.cs" />
     <Compile Include="SingleRESTViewMetaModelBuilderConvention.cs" />
     <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModels.cs">
       <AutoGen>True</AutoGen>

@@ -3,6 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="PostgRESTSharp.REST" #>
 using Nancy;
 using Nancy.Extensions;
 using Nancy.ModelBinding;
@@ -19,10 +20,14 @@ namespace <#=Namespace#>
     {
     	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
     	{
-    		Get["/<#=CollectionRouteUrl#>", true] = async (ctx, ct) =>
+<#foreach(var method in Resource.Methods){#>
+			<#=GetVerbString(method.Verb)#>["/<#=Resource.Uri + GetParameters(method.URIParameters)#>", true] = async (ctx, ct) =>
     		{
+<#switch(method.Verb){#>
+<#case RESTVerbEnum.GET:#>
+<#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
     			var client = new HttpClient();
-				string route = "http://" + postgRESTConfigProvider.Url + "/<#=UnderlyingCollectionRouteUrl#>?order=<#=PrimaryKeyColumnName#>.asc";
+				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
 				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
@@ -37,26 +42,9 @@ namespace <#=Namespace#>
 				}
 
 				return models;
-    		};
-
-<#if(!IsReadOnly){#>
-			Post["/<#=CollectionRouteUrl#>", true] = async (ctx, ct) =>
-    		{
-				var model = this.Request.Body.AsString();
+<#}else{#>
     			var client = new HttpClient();
-				string route = "http://" + postgRESTConfigProvider.Url + "/<#=UnderlyingCollectionRouteUrl#>";
-    			var res = await client.PostAsync(route, new StringContent(model));
-    			var pkVal = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
-    			var responseModel = new <#=POSTResponseModelName#>(pkVal);
-    			responseModel.BuildSelfLink(linkBuilder, this.Request.Url);
-    			return responseModel;
-    		};
-<#}#>
-
-    		Get["/<#=CollectionRouteUrl#>/{<#=PrimaryKeyColumnName#>}", true] = async (ctx, ct) =>
-    		{
-    			var client = new HttpClient();
-				string route = string.Format("http://" + postgRESTConfigProvider.Url + "/<#=UnderlyingCollectionRouteUrl#>?<#=PrimaryKeyColumnName#>=eq.{0}", ctx.<#=PrimaryKeyColumnName#>);
+				string route = string.Format("http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
 
@@ -64,7 +52,23 @@ namespace <#=Namespace#>
 				var model = models.First();
 				model.BuildLinks(linkBuilder, this.Request.Url);
 				return model;
+<#}#>
+<#break;#>
+<#case RESTVerbEnum.POST:#>
+				var model = this.Request.Body.AsString();
+    			var client = new HttpClient();
+				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>";
+    			var res = await client.PostAsync(route, new StringContent(model));
+    			var pkVal = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
+    			var responseModel = new <#=POSTResponseModelName#>(pkVal);
+    			responseModel.BuildSelfLink(linkBuilder, this.Request.Url);
+    			return responseModel;
+<#break;#>
+<#default:#>
+<#break;#>
+<#}#>
     		};
+<#}#>
     	}
     }
 }

@@ -15,11 +15,13 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 		private IMetaModelRetriever dataStorageMetaModelRetriever;
 		private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
 		private IViewMetaModelProcessor viewMetaModelProcessor;
-		private IConnectionStringConfigurationProvider connectionStringConfigProvider;
+        private IRESTResourceProcessor restResourceProcessor;
+        private IConnectionStringConfigurationProvider connectionStringConfigProvider;
 		private IGenerateRESTRoutesCommandProcessor generateRESTRoutesCommandProcessor;
 
 		public GenerateRESTRoutesCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
 			IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
+            IRESTResourceProcessor restResourceProcessor,
 			IGenerateRESTRoutesCommandProcessor generateRESTRoutesCommandProcessor,
 			IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
 		{
@@ -28,6 +30,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 			this.metaModelBuilderConventions = metaModelBuilderConventions;
 			this.connectionStringConfigProvider = connectionStringConfigProvider;
 			this.generateRESTRoutesCommandProcessor = generateRESTRoutesCommandProcessor;
+            this.restResourceProcessor = restResourceProcessor;
 		}
 
 		[CommandAction]
@@ -49,11 +52,12 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 
 			// get the models to generate
 			var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == MetaModelTypeEnum.Table);
-			var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion).Where(x => x.HasViewKey); ;
+			var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion).Where(x => x.HasViewKey);
+            var resources = this.restResourceProcessor.Process(views.Where(x => x.HasKey), bool.Parse(readOnly));
 
 			var splitFiles = bool.Parse(splitGeneratedFiles);
 
-			this.generateRESTRoutesCommandProcessor.Process(views, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace, bool.Parse(readOnly));
+			this.generateRESTRoutesCommandProcessor.Process(resources, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace);
 		}
 	}
 }
