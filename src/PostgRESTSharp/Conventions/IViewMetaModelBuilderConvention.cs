@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PostgRESTSharp
+namespace PostgRESTSharp.Conventions
 {
-	public interface IViewMetaModelBuilderConvention
+	public interface IViewMetaModelBuilderConvention : IConvention
 	{
-		ViewModelBuilderConventionType ConventionType { get; }
-
-		ViewModelBuilderConventionLevel Level { get; }
-
 		ViewMetaModelBuilderResult BuildModel(IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName);
 	}
 }

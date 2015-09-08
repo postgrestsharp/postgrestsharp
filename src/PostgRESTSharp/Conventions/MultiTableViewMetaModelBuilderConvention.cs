@@ -1,25 +1,31 @@
-﻿using System;
+﻿
+using System;
 using System.Linq;
 using System.Collections.Generic;
+using PostgRESTSharp.Conventions;
 using PostgRESTSharp.Text;
 
-namespace PostgRESTSharp
+namespace PostgRESTSharp.Conventions
 {
-	public class MultiRESTViewMetaModelBuilderConvention : IViewMetaModelBuilderConvention
+	public class MultiTableViewMetaModelBuilderConvention : IViewMetaModelBuilderConvention, IImplicitTableConvention
 	{
         private ITextUtility textUtility;
 
-        public MultiRESTViewMetaModelBuilderConvention(ITextUtility textUtility)
+		public MultiTableViewMetaModelBuilderConvention(ITextUtility textUtility)
 		{
 			this.Level = ViewModelBuilderConventionLevel.Convention;
 			this.ConventionType = ViewModelBuilderConventionType.Inclusion;
             this.textUtility = textUtility;
         }
 
+		public bool IsMatch (IMetaModel metaModel)
+		{
+			return metaModel.TableName.Contains("$");
+		}
+
 		public ViewMetaModelBuilderResult BuildModel (IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName)
 		{
-			if (storageModel.TableName.Contains ("$")) 
-			{
+
 				var model = new ViewMetaModel (storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased, 
                     this.textUtility.ToCapitalCase(storageModel.TableName),
                     this.textUtility.ToPluralCapitalCase(storageModel.TableName));
@@ -89,11 +95,6 @@ namespace PostgRESTSharp
                 }
 
                 return new ViewMetaModelBuilderResult(true, model);
-            } 
-			else 
-			{
-				return new ViewMetaModelBuilderResult (false, null);
-			}
 		}
 
         private string BuildTableName(string currentTableName, string tableName)
@@ -107,10 +108,5 @@ namespace PostgRESTSharp
                 return string.Format("{0}${1}", currentTableName, tableName);
             }
         }
-
-        public ViewModelBuilderConventionType ConventionType { get; protected set; }
-
-		public ViewModelBuilderConventionLevel Level  { get; protected set; }
-
 	}
 }

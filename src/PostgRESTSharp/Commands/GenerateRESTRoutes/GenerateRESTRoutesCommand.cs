@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using PostgRESTSharp.Configuration;
+using PostgRESTSharp.Conventions;
 using Synoptic;
 using System.Linq;
 
