@@ -4,7 +4,7 @@ namespace PostgRESTSharp.Conventions
 {
 	public interface IConventionResolver
 	{
-		IConvention ResolveConvention<T>(IMetaModel metaModel) where T : IConvention; 
+		T ResolveTableConvention<T>(IMetaModel metaModel) where T : ITableConvention; 
 	}
 }
 

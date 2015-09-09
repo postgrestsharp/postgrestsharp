@@ -13,8 +13,6 @@ namespace PostgRESTSharp.Conventions
 
 		public MultiTableViewMetaModelBuilderConvention(ITextUtility textUtility)
 		{
-			this.Level = ViewModelBuilderConventionLevel.Convention;
-			this.ConventionType = ViewModelBuilderConventionType.Inclusion;
             this.textUtility = textUtility;
         }
 

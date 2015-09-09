@@ -2,7 +2,7 @@
 
 namespace PostgRESTSharp.Conventions
 {
-	public interface IExplicitTableConvention : IExplicitConvention
+	public interface IExplicitTableConvention : IExplicitConvention, ITableConvention
 	{
 		string DatabaseName { get; }
 

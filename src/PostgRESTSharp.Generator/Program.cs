@@ -5,6 +5,7 @@ using PostgRESTSharp.Pgsql;
 using StructureMap;
 using StructureMap.Graph;
 using Synoptic;
+using PostgRESTSharp.Conventions;
 
 namespace PostgRESTSharp.Generator
 {

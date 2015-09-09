@@ -2,7 +2,7 @@
 
 namespace PostgRESTSharp.Conventions
 {
-	public interface IImplicitTableConvention : IImplicitConvention
+	public interface IImplicitTableConvention : IImplicitConvention, ITableConvention
 	{
 		bool IsMatch(IMetaModel metaModel);
 	}

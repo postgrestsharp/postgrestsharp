@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using PostgRESTSharp.Conventions;
 
 namespace PostgRESTSharp
 {
     public class ViewMetaModelProcessor : IViewMetaModelProcessor
     {
         private IViewMetaModelBuilder viewBuilder;
+		private IConventionResolver conventionResolver;
 
-        public ViewMetaModelProcessor(IViewMetaModelBuilder builder)
+        public ViewMetaModelProcessor(IViewMetaModelBuilder builder, IConventionResolver conventionResolver)
         {
             this.viewBuilder = builder;
+			this.conventionResolver = conventionResolver;
         }
 
         public IEnumerable<IViewMetaModel> ProcessModels(IEnumerable<IMetaModel> models, int viewSchemaVersion)
@@ -17,11 +20,11 @@ namespace PostgRESTSharp
             List<IViewMetaModel> views = new List<IViewMetaModel>();
             foreach (var tableModel in models.Where(x => x.MetaModelType == MetaModelTypeEnum.Table))
             {
-                var result = viewBuilder.BuildModel(tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)), viewSchemaVersion.ToString());
-                if (result != null)
-                {
-                    views.Add(result);
-                }
+				// check for a view table exclusion convention
+				var buildingConvention = this.conventionResolver.ResolveTableConvention<IViewBuildingConvention>(tableModel);
+				buildingConvention.AddView(views, () => 
+                	viewBuilder.BuildModel(tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)), viewSchemaVersion.ToString())
+				);
             }
 
             // go back and reprocess the view relations

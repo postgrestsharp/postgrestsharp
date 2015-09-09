@@ -9,8 +9,6 @@ namespace PostgRESTSharp.Conventions
 
 		public SingleTableViewMetaModelBuilderConvention(ITextUtility textUtility)
         {
-            this.Level = ViewModelBuilderConventionLevel.Convention;
-            this.ConventionType = ViewModelBuilderConventionType.Inclusion;
             this.textUtility = textUtility;
         }
 

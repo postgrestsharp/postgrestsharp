@@ -158,10 +158,8 @@
     <Compile Include="Commands\GenerateRESTRoutes\GenerateRESTRoutesCommandProcessor.cs" />
     <Compile Include="Commands\GenerateRESTRoutes\GenerateRESTRoutesCommand.cs" />
     <Compile Include="RESTModelTypeEnum.cs" />
-    <Compile Include="Conventions\TableExclusionConvention.cs" />
     <Compile Include="Conventions\AbstractExplicitTableConvention.cs" />
     <Compile Include="Conventions\AbstractExplicitTableColumnConvention.cs" />
-    <Compile Include="Conventions\ITableExclusionConvention.cs" />
     <Compile Include="Conventions\IViewNameConvention.cs" />
     <Compile Include="Conventions\ViewNameDefaultConvention.cs" />
     <Compile Include="Conventions\AbstractImplicitTableConvention.cs" />
@@ -169,16 +167,21 @@
     <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="Conventions\IConventionResolver.cs" />
     <Compile Include="Conventions\IDefaultConvention.cs" />
-    <Compile Include="Conventions\IDefaultTableConvention.cs" />
     <Compile Include="Conventions\IExplicitConvention.cs" />
-    <Compile Include="Conventions\IExplicitTableColumnConvention.cs" />
-    <Compile Include="Conventions\IExplicitTableConvention.cs" />
     <Compile Include="Conventions\IImplicitConvention.cs" />
-    <Compile Include="Conventions\IImplicitTableColumnConvention.cs" />
-    <Compile Include="Conventions\IImplicitTableConvention.cs" />
     <Compile Include="Conventions\IViewMetaModelBuilderConvention.cs" />
     <Compile Include="Conventions\SingleTableViewMetaModelBuilderConvention.cs" />
     <Compile Include="Conventions\MultiTableViewMetaModelBuilderConvention.cs" />
+    <Compile Include="Conventions\TableConventions\IDefaultTableConvention.cs" />
+    <Compile Include="Conventions\TableConventions\IImplicitTableConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewBuilding\DefaultViewBuildingConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewBuilding\TableExclusionViewBuildingConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ITableConvention.cs" />
+    <Compile Include="Conventions\TableConventions\IExplicitTableConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ColumnConventions\IExplicitTableColumnConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ColumnConventions\IImplicitTableColumnConvention.cs" />
+    <Compile Include="Conventions\ConventionResolver.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -751,5 +754,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Conventions\" />
+    <Folder Include="Conventions\TableConventions\" />
+    <Folder Include="Conventions\TableConventions\ColumnConventions\" />
   </ItemGroup>
 </Project>

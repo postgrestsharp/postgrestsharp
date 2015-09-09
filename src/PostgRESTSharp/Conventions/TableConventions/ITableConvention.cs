@@ -2,7 +2,7 @@
 
 namespace PostgRESTSharp.Conventions
 {
-	public interface IDefaultTableConvention : IDefaultConvention
+	public interface ITableConvention : IConvention
 	{
 	}
 }
