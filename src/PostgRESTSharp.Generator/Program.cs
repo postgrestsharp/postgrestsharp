@@ -25,8 +25,8 @@ namespace PostgRESTSharp.Generator
 
                     x.For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();
                     x.For<IDbConnectionProvider>().Singleton().Use<PgSqlDbConnectionProvider>();
-                    x.For<IMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
-                    x.For<IMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
+                    x.For<ITableMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
+                    x.For<ITableMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
                     x.For<IConventionResolver>().Singleton().Use<ConventionResolver>();
                 });
 

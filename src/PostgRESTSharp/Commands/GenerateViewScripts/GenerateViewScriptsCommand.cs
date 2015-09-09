@@ -13,13 +13,13 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts
         public const string DEFAULT_VIEWS_FILENAME = "Views.sql";
         public const string DEFAULT_VIEW_PREFIX = "View";
 
-        private IMetaModelRetriever dataStorageMetaModelRetriever;
+        private ITableMetaModelRetriever dataStorageMetaModelRetriever;
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
         private IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor;
 
         public GenerateViewScriptsCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
-            IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
+            ITableMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
             IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor)
         {
             this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
@@ -44,7 +44,7 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts
             this.connectionStringConfigProvider.ConnectionString = connectionString;
 
             // get the models to generate
-            var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == MetaModelTypeEnum.Table);
+            var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
 
             var splitFiles = bool.Parse(splitGeneratedFiles);

@@ -12,7 +12,7 @@ namespace PostgRESTSharp
             this.conventionResolver = conventionResolver;
         }
 
-        public IViewMetaModel BuildModel(IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName)
+        public IViewMetaModel BuildModel(ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels, string viewSchemaName)
         {
             var viewBuilder = this.conventionResolver.ResolveTableConvention<IViewBuildingConvention>(storageModel);
             return viewBuilder.BuildModel(storageModel, additionalStorageModels, viewSchemaName);

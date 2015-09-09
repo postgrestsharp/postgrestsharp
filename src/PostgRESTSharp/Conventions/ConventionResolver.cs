@@ -56,7 +56,7 @@ namespace PostgRESTSharp.Conventions
             }
         }
 
-		public T ResolveTableConvention<T>(IMetaModel metaModel) 
+		public T ResolveTableConvention<T>(ITableMetaModel metaModel) 
             where T : class, ITableConvention
 		{
             if (this.conventionsByRoot.ContainsKey(typeof(ITableConvention)))

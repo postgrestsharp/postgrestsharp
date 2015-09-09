@@ -15,10 +15,10 @@ namespace PostgRESTSharp
 			this.conventionResolver = conventionResolver;
         }
 
-        public IEnumerable<IViewMetaModel> ProcessModels(IEnumerable<IMetaModel> models, int viewSchemaVersion)
+        public IEnumerable<IViewMetaModel> ProcessModels(IEnumerable<ITableMetaModel> models, int viewSchemaVersion)
         {
             List<IViewMetaModel> views = new List<IViewMetaModel>();
-            foreach (var tableModel in models.Where(x => x.MetaModelType == MetaModelTypeEnum.Table))
+            foreach (var tableModel in models.Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table))
             {
 				// check for a view table exclusion convention
 				var inclusionConvention = this.conventionResolver.ResolveTableConvention<IViewInclusionConvention>(tableModel);
@@ -31,7 +31,7 @@ namespace PostgRESTSharp
             foreach (var view in views)
             {
                 // look for foreign keys in all tables that make up the view
-                List<IMetaModel> sources = new List<IMetaModel>();
+                List<ITableMetaModel> sources = new List<ITableMetaModel>();
                 sources.Add(view.PrimarySource);
                 sources.AddRange(view.JoinSources.Select(x => x.JoinSource));
 

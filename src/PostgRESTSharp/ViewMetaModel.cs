@@ -5,7 +5,7 @@ namespace PostgRESTSharp
 {
     public class ViewMetaModel : IViewMetaModel
     {
-        private List<MetaModelViewColumn> columns;
+        private List<ViewMetaModelColumn> columns;
         private List<ViewMetaModelSource> joinSources;
 
         public ViewMetaModel(string databaseName, string schemaName, string viewName, string modelName, string modelNamePluralised)
@@ -15,7 +15,7 @@ namespace PostgRESTSharp
             this.ViewName = viewName;
             this.ModelName = modelName;
             this.ModelNamePluralised = modelNamePluralised;
-            this.columns = new List<MetaModelViewColumn>();
+            this.columns = new List<ViewMetaModelColumn>();
             this.joinSources = new List<ViewMetaModelSource>();
         }
 
@@ -29,11 +29,11 @@ namespace PostgRESTSharp
 
         public string ModelNamePluralised { get; protected set; }
 
-        public IMetaModel PrimarySource { get; protected set; }
+        public ITableMetaModel PrimarySource { get; protected set; }
 
         public IEnumerable<ViewMetaModelSource> JoinSources { get { return this.joinSources; } }
 
-        public IEnumerable<MetaModelViewColumn> Columns { get { return this.columns; } }
+        public IEnumerable<ViewMetaModelColumn> Columns { get { return this.columns; } }
 
         public bool HasKey { get { return this.Columns.Where(x => x.IsKeyColumn).Any(); } }
 
@@ -57,9 +57,9 @@ namespace PostgRESTSharp
             }
         }
 
-        public void AddColumn(MetaModelColumn storageColumn, IMetaModel storageColumnSource)
+        public void AddColumn(TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource)
         {
-            var col = new MetaModelViewColumn(storageColumn.FieldNameCamelCased, storageColumn.StorageDataType, storageColumn.StorageDataTypeLength,
+            var col = new ViewMetaModelColumn(storageColumn.FieldNameCamelCased, storageColumn.StorageDataType, storageColumn.StorageDataTypeLength,
                 storageColumn.FieldDataType, this.columns.Count,
                 storageColumn.IsPrimaryKeyColumn || storageColumn.IsUnique ? true : false, 
 				storageColumn.IsPrimaryKeyColumn,
@@ -68,12 +68,12 @@ namespace PostgRESTSharp
             this.columns.Add(col);
         }
 
-        public void SetPrimaryTableSource(IMetaModel primaryTableSource)
+        public void SetPrimaryTableSource(ITableMetaModel primaryTableSource)
         {
             this.PrimarySource = primaryTableSource;
         }
 
-        public void AddJoinSource(IMetaModel joinSource, MetaModelColumn joinColumn, IMetaModel source, MetaModelColumn sourceColumn)
+        public void AddJoinSource(ITableMetaModel joinSource, TableMetaModelColumn joinColumn, ITableMetaModel source, TableMetaModelColumn sourceColumn)
         {
             this.joinSources.Add(new ViewMetaModelSource(joinSource, joinColumn, source, sourceColumn));
         }

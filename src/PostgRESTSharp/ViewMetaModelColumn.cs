@@ -1,8 +1,8 @@
 ﻿namespace PostgRESTSharp
 {
-    public class MetaModelViewColumn
+    public class ViewMetaModelColumn
     {
-        public MetaModelViewColumn(string columnName, string storageDataType, long storageDataTypeLength, string modelDataType, int order, bool isKeyColumn, bool isPrimaryKeyColumn, bool isUniqueColumn, IMetaModel table, MetaModelColumn tableColumn)
+        public ViewMetaModelColumn(string columnName, string storageDataType, long storageDataTypeLength, string modelDataType, int order, bool isKeyColumn, bool isPrimaryKeyColumn, bool isUniqueColumn, ITableMetaModel table, TableMetaModelColumn tableColumn)
         {
             this.ColumnName = columnName;
             this.StorageDataType = storageDataType;
@@ -34,9 +34,9 @@
 
         public ViewMetaModelRelation RelatedView { get; protected set; }
 
-        public MetaModelColumn TableColumn { get; protected set; }
+        public TableMetaModelColumn TableColumn { get; protected set; }
 
-        public IMetaModel Table { get; protected set; }
+        public ITableMetaModel Table { get; protected set; }
 
         public void AddRelation(ViewMetaModelRelation viewRelation)
         {

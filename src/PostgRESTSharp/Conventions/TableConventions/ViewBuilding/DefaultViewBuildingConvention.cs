@@ -14,7 +14,7 @@ namespace PostgRESTSharp.Conventions
             this.conventionResolver = conventionResolver;
         }
 
-        public IViewMetaModel BuildModel(IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName)
+        public IViewMetaModel BuildModel(ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels, string viewSchemaName)
         {
             var viewNamingConvention = this.conventionResolver.ResolveTableConvention<IViewNamingConvention>(storageModel);
             var model = new ViewMetaModel(storageModel.DatabaseName, viewSchemaName, viewNamingConvention.DetermineViewName(storageModel), 

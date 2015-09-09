@@ -1,6 +1,6 @@
 ﻿namespace PostgRESTSharp
 {
-    public interface IMetaModelTypeConvertor
+    public interface ITableMetaModelTypeConvertor
     {
         string GetNativeTypeForSqlType(string sqlType);
     }

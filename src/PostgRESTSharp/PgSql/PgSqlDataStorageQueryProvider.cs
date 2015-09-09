@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PostgRESTSharp.Pgsql
 {
-    public class PgSqlDataStorageQueryProvider : IMetaModelQueryProvider
+    public class PgSqlDataStorageQueryProvider : ITableMetaModelQueryProvider
     {
         public string GetTablesQuery(string databaseName, string schemaName)
         {

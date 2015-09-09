@@ -1,6 +1,6 @@
 ﻿namespace PostgRESTSharp
 {
-    public interface IMetaModelQueryProvider
+    public interface ITableMetaModelQueryProvider
     {
         string GetTablesQuery(string databaseName, string schemaName);
 

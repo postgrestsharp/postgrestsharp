@@ -2,7 +2,7 @@
 
 namespace PostgRESTSharp
 {
-	public enum MetaModelTypeEnum
+	public enum TableMetaModelTypeEnum
 	{
 		Table,
 		View

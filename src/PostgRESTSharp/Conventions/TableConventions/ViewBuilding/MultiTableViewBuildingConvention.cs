@@ -13,18 +13,18 @@ namespace PostgRESTSharp.Conventions
             this.textUtility = textUtility;
         }
 
-        public bool IsMatch(IMetaModel metaModel)
+        public bool IsMatch(ITableMetaModel metaModel)
         {
             return metaModel.TableName.Contains("$");
         }
 
-        public IViewMetaModel BuildModel(IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName)
+        public IViewMetaModel BuildModel(ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels, string viewSchemaName)
         {
             var model = new ViewMetaModel(storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased,
                 this.textUtility.ToCapitalCase(storageModel.TableName),
                 this.textUtility.ToPluralCapitalCase(storageModel.TableName));
             // there are multiple tables involved
-            IMetaModel currentTable = null;
+            ITableMetaModel currentTable = null;
             string currentTableName = "";
             var tableNames = storageModel.TableName.Split(new char[] { '$' });
             bool isPrimary = true;

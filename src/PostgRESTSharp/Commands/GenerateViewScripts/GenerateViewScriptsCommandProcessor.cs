@@ -6,7 +6,7 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts
 {
     public class GenerateViewScriptsCommandProcessor : CommandProcessor, IGenerateViewScriptsCommandProcessor
     {
-        public void Process(IEnumerable<IMetaModel> tables, IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string viewSchemaOwner, int viewSchemaVersion, string fileName, string outputDirectory)
+        public void Process(IEnumerable<ITableMetaModel> tables, IEnumerable<IViewMetaModel> views, bool splitGeneratedFiles, string viewSchemaOwner, int viewSchemaVersion, string fileName, string outputDirectory)
         {
             // generate the files
             if (splitGeneratedFiles)

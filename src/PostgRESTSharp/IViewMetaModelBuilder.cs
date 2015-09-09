@@ -5,7 +5,7 @@ namespace PostgRESTSharp
 {
 	public interface IViewMetaModelBuilder
 	{
-		IViewMetaModel BuildModel(IMetaModel storageModel, IEnumerable<IMetaModel> additionalStorageModels, string viewSchemaName);
+		IViewMetaModel BuildModel(ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels, string viewSchemaName);
 	}
 }
 

@@ -16,9 +16,9 @@ namespace PostgRESTSharp
 
         string ModelNamePluralised { get; }
 
-        IEnumerable<MetaModelViewColumn> Columns { get; }
+        IEnumerable<ViewMetaModelColumn> Columns { get; }
 
-		IMetaModel PrimarySource { get; }
+		ITableMetaModel PrimarySource { get; }
 
 		IEnumerable<ViewMetaModelSource> JoinSources { get; }
 
@@ -26,9 +26,9 @@ namespace PostgRESTSharp
 
         bool HasViewKey { get; }
 
-        void AddColumn (MetaModelColumn storageColumn, IMetaModel storageColumnSource);
+        void AddColumn (TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource);
 
-		void AddJoinSource (IMetaModel joinSource, MetaModelColumn joinColumn, IMetaModel source, MetaModelColumn sourceColumn);
+		void AddJoinSource (ITableMetaModel joinSource, TableMetaModelColumn joinColumn, ITableMetaModel source, TableMetaModelColumn sourceColumn);
 	}
 }
 

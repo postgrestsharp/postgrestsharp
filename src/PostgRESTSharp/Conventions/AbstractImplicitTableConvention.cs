@@ -8,7 +8,7 @@ namespace PostgRESTSharp.Conventions
 		{
 		}
 
-		public abstract bool IsMatch (IMetaModel metaModel);
+		public abstract bool IsMatch (ITableMetaModel metaModel);
 	}
 }
 

@@ -12,7 +12,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
     [Command(Name = "generateraml", Description = "Generate RAML Docs")]
     public class GenerateRAMLCommand
     {
-        private IMetaModelRetriever dataStorageMetaModelRetriever;
+        private ITableMetaModelRetriever dataStorageMetaModelRetriever;
 
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
@@ -20,7 +20,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
         private IRESTResourceProcessor restResourceProcessor;
 
         public GenerateRAMLCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
-            IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
+            ITableMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
             IRESTResourceProcessor restResourceProcessor,
             IGenerateRAMLCommandProcessor generateRAMLCommandProcessor)
         {
@@ -46,7 +46,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             this.connectionStringConfigProvider.ConnectionString = connectionString;
 
             // get the models to generate
-            var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == MetaModelTypeEnum.Table);
+            var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
             var resources = this.restResourceProcessor.Process(views.Where(x => x.HasKey), bool.Parse(readOnly));
 

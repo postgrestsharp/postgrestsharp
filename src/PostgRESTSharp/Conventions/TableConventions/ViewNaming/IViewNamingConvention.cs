@@ -2,6 +2,6 @@
 {
     public interface IViewNamingConvention : ITableConvention
     {
-        string DetermineViewName(IMetaModel metaModel);
+        string DetermineViewName(ITableMetaModel metaModel);
     }
 }

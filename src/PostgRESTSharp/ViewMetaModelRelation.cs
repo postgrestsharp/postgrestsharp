@@ -2,7 +2,7 @@
 {
     public class ViewMetaModelRelation
     {
-        public ViewMetaModelRelation(IViewMetaModel relatedView, RelationDirectionEnum direction, MetaModelViewColumn relationColumn)
+        public ViewMetaModelRelation(IViewMetaModel relatedView, RelationDirectionEnum direction, ViewMetaModelColumn relationColumn)
         {
             this.RelatedView = relatedView;
             this.Direction = direction;
@@ -13,6 +13,6 @@
 
         public RelationDirectionEnum Direction { get; protected set; }
 
-        public MetaModelViewColumn RelationColumn { get; protected set; }
+        public ViewMetaModelColumn RelationColumn { get; protected set; }
     }
 }

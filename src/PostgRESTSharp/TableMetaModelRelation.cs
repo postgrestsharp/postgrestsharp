@@ -2,9 +2,9 @@
 
 namespace PostgRESTSharp
 {
-    public class MetaModelRelation
+    public class TableMetaModelRelation
     {
-        public MetaModelRelation(string databaseName, string schemaName, string tableName, string relationTableName, string keyName, IEnumerable<string> relationColumns, IEnumerable<string> uniqueColumns, RelationDirectionEnum direction)
+        public TableMetaModelRelation(string databaseName, string schemaName, string tableName, string relationTableName, string keyName, IEnumerable<string> relationColumns, IEnumerable<string> uniqueColumns, RelationDirectionEnum direction)
         {
             this.DatabaseName = databaseName;
             this.SchemaName = schemaName;
@@ -32,6 +32,6 @@ namespace PostgRESTSharp
 
         public IEnumerable<string> UniqueColumns { get; protected set; }
 
-        public IMetaModel StorageModel { get; set; }
+        public ITableMetaModel StorageModel { get; set; }
     }
 }

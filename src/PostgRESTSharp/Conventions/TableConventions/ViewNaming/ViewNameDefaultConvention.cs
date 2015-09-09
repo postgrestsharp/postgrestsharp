@@ -4,7 +4,7 @@ namespace PostgRESTSharp.Conventions
 {
 	public class ViewNameDefaultConvention : IViewNamingConvention, IDefaultTableConvention
 	{
-		public string DetermineViewName (IMetaModel metaModel)
+		public string DetermineViewName (ITableMetaModel metaModel)
 		{
 			return metaModel.ModelNameCamelCased;
 		}

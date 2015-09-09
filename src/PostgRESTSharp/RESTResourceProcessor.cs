@@ -18,7 +18,7 @@ namespace PostgRESTSharp
                 methods.Add(getCollectionMethod);
 
                 // GET on Collection Item
-                MetaModelViewColumn pkCol = null;
+                ViewMetaModelColumn pkCol = null;
                 if (view.Columns.Where(x => x.IsPrimaryKeyColumn).Any())
                 {
                     pkCol = view.Columns.Single(x => x.IsPrimaryKeyColumn);

@@ -6,23 +6,23 @@ using PostgRESTSharp.Configuration;
 
 namespace PostgRESTSharp
 {
-    public class MetaModelRetriever : IMetaModelRetriever
+    public class TableMetaModelRetriever : ITableMetaModelRetriever
     {
         private IDbConnectionProvider connectionProvider;
-        private IMetaModelQueryProvider dataStorageQueryProvider;
-        private IMetaModelBuilder metamodelBuilder;
+        private ITableMetaModelQueryProvider dataStorageQueryProvider;
+        private ITableMetaModelBuilder metamodelBuilder;
 
-        public MetaModelRetriever(IDbConnectionProvider connectionProvider, IMetaModelQueryProvider dataStorageQueryProvider, IMetaModelBuilder metamodelBuilder)
+        public TableMetaModelRetriever(IDbConnectionProvider connectionProvider, ITableMetaModelQueryProvider dataStorageQueryProvider, ITableMetaModelBuilder metamodelBuilder)
         {
             this.connectionProvider = connectionProvider;
             this.dataStorageQueryProvider = dataStorageQueryProvider;
             this.metamodelBuilder = metamodelBuilder;
         }
 
-        public IEnumerable<IMetaModel> RetrieveMetaModels(string databaseName, string[] includedSchemas, string[] excludedStorageObjects)
+        public IEnumerable<ITableMetaModel> RetrieveMetaModels(string databaseName, string[] includedSchemas, string[] excludedStorageObjects)
         {
-            List<IMetaModel> metaModels = new List<IMetaModel>();
-            Dictionary<string, IMetaModel> allMetaModels = new Dictionary<string, IMetaModel>();
+            List<ITableMetaModel> metaModels = new List<ITableMetaModel>();
+            Dictionary<string, ITableMetaModel> allMetaModels = new Dictionary<string, ITableMetaModel>();
 
             using (IDbConnection conn = this.connectionProvider.GetConnection())
             {

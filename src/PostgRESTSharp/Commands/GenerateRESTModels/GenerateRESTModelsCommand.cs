@@ -15,13 +15,13 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
         public const string DEFAULT_RESTMODELS_FILENAME = "RestModels.cs";
         public const string DEFAULT_RESTMODEL_PREFIX = "RestModel";
 
-        private IMetaModelRetriever dataStorageMetaModelRetriever;
+        private ITableMetaModelRetriever dataStorageMetaModelRetriever;
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
         private IGenerateRESTModelsCommandProcessor generateRESTModelsCommandProcessor;
 
         public GenerateRESTModelsCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
-            IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
+            ITableMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
             IGenerateRESTModelsCommandProcessor generateRESTModelsCommandProcessor)
         {
             this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
@@ -47,7 +47,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
             this.connectionStringConfigProvider.ConnectionString = connectionString;
 
             // get the models to generate
-            var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == MetaModelTypeEnum.Table);
+            var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion).Where(x=>x.HasViewKey);
 
             var splitFiles = bool.Parse(splitGeneratedFiles);

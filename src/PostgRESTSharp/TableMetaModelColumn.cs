@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace PostgRESTSharp
 {
-    public class MetaModelColumn
+    public class TableMetaModelColumn
     {
         private string[] readonlyColumns = new string[] { "created", "modified" };
 
-        public MetaModelColumn(string columnName, bool isPrimaryKeyColumn, bool isAutoIncrementColumn, bool isNullable, bool isUpdateable, bool isUnique, int order,
+        public TableMetaModelColumn(string columnName, bool isPrimaryKeyColumn, bool isAutoIncrementColumn, bool isNullable, bool isUpdateable, bool isUnique, int order,
             string storageDataType, Int64 storageDataTypeLength, string fieldName, string fieldNameCamelCased, string fieldDataType)
         {
             this.ColumnName = columnName;

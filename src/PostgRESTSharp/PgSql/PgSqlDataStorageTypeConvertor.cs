@@ -1,7 +1,7 @@
 ﻿
 namespace PostgRESTSharp.Pgsql
 {
-    public class PgSqlDataStorageTypeConvertor : IMetaModelTypeConvertor
+    public class PgSqlDataStorageTypeConvertor : ITableMetaModelTypeConvertor
     {
         public string GetNativeTypeForSqlType(string sqlType)
         {
