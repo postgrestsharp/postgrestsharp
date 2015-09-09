@@ -10,7 +10,7 @@ namespace PostgRESTSharp.Conventions
         private IList<string> rootConventionExclusions;
         private IDictionary<Type, IDictionary<Type, ConventionHolder>> conventionsByRoot;
 
-		public ConventionResolver (IEnumerable<IConvention> conventions)
+		public void Initialise (IEnumerable<IConvention> conventions)
 		{
             this.conventionsByRoot = new Dictionary<Type, IDictionary<Type, ConventionHolder>>();
             this.rootConventions = new List<Type>() { typeof(ITableConvention) };
@@ -55,6 +55,7 @@ namespace PostgRESTSharp.Conventions
                 }
             }
         }
+
 
 		public T ResolveTableConvention<T>(ITableMetaModel metaModel) 
             where T : class, ITableConvention

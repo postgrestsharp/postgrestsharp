@@ -19,11 +19,12 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             conventions = new List<IConvention>();
             conventions.Add(new DefaultViewInclusionConvention());
             conventions.Add(new TableExclusionViewInclusionConvention("halo", "public", "applications"));
+            conventionResolver = new ConventionResolver();
         };
 
         Because of = () =>
         {
-            conventionResolver = new ConventionResolver(conventions);
+            conventionResolver.Initialise(conventions);
         };
 
         It should = () =>

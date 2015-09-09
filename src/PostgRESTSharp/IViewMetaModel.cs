@@ -29,6 +29,8 @@ namespace PostgRESTSharp
         void AddColumn (TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource);
 
 		void AddJoinSource (ITableMetaModel joinSource, TableMetaModelColumn joinColumn, ITableMetaModel source, TableMetaModelColumn sourceColumn);
-	}
+
+        void SetPrimaryTableSource(ITableMetaModel primaryTableSource);
+    }
 }
 

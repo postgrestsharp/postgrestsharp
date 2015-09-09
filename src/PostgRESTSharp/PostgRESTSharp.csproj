@@ -95,7 +95,6 @@
     <Compile Include="InfoSchemaKeyColumnUsage.cs" />
     <Compile Include="InfoSchemaTable.cs" />
     <Compile Include="IViewMetaModel.cs" />
-    <Compile Include="IViewMetaModelBuilder.cs" />
     <Compile Include="TableMetaModel.cs" />
     <Compile Include="TableMetaModelBuilder.cs" />
     <Compile Include="TableMetaModelColumn.cs" />
@@ -137,7 +136,6 @@
     </Compile>
     <Compile Include="Commands\GenerateViewScripts\Templates\ViewsScript2.cs" />
     <Compile Include="ViewMetaModel.cs" />
-    <Compile Include="ViewMetaModelBuilder.cs" />
     <Compile Include="ViewMetaModelBuilderResult.cs" />
     <Compile Include="ViewMetaModelProcessor.cs" />
     <Compile Include="ViewMetaModelRelation.cs" />

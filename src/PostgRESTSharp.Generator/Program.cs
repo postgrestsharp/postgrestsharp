@@ -30,6 +30,10 @@ namespace PostgRESTSharp.Generator
                     x.For<IConventionResolver>().Singleton().Use<ConventionResolver>();
                 });
 
+            // seed the convention resolver
+            var conventionResolver = container.GetInstance<IConventionResolver>();
+            conventionResolver.Initialise(container.GetAllInstances<IConvention>());
+
             var resolver = new StructureMapCommandDependencyResolver(container);
 
             // register the available commands

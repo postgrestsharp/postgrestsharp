@@ -6,12 +6,10 @@ namespace PostgRESTSharp
 {
     public class ViewMetaModelProcessor : IViewMetaModelProcessor
     {
-        private IViewMetaModelBuilder viewBuilder;
 		private IConventionResolver conventionResolver;
 
-        public ViewMetaModelProcessor(IViewMetaModelBuilder builder, IConventionResolver conventionResolver)
+        public ViewMetaModelProcessor(IConventionResolver conventionResolver)
         {
-            this.viewBuilder = builder;
 			this.conventionResolver = conventionResolver;
         }
 
@@ -22,8 +20,16 @@ namespace PostgRESTSharp
             {
 				// check for a view table exclusion convention
 				var inclusionConvention = this.conventionResolver.ResolveTableConvention<IViewInclusionConvention>(tableModel);
-				inclusionConvention.AddView(views, () => 
-                	viewBuilder.BuildModel(tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)), viewSchemaVersion.ToString())
+                var viewBuilderConvention = this.conventionResolver.ResolveTableConvention<IViewBuildingConvention>(tableModel);
+				inclusionConvention.AddView(views, () =>
+                    {
+                        var viewNamingConvention = this.conventionResolver.ResolveTableConvention<IViewNamingConvention>(tableModel);
+                        var view = new ViewMetaModel(tableModel.DatabaseName, viewSchemaVersion.ToString(), viewNamingConvention.DetermineViewName(tableModel),
+                            viewNamingConvention.DetermineViewModelName(tableModel),
+                            viewNamingConvention.DetermineViewPluralisedModelName(tableModel));
+                        
+                        return viewBuilderConvention.BuildModel(view, tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)));
+                    }
 				);
             }
 

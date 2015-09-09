@@ -5,7 +5,7 @@ namespace PostgRESTSharp.Conventions
 {
 	public interface IViewBuildingConvention : ITableConvention
 	{
-        IViewMetaModel BuildModel(ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels, string viewSchemaName);
+        IViewMetaModel BuildModel(IViewMetaModel viewToBuild, ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels);
     }
 }
 

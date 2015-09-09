@@ -6,11 +6,11 @@ namespace PostgRESTSharp.Conventions
 {
     public class MultiTableViewBuildingConvention : IViewBuildingConvention, IImplicitTableConvention
     {
-        private ITextUtility textUtility;
+        private IConventionResolver conventionResolver;
 
-        public MultiTableViewBuildingConvention(ITextUtility textUtility)
+        public MultiTableViewBuildingConvention(IConventionResolver conventionResolver)
         {
-            this.textUtility = textUtility;
+            this.conventionResolver = conventionResolver;
         }
 
         public bool IsMatch(ITableMetaModel metaModel)
@@ -18,11 +18,8 @@ namespace PostgRESTSharp.Conventions
             return metaModel.TableName.Contains("$");
         }
 
-        public IViewMetaModel BuildModel(ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels, string viewSchemaName)
+        public IViewMetaModel BuildModel(IViewMetaModel viewToBuild, ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels)
         {
-            var model = new ViewMetaModel(storageModel.DatabaseName, viewSchemaName, storageModel.ModelNameCamelCased,
-                this.textUtility.ToCapitalCase(storageModel.TableName),
-                this.textUtility.ToPluralCapitalCase(storageModel.TableName));
             // there are multiple tables involved
             ITableMetaModel currentTable = null;
             string currentTableName = "";
@@ -43,7 +40,7 @@ namespace PostgRESTSharp.Conventions
 
                 if (isPrimary)
                 {
-                    model.SetPrimaryTableSource(table);
+                    viewToBuild.SetPrimaryTableSource(table);
                     isPrimary = false;
                 }
                 else
@@ -58,7 +55,7 @@ namespace PostgRESTSharp.Conventions
                         // get the related table column
                         var joinColumnName = relation.UniqueColumns.FirstOrDefault();
                         var joinColumn = table.Columns.Where(x => x.ColumnName == joinColumnName).FirstOrDefault();
-                        model.AddJoinSource(table, joinColumn, currentTable, sourceColumn);
+                        viewToBuild.AddJoinSource(table, joinColumn, currentTable, sourceColumn);
                     }
 
                     //
@@ -70,7 +67,7 @@ namespace PostgRESTSharp.Conventions
                     foreach (var col in table.Columns)
                     {
                         // always exclude join columns
-                        var joinTable = model.JoinSources.Where(x => x.JoinSource == table).FirstOrDefault();
+                        var joinTable = viewToBuild.JoinSources.Where(x => x.JoinSource == table).FirstOrDefault();
                         if (joinTable != null)
                         {
                             if (joinTable.JoinColumn == col)
@@ -81,13 +78,13 @@ namespace PostgRESTSharp.Conventions
 
                         // use conventions here to check if a column should be included
 
-                        model.AddColumn(col, table);
+                        viewToBuild.AddColumn(col, table);
                     }
                 }
                 currentTable = table;
             }
 
-            return model;
+            return viewToBuild;
         }
 
         private string BuildTableName(string currentTableName, string tableName)
