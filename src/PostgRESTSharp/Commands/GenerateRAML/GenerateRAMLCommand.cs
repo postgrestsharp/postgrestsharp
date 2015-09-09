@@ -13,7 +13,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
     public class GenerateRAMLCommand
     {
         private IMetaModelRetriever dataStorageMetaModelRetriever;
-        private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
+
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
         private IGenerateRAMLCommandProcessor generateRAMLCommandProcessor;
@@ -22,12 +22,10 @@ namespace PostgRESTSharp.Commands.GenerateRAML
         public GenerateRAMLCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
             IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
             IRESTResourceProcessor restResourceProcessor,
-            IGenerateRAMLCommandProcessor generateRAMLCommandProcessor,
-            IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
+            IGenerateRAMLCommandProcessor generateRAMLCommandProcessor)
         {
             this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
             this.viewMetaModelProcessor = viewMetaModelProcessor;
-            this.metaModelBuilderConventions = metaModelBuilderConventions;
             this.connectionStringConfigProvider = connectionStringConfigProvider;
             this.generateRAMLCommandProcessor = generateRAMLCommandProcessor;
             this.restResourceProcessor = restResourceProcessor;

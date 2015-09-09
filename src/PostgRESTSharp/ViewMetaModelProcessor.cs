@@ -21,8 +21,8 @@ namespace PostgRESTSharp
             foreach (var tableModel in models.Where(x => x.MetaModelType == MetaModelTypeEnum.Table))
             {
 				// check for a view table exclusion convention
-				var buildingConvention = this.conventionResolver.ResolveTableConvention<IViewBuildingConvention>(tableModel);
-				buildingConvention.AddView(views, () => 
+				var inclusionConvention = this.conventionResolver.ResolveTableConvention<IViewInclusionConvention>(tableModel);
+				inclusionConvention.AddView(views, () => 
                 	viewBuilder.BuildModel(tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)), viewSchemaVersion.ToString())
 				);
             }

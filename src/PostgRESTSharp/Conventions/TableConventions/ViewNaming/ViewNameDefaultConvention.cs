@@ -2,7 +2,7 @@
 
 namespace PostgRESTSharp.Conventions
 {
-	public class ViewNameDefaultConvention : IViewNameConvention, IDefaultTableConvention
+	public class ViewNameDefaultConvention : IViewNamingConvention, IDefaultTableConvention
 	{
 		public string DetermineViewName (IMetaModel metaModel)
 		{

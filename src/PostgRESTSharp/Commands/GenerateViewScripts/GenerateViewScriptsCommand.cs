@@ -14,19 +14,16 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts
         public const string DEFAULT_VIEW_PREFIX = "View";
 
         private IMetaModelRetriever dataStorageMetaModelRetriever;
-        private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
         private IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor;
 
         public GenerateViewScriptsCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
             IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
-            IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor,
-            IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
+            IGenerateViewScriptsCommandProcessor generateViewScriptsCommandProcessor)
         {
             this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
             this.viewMetaModelProcessor = viewMetaModelProcessor;
-            this.metaModelBuilderConventions = metaModelBuilderConventions;
             this.connectionStringConfigProvider = connectionStringConfigProvider;
             this.generateViewScriptsCommandProcessor = generateViewScriptsCommandProcessor;
         }

@@ -16,19 +16,16 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
         public const string DEFAULT_RESTMODEL_PREFIX = "RestModel";
 
         private IMetaModelRetriever dataStorageMetaModelRetriever;
-        private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
         private IViewMetaModelProcessor viewMetaModelProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
         private IGenerateRESTModelsCommandProcessor generateRESTModelsCommandProcessor;
 
         public GenerateRESTModelsCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
             IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
-            IGenerateRESTModelsCommandProcessor generateRESTModelsCommandProcessor,
-            IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
+            IGenerateRESTModelsCommandProcessor generateRESTModelsCommandProcessor)
         {
             this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
             this.viewMetaModelProcessor = viewMetaModelProcessor;
-            this.metaModelBuilderConventions = metaModelBuilderConventions;
             this.connectionStringConfigProvider = connectionStringConfigProvider;
             this.generateRESTModelsCommandProcessor = generateRESTModelsCommandProcessor;
         }

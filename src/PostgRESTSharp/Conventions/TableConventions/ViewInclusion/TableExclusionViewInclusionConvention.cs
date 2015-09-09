@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace PostgRESTSharp.Conventions
 {
-	public class TableExclusionViewBuildingConvention : AbstractExplicitTableConvention, IViewBuildingConvention
+	public class TableExclusionViewInclusionConvention : AbstractExplicitTableConvention, IViewInclusionConvention
 	{
-		public TableExclusionViewBuildingConvention (string database, string schemaName, string tableName)
+		public TableExclusionViewInclusionConvention(string database, string schemaName, string tableName)
 			: base(database, schemaName, tableName)
 		{
 		}
 
 		public void AddView (IList<IViewMetaModel> viewsCollection, Func<IViewMetaModel> viewBuildingFunc)
 		{
-			throw new NotImplementedException ();
+			// do nothing we don't add a view if matched
 		}
 	}
 }

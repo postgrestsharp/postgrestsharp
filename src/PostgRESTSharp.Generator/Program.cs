@@ -20,13 +20,14 @@ namespace PostgRESTSharp.Generator
                             y.LookForRegistries();
                             y.WithDefaultConventions();
                             y.AssembliesFromApplicationBaseDirectory();
-                            y.AddAllTypesOf<IViewMetaModelBuilderConvention>();
+                            y.AddAllTypesOf<IConvention>();
                         });
 
                     x.For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();
                     x.For<IDbConnectionProvider>().Singleton().Use<PgSqlDbConnectionProvider>();
                     x.For<IMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
                     x.For<IMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
+                    x.For<IConventionResolver>().Singleton().Use<ConventionResolver>();
                 });
 
             var resolver = new StructureMapCommandDependencyResolver(container);

@@ -14,7 +14,6 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 		public const string DEFAULT_RESTROUTE_PREFIX = "RestModule";
 
 		private IMetaModelRetriever dataStorageMetaModelRetriever;
-		private IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions;
 		private IViewMetaModelProcessor viewMetaModelProcessor;
         private IRESTResourceProcessor restResourceProcessor;
         private IConnectionStringConfigurationProvider connectionStringConfigProvider;
@@ -23,12 +22,10 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 		public GenerateRESTRoutesCommand(IConnectionStringConfigurationProvider connectionStringConfigProvider,
 			IMetaModelRetriever dataStorageMetaModelRetriever, IViewMetaModelProcessor viewMetaModelProcessor,
             IRESTResourceProcessor restResourceProcessor,
-			IGenerateRESTRoutesCommandProcessor generateRESTRoutesCommandProcessor,
-			IEnumerable<IViewMetaModelBuilderConvention> metaModelBuilderConventions)
+			IGenerateRESTRoutesCommandProcessor generateRESTRoutesCommandProcessor)
 		{
 			this.dataStorageMetaModelRetriever = dataStorageMetaModelRetriever;
 			this.viewMetaModelProcessor = viewMetaModelProcessor;
-			this.metaModelBuilderConventions = metaModelBuilderConventions;
 			this.connectionStringConfigProvider = connectionStringConfigProvider;
 			this.generateRESTRoutesCommandProcessor = generateRESTRoutesCommandProcessor;
             this.restResourceProcessor = restResourceProcessor;

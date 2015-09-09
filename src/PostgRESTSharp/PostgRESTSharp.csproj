@@ -79,6 +79,9 @@
       <DependentUpon>NancyRESTRouteRoot.tt</DependentUpon>
     </Compile>
     <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRouteRoot2.cs" />
+    <Compile Include="Conventions\ConventionHolder.cs" />
+    <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
     <Compile Include="IRESTResourceProcessor.cs" />
     <Compile Include="IViewMetaModelProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,23 +163,21 @@
     <Compile Include="RESTModelTypeEnum.cs" />
     <Compile Include="Conventions\AbstractExplicitTableConvention.cs" />
     <Compile Include="Conventions\AbstractExplicitTableColumnConvention.cs" />
-    <Compile Include="Conventions\IViewNameConvention.cs" />
-    <Compile Include="Conventions\ViewNameDefaultConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewNaming\ViewNameDefaultConvention.cs" />
     <Compile Include="Conventions\AbstractImplicitTableConvention.cs" />
-    <Compile Include="Conventions\ViewNameForEnumTablesConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewNaming\ViewNameForEnumTablesConvention.cs" />
     <Compile Include="Conventions\IConvention.cs" />
     <Compile Include="Conventions\IConventionResolver.cs" />
     <Compile Include="Conventions\IDefaultConvention.cs" />
     <Compile Include="Conventions\IExplicitConvention.cs" />
     <Compile Include="Conventions\IImplicitConvention.cs" />
-    <Compile Include="Conventions\IViewMetaModelBuilderConvention.cs" />
-    <Compile Include="Conventions\SingleTableViewMetaModelBuilderConvention.cs" />
-    <Compile Include="Conventions\MultiTableViewMetaModelBuilderConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewBuilding\DefaultViewBuildingConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewBuilding\MultiTableViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\IDefaultTableConvention.cs" />
     <Compile Include="Conventions\TableConventions\IImplicitTableConvention.cs" />
-    <Compile Include="Conventions\TableConventions\ViewBuilding\DefaultViewBuildingConvention.cs" />
-    <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
-    <Compile Include="Conventions\TableConventions\ViewBuilding\TableExclusionViewBuildingConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewInclusion\DefaultViewInclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewInclusion\IViewInclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\ViewInclusion\TableExclusionViewInclusionConvention.cs" />
     <Compile Include="Conventions\TableConventions\ITableConvention.cs" />
     <Compile Include="Conventions\TableConventions\IExplicitTableConvention.cs" />
     <Compile Include="Conventions\TableConventions\ColumnConventions\IExplicitTableColumnConvention.cs" />
@@ -752,9 +753,5 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Conventions\" />
-    <Folder Include="Conventions\TableConventions\" />
-    <Folder Include="Conventions\TableConventions\ColumnConventions\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>
