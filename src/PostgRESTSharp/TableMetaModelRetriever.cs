@@ -45,12 +45,17 @@ namespace PostgRESTSharp
                         var columnsQuery = this.dataStorageQueryProvider.GetColumnsQuery(databaseName, schemaName, table.TableName);
                         var columns = conn.Query<InfoSchemaColumn>(columnsQuery);
 
-//                        // get the column usage
-//                        var columnKeyUsageQuery = this.dataStorageQueryProvider.GetColumnKeyUsageQuery(databaseName, schemaName, table.TableName);
-//                        var columnUsage = conn.Query<InfoSchemaKeyColumnUsage>(columnKeyUsageQuery);
+                        //                        // get the column usage
+                        //                        var columnKeyUsageQuery = this.dataStorageQueryProvider.GetColumnKeyUsageQuery(databaseName, schemaName, table.TableName);
+                        //                        var columnUsage = conn.Query<InfoSchemaKeyColumnUsage>(columnKeyUsageQuery);
+
+                        // get the privileges
+                        var privilegesQuery = this.dataStorageQueryProvider.GetTableGrantsQuery(databaseName, schemaName, table.TableName);
+                        var grants = conn.Query<InfoSchemaTableGrant>(privilegesQuery);
+
 
                         // build the metamodel
-                        var model = this.metamodelBuilder.BuildMetaModel(table, foreignKeys, columns);
+                        var model = this.metamodelBuilder.BuildMetaModel(table, foreignKeys, columns, grants);
                         metaModels.Add(model);
                         allMetaModels.Add(string.Format("{0}_{1}_{2}", databaseName, schemaName, table.TableName), model);
                     }

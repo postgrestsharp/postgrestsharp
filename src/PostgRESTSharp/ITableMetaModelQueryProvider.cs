@@ -9,5 +9,7 @@
         string GetColumnKeyUsageQuery(string databaseName, string schemaName, string tableName);
 
         string GetForeignKeysQuery(string databaseName, string schemaName, string tableName);
+
+        string GetTableGrantsQuery(string databaseName, string schemaName, string tableName);
     }
 }

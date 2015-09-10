@@ -15,10 +15,11 @@ namespace PostgRESTSharp
         }
 
         public TableMetaModel BuildMetaModel(InfoSchemaTable table, IEnumerable<InfoSchemaForeignKeys> foreignKeys,
-                                                   IEnumerable<InfoSchemaColumn> tableColumns)
+                                                   IEnumerable<InfoSchemaColumn> tableColumns, IEnumerable<InfoSchemaTableGrant> tablePrivileges)
         {
             List<TableMetaModelColumn> columns = new List<TableMetaModelColumn>();
             List<TableMetaModelRelation> relations = new List<TableMetaModelRelation>();
+            List<TableMetaModelPrivilege> privileges = new List<TableMetaModelPrivilege>();
 
             string modelName = this.textUtility.ToCapitalCase(table.TableName);
             string camelCasedModelName = this.textUtility.ToCamelCase(table.TableName);
@@ -42,9 +43,15 @@ namespace PostgRESTSharp
                 relations.Add(storRelation);
             }
 
+            foreach(var tabPrivilege in tablePrivileges)
+            {
+                var privilege = new TableMetaModelPrivilege(tabPrivilege.PrivilegeType, tabPrivilege.Grantee);
+                privileges.Add(privilege);
+            }
+
             TableMetaModelTypeEnum type = table.TableType == "VIEW" ? TableMetaModelTypeEnum.View : TableMetaModelTypeEnum.Table;
 
-            return new TableMetaModel(table.TableCatalog, table.TableSchema, table.TableName, columns, relations,
+            return new TableMetaModel(table.TableCatalog, table.TableSchema, table.TableName, columns, relations, privileges,
                                             modelName, camelCasedModelName, pluralisedModelName, type);
         }
     }

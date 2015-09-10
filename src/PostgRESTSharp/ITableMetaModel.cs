@@ -28,6 +28,8 @@ namespace PostgRESTSharp
 
         IEnumerable<TableMetaModelColumn> UpdateColumns { get; }
 
+        IEnumerable<TableMetaModelPrivilege> Privileges { get; }
+
         bool HasPrimaryKeys();
 
         bool HasAutoIncrementPrimaryKey();

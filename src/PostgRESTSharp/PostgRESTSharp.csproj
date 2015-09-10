@@ -82,6 +82,7 @@
     <Compile Include="Conventions\ConventionHolder.cs" />
     <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
+    <Compile Include="InfoSchemaTableGrant.cs" />
     <Compile Include="IRESTResourceProcessor.cs" />
     <Compile Include="IViewMetaModelProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="TableMetaModelRelation.cs" />
     <Compile Include="TableMetaModelRetriever.cs" />
     <Compile Include="TableMetaModelTypeEnum.cs" />
+    <Compile Include="TableMetaModelPrivilege.cs" />
     <Compile Include="ViewMetaModelColumn.cs" />
     <Compile Include="RAML\RamlSerializer.cs" />
     <Compile Include="RAML\StringExtensions.cs" />

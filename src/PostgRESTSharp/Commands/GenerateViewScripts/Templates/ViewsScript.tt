@@ -17,6 +17,9 @@ CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>"."<#=view.ViewName#>" AS
 ALTER VIEW "<#=ViewSchemaVersion#>"."<#=view.ViewName#>"
   OWNER TO <#=ViewSchemaOwner#>;
 
+<#foreach(var priv in view.PrimarySource.Privileges){#>
+GRANT <#=priv.Type#> ON "<#=ViewSchemaVersion#>"."<#=view.ViewName#>" TO "<#=priv.Grantee#>";
+<#}#>
 -- End <#=view.ViewName#> --
 
 <#}#>

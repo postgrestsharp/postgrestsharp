@@ -142,5 +142,18 @@ namespace PostgRESTSharp.Pgsql
                 and kcu2.table_catalog = '{0}' and kcu2.table_schema = '{1}' and kcu2.table_name = '{2}'
                 order by UqTableCatalog, UqTableSchema, UqTableName, UqConstraintName, UqColumnName, UqOrdinalPosition)", databaseName, schemaName, tableName);
         }
+
+
+        public string GetTableGrantsQuery(string databaseName, string schemaName, string tableName)
+        {
+            return string.Format(@"select
+                grantor as Grantor,
+                grantee as Grantee,
+                table_catalog as TableCatalog,
+                table_schema as TableSchema,
+                table_name as TableName,
+                privilege_type as PrivilegeType
+                from information_schema.role_table_grants where table_catalog = '{0}' and table_schema = '{1}' and table_name = '{2}' and grantee != 'postgres'", databaseName, schemaName, tableName);
+        }
     }
 }

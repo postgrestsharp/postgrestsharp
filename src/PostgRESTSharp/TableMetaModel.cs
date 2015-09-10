@@ -6,13 +6,14 @@ namespace PostgRESTSharp
     public class TableMetaModel : ITableMetaModel
     {
         public TableMetaModel(string databaseName, string schemaName, string tableName, IEnumerable<TableMetaModelColumn> columns,
-			IEnumerable<TableMetaModelRelation> relations, string modelName, string modelNameCamelCased, string modelNamePluralised, TableMetaModelTypeEnum metaModelType)
+			IEnumerable<TableMetaModelRelation> relations, IEnumerable<TableMetaModelPrivilege> privileges, string modelName, string modelNameCamelCased, string modelNamePluralised, TableMetaModelTypeEnum metaModelType)
         {
             this.DatabaseName = databaseName;
             this.SchemaName = schemaName;
             this.TableName = tableName;
             this.Columns = new List<TableMetaModelColumn>(columns);
             this.Relations = new List<TableMetaModelRelation>(relations);
+            this.Privileges = new List<TableMetaModelPrivilege>(privileges);
             this.ModelName = modelName;
             this.ModelNameCamelCased = modelNameCamelCased;
             this.ModelNamePluralised = modelNamePluralised;
@@ -30,6 +31,8 @@ namespace PostgRESTSharp
         public IEnumerable<TableMetaModelColumn> Columns { get; protected set; }
 
         public IEnumerable<TableMetaModelRelation> Relations { get; protected set; }
+
+        public IEnumerable<TableMetaModelPrivilege> Privileges { get; protected set; }
 
         public IEnumerable<TableMetaModelColumn> InsertColumns { get { return this.Columns.Where(x => x.IsAutoIncrementColumn == false && x.IsUpdateable == true); } }
 

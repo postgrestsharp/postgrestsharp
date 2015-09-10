@@ -105,16 +105,58 @@ foreach (var view in MetaModels){
             
             #line default
             #line hidden
-            this.Write(";\r\n\r\n-- End ");
+            this.Write(";\r\n\r\n");
             
             #line 20 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+foreach(var priv in view.PrimarySource.Privileges){
+            
+            #line default
+            #line hidden
+            this.Write("GRANT ");
+            
+            #line 21 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(priv.Type));
+            
+            #line default
+            #line hidden
+            this.Write(" ON \"");
+            
+            #line 21 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
+            
+            #line default
+            #line hidden
+            this.Write("\".\"");
+            
+            #line 21 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(view.ViewName));
+            
+            #line default
+            #line hidden
+            this.Write("\" TO \"");
+            
+            #line 21 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(priv.Grantee));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n");
+            
+            #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("-- End ");
+            
+            #line 23 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(view.ViewName));
             
             #line default
             #line hidden
             this.Write(" --\r\n\r\n");
             
-            #line 22 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
+            #line 25 "C:\dev\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewsScript.tt"
 }
             
             #line default
