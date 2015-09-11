@@ -16,6 +16,7 @@ namespace PostgRESTSharp.REST
             this.URIParameters = new List<RESTParameter>(uriParameters);
             this.QueryParameters = new List<RESTParameter>(queryParameters);
             this.Description = "Temp Method Description";
+            this.ResponseDefinitions = new List<RESTResponseDefinition>();
 
             //{ 
             //    new RESTResponseDefinition(System.Net.HttpStatusCode.Accepted,"outputSchema","{\r\n\t'output1':'output',\r\n\t'output2':2}")

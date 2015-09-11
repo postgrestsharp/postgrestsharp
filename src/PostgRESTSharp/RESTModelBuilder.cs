@@ -54,10 +54,7 @@ namespace PostgRESTSharp
             }
             else
             {
-                if (view.Columns.Where(x => x.IsUniqueColumn).Count() == 1)
-                {
-                    return view.Columns.Where(x => x.IsUniqueColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
-                }
+                return view.Columns.Where(x => x.IsUniqueColumn == true).OrderBy(x => x.Order).FirstOrDefault().ColumnName;
             }
 
             throw new Exception("View has not primary key or no single unique column");

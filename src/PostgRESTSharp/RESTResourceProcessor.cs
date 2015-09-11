@@ -46,7 +46,7 @@ namespace PostgRESTSharp
                 var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] {
                     new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true)
                 }, new RESTParameter[] { },
-                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.Accepted, schemaDef, "Some Example")}
+                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, schemaDef, "Some Example")}
                 );
 
 
