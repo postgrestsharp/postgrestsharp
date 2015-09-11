@@ -17,7 +17,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML.Maps
             Mapper.CreateMap<IRESTResource, Resource>()
             .ForMember(
                 model => model.DisplayName,
-                expression => expression.MapFrom(src => src.Uri)
+                expression => expression.MapFrom(src => src.DisplayName)
             )
             .ForMember(
                 model => model.RelativeUri,

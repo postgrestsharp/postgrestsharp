@@ -10,8 +10,6 @@ namespace PostgRESTSharp.REST
 
         string Uri { get; }
 
-        RESTRequestDefinition RequestDefinition { get; }
-
-        IEnumerable<RESTResponseDefinition> ResponseDefinitions { get; }
+        string DisplayName { get; }
     }
 }

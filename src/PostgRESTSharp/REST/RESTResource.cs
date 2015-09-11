@@ -11,9 +11,8 @@ namespace PostgRESTSharp.REST
             this.ModelName = modelName;
             this.KeyName = keyName;
             this.Methods = new List<RESTMethod>(methods);
-            this.ResponseDefinitions = new List<RESTResponseDefinition>();
-            this.RequestDefinition = new RESTRequestDefinition("", "");
-            this.DisplayName = "Temp Display Name";
+            
+            this.DisplayName = "Temp Resource Display Name";
         }
 
         public string Uri { get; protected set; }
@@ -27,9 +26,5 @@ namespace PostgRESTSharp.REST
         public string DisplayName { get; protected set; }
 
         public IEnumerable<RESTMethod> Methods { get; protected set; }
-
-        public RESTRequestDefinition RequestDefinition { get; protected set; }
-
-        public IEnumerable<RESTResponseDefinition> ResponseDefinitions { get; protected set; }
     }
 }
