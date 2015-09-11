@@ -95,6 +95,7 @@
     <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
     <Compile Include="InfoSchemaTableGrant.cs" />
+    <Compile Include="IRESTModelBuilder.cs" />
     <Compile Include="IRESTResourceProcessor.cs" />
     <Compile Include="IViewMetaModelProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,6 +109,12 @@
     <Compile Include="InfoSchemaKeyColumnUsage.cs" />
     <Compile Include="InfoSchemaTable.cs" />
     <Compile Include="IViewMetaModel.cs" />
+    <Compile Include="RESTModelBuilder.cs" />
+    <Compile Include="REST\IModelToJSONSchemaConverter.cs" />
+    <Compile Include="REST\ModelToJSONSchemaConverter.cs" />
+    <Compile Include="REST\RESTModel.cs" />
+    <Compile Include="REST\RESTModelLink.cs" />
+    <Compile Include="REST\RESTModelProperty.cs" />
     <Compile Include="REST\RESTRequestDefinition.cs" />
     <Compile Include="REST\RESTResponseDefinition.cs" />
     <Compile Include="TableMetaModel.cs" />

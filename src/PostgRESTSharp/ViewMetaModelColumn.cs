@@ -32,6 +32,8 @@
 
         public bool IsUniqueColumn { get; protected set; }
 
+        public string Description { get; protected set; }
+
         public ViewMetaModelRelation RelatedView { get; protected set; }
 
         public TableMetaModelColumn TableColumn { get; protected set; }

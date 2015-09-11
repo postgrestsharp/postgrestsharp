@@ -4,6 +4,7 @@
     {
         GET,
         POST,
+        POSTResponse,
         PUT,
         PATCH,
         DELETE,

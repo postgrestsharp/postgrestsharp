@@ -15,6 +15,9 @@ namespace PostgRESTSharp
 
                 // GET on Collection
                 var getCollectionMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Collection, new RESTParameter[] { }, new RESTParameter[] { });
+
+                // create a response schema for the collection get
+
                 methods.Add(getCollectionMethod);
 
                 // GET on Collection Item
@@ -29,6 +32,9 @@ namespace PostgRESTSharp
                 }
 
                 var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] { new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true) }, new RESTParameter[] { });
+
+                // create a response schema for the collection item get
+
                 methods.Add(getItemMethod);
 
                 // WRITE ONLY
