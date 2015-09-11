@@ -6,7 +6,7 @@ namespace PostgRESTSharp
     public class TableMetaModel : ITableMetaModel
     {
         public TableMetaModel(string databaseName, string schemaName, string tableName, IEnumerable<TableMetaModelColumn> columns,
-			IEnumerable<TableMetaModelRelation> relations, IEnumerable<TableMetaModelPrivilege> privileges, string modelName, string modelNameCamelCased, string modelNamePluralised, TableMetaModelTypeEnum metaModelType)
+			IEnumerable<TableMetaModelRelation> relations, IEnumerable<TableMetaModelPrivilege> privileges, string modelName, string modelNameCamelCased, string modelNamePluralised, TableMetaModelTypeEnum metaModelType, string rawComment)
         {
             this.DatabaseName = databaseName;
             this.SchemaName = schemaName;
@@ -18,6 +18,7 @@ namespace PostgRESTSharp
             this.ModelNameCamelCased = modelNameCamelCased;
             this.ModelNamePluralised = modelNamePluralised;
 			this.MetaModelType = metaModelType;
+            this.RawComment = rawComment;
         }
 
         public string DatabaseName { get; protected set; }

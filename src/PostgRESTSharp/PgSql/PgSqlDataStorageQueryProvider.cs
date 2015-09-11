@@ -14,8 +14,16 @@ namespace PostgRESTSharp.Pgsql
                 table_catalog as TableCatalog,
                 table_schema as TableSchema,
                 table_name as TableName,
-                table_type as TableType
-                from information_schema.tables where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW')", databaseName, schemaName);
+                table_type as TableType,
+    	        (
+		            SELECT
+		                pg_catalog.obj_description(c.oid)
+		            FROM
+		                pg_catalog.pg_class c
+		            WHERE
+		                c.relname = tabs.table_name	
+                ) as TableComment
+                from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW')", databaseName, schemaName);
         }
 
         public string GetColumnsQuery(string databaseName, string schemaName, string tableName)
@@ -58,7 +66,15 @@ namespace PostgRESTSharp.Pgsql
                 (select count(*) = 1
                     from information_schema.key_column_usage kcu
                     join information_schema.table_constraints tc on tc.constraint_catalog = kcu.constraint_catalog and tc.constraint_schema = kcu.constraint_schema and tc.constraint_name = kcu.constraint_name
-                    where kcu.table_catalog = '{0}' and kcu.table_schema = '{1}' and kcu.table_name = '{2}' and kcu.column_name = sc.column_name and tc.constraint_type  = 'UNIQUE') as IsUnique
+                    where kcu.table_catalog = '{0}' and kcu.table_schema = '{1}' and kcu.table_name = '{2}' and kcu.column_name = sc.column_name and tc.constraint_type  = 'UNIQUE') as IsUnique,
+		        (
+			        SELECT
+			            pg_catalog.col_description(c.oid, sc.ordinal_position::int)
+			        FROM
+			            pg_catalog.pg_class c
+			        WHERE
+			            c.relname = sc.table_name
+		        ) as ColumnComment    
                 from information_schema.columns sc where sc.table_catalog = '{0}' and sc.table_schema = '{1}' and sc.table_name = '{2}' order by sc.ordinal_position", databaseName, schemaName, tableName);
         }
 

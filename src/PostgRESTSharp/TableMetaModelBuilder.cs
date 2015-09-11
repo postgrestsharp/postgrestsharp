@@ -52,7 +52,7 @@ namespace PostgRESTSharp
             TableMetaModelTypeEnum type = table.TableType == "VIEW" ? TableMetaModelTypeEnum.View : TableMetaModelTypeEnum.Table;
 
             return new TableMetaModel(table.TableCatalog, table.TableSchema, table.TableName, columns, relations, privileges,
-                                            modelName, camelCasedModelName, pluralisedModelName, type);
+                                            modelName, camelCasedModelName, pluralisedModelName, type, table.TableComment);
         }
     }
 }

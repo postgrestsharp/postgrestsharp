@@ -35,5 +35,7 @@ namespace PostgRESTSharp
         public bool IsUpdatable { get; set; }
 
         public bool IsUnique { get; set; }
+
+        public string ColumnComment { get; set; }
     }
 }
