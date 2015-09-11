@@ -22,6 +22,10 @@ namespace PostgRESTSharp.Commands.GenerateRAML.Maps
             .ForMember(
                 model => model.Description,
                 expression => expression.MapFrom(src => string.Format("{0} for a {1}.", src.Verb.ToString().ToLower(), src.VerbDetail))
+            )
+            .ForMember(
+                model=>model.Description,
+                expression => expression.MapFrom(src=>src.Description)
             );
 
             Mapper.CreateMap<RAMLNestedResource, Resource>()

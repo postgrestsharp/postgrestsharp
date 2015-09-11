@@ -35,6 +35,8 @@ namespace PostgRESTSharp.Commands.GenerateRAML
 
             RamlSerializer serializer = new RamlSerializer();
             string ramlSerializedDoBument = serializer.Serialize(ramlDocuent);
+
+            this.WriteFileContents(Path.Combine(outputDirectory, fileName), ramlSerializedDoBument);
         }
     }
 }
