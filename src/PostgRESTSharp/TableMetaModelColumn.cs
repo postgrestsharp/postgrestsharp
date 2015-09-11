@@ -48,5 +48,7 @@ namespace PostgRESTSharp
         public string FieldNameCamelCased { get; protected set; }
 
         public string FieldDataType { get; protected set; }
+
+        public string RawComment { get; set; }
     }
 }

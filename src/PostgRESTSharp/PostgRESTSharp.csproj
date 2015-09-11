@@ -96,6 +96,8 @@
     <Compile Include="InfoSchemaKeyColumnUsage.cs" />
     <Compile Include="InfoSchemaTable.cs" />
     <Compile Include="IViewMetaModel.cs" />
+    <Compile Include="REST\RESTRequestDefinition.cs" />
+    <Compile Include="REST\RESTResponseDefinition.cs" />
     <Compile Include="TableMetaModel.cs" />
     <Compile Include="TableMetaModelBuilder.cs" />
     <Compile Include="TableMetaModelColumn.cs" />

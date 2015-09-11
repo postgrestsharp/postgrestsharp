@@ -26,6 +26,8 @@ namespace PostgRESTSharp
 
         public string TableName { get; protected set; }
 
+        public string RawComment { get; protected set; }
+
 		public TableMetaModelTypeEnum MetaModelType { get; }
 
         public IEnumerable<TableMetaModelColumn> Columns { get; protected set; }

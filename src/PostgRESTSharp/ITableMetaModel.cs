@@ -33,5 +33,7 @@ namespace PostgRESTSharp
         bool HasPrimaryKeys();
 
         bool HasAutoIncrementPrimaryKey();
+
+        string RawComment { get; }
     }
 }

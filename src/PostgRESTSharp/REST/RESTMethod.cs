@@ -14,6 +14,7 @@ namespace PostgRESTSharp.REST
             this.VerbDetail = verbDetail;
             this.URIParameters = new List<RESTParameter>(uriParameters);
             this.QueryParameters = new List<RESTParameter>(queryParameters);
+            this.Description = "Temp Description";
         }
 
         public RESTVerbEnum Verb { get; protected set; }
@@ -24,6 +25,6 @@ namespace PostgRESTSharp.REST
 
         public IEnumerable<RESTParameter> QueryParameters { get; protected set; }
 
-
+        public string Description { get; protected set; }
     }
 }
