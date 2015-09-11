@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PostgRESTSharp.REST
 {
-    public class ModelToJSONSchemaConverter
+    public class ModelToJSONSchemaConverter : IModelToJSONSchemaConverter
     {
         public string Convert(RESTModel model)
         {
@@ -15,7 +15,8 @@ namespace PostgRESTSharp.REST
             sb.AppendLine("{");
 
             sb.AppendLine("\t\"$schema\": \"http://json-schema.org/draft-04/schema#\", ");
-            sb.AppendFormat("\t\"title\": \"{0}\"\n, ", model.Name);
+            sb.AppendFormat("\t\"title\": \"{0}\",\n", model.Name);
+            sb.AppendFormat("\t\"description\": \"{0}\",\n", model.Description);
             sb.AppendLine("\t\"type\": \"object\", ");
             sb.AppendLine("\t\"properties\": {");
 
@@ -23,7 +24,7 @@ namespace PostgRESTSharp.REST
             for (int i = 0; i < props.Count; i++)
             {
                 var prop = props[i];
-                sb.AppendFormat("\t\t\"{0}\": {\n", prop.Name);
+                sb.AppendFormat("\t\t\"{0}\": {{\n", prop.Name);
 
                 sb.AppendFormat("\t\t\t\"description\": \"{0}\",\n", prop.Description);
                 sb.AppendFormat("\t\t\t\"type\": \"{0}\"\n", prop.Type);
@@ -32,6 +33,10 @@ namespace PostgRESTSharp.REST
                 if (i < props.Count - 1)
                 {
                     sb.AppendLine(",");
+                }
+                else
+                {
+                    sb.AppendLine();
                 }
             }
 

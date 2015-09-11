@@ -6,6 +6,14 @@ namespace PostgRESTSharp
 {
     public class RESTResourceProcessor : IRESTResourceProcessor
     {
+        private IRESTModelBuilder restModelBuilder;
+        private IModelToJSONSchemaConverter schemaConverter;
+        public RESTResourceProcessor(IRESTModelBuilder restModelBuilder, IModelToJSONSchemaConverter schemaConverter)
+        {
+            this.restModelBuilder = restModelBuilder;
+            this.schemaConverter = schemaConverter;
+        }
+
         public IEnumerable<RESTResource> Process(IEnumerable<IViewMetaModel> views, bool isReadOnly)
         {
             var resources = new List<RESTResource>();
@@ -31,9 +39,16 @@ namespace PostgRESTSharp
                     pkCol = view.Columns.FirstOrDefault(x => x.IsUniqueColumn);
                 }
 
-                var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] { new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true) }, new RESTParameter[] { });
-
                 // create a response schema for the collection item get
+                var result = this.restModelBuilder.BuildRESTModel(view, RESTVerbEnum.GET);
+                string schemaDef = this.schemaConverter.Convert(result);
+
+                var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] {
+                    new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true)
+                }, new RESTParameter[] { },
+                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.Accepted, schemaDef, "Some Example")}
+                );
+
 
                 methods.Add(getItemMethod);
 

@@ -9,8 +9,8 @@ namespace PostgRESTSharp
     {
         public RESTModel BuildRESTModel(IViewMetaModel view, RESTVerbEnum modelType)
         {
-            string modelClassName = string.Format("{0}{2}Model", view.ModelName, ConvertToRESTVerbString(modelType));
-            RESTModel model = new RESTModel(modelType, view.ModelName , modelClassName, 
+            string modelClassName = string.Format("{0}{1}Model", view.ModelName, ConvertToRESTVerbString(modelType));
+            RESTModel model = new RESTModel(modelType, view.ModelName , modelClassName, view.Description,
                 GetPrimaryKeyColumnName(view),
                 this.GetProperties(view, modelType),
                 this.GetParameters(view, modelType));

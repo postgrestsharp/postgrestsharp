@@ -8,12 +8,13 @@ namespace PostgRESTSharp
         private List<ViewMetaModelColumn> columns;
         private List<ViewMetaModelSource> joinSources;
 
-        public ViewMetaModel(string databaseName, string schemaName, string viewName, string modelName, string modelNamePluralised)
+        public ViewMetaModel(string databaseName, string schemaName, string viewName, string modelName, string modelNamePluralised, string description)
         {
             this.DatabaseName = databaseName;
             this.SchemaName = schemaName;
             this.ViewName = viewName;
             this.ModelName = modelName;
+            this.Description = description;
             this.ModelNamePluralised = modelNamePluralised;
             this.columns = new List<ViewMetaModelColumn>();
             this.joinSources = new List<ViewMetaModelSource>();
@@ -24,6 +25,8 @@ namespace PostgRESTSharp
         public string SchemaName { get; protected set; }
 
         public string ViewName { get; protected set; }
+
+        public string Description { get; protected set; }
 
         public string ModelName { get; protected set; }
 

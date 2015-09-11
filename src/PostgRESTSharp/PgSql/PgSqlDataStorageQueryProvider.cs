@@ -22,6 +22,8 @@ namespace PostgRESTSharp.Pgsql
 		                pg_catalog.pg_class c
 		            WHERE
 		                c.relname = tabs.table_name	
+                    AND
+                        c.relkind = 'r'
                 ) as TableComment
                 from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW')", databaseName, schemaName);
         }
@@ -74,6 +76,8 @@ namespace PostgRESTSharp.Pgsql
 			            pg_catalog.pg_class c
 			        WHERE
 			            c.relname = sc.table_name
+                    AND
+                        c.relkind = 'r'
 		        ) as ColumnComment    
                 from information_schema.columns sc where sc.table_catalog = '{0}' and sc.table_schema = '{1}' and sc.table_name = '{2}' order by sc.ordinal_position", databaseName, schemaName, tableName);
         }

@@ -14,6 +14,8 @@ namespace PostgRESTSharp
 
         string ModelName { get; }
 
+        string Description { get; }
+
         string ModelNamePluralised { get; }
 
         IEnumerable<ViewMetaModelColumn> Columns { get; }

@@ -26,7 +26,8 @@ namespace PostgRESTSharp
                         var viewNamingConvention = this.conventionResolver.ResolveTableConvention<IViewNamingConvention>(tableModel);
                         var view = new ViewMetaModel(tableModel.DatabaseName, viewSchemaVersion.ToString(), viewNamingConvention.DetermineViewName(tableModel),
                             viewNamingConvention.DetermineViewModelName(tableModel),
-                            viewNamingConvention.DetermineViewPluralisedModelName(tableModel));
+                            viewNamingConvention.DetermineViewPluralisedModelName(tableModel),
+                            "Table Description");
                         
                         return viewBuilderConvention.BuildModel(view, tableModel, models.Where(x => !(x.DatabaseName == tableModel.DatabaseName && x.SchemaName == tableModel.SchemaName && x.TableName == tableModel.TableName)));
                     }
