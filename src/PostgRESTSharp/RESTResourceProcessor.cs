@@ -25,10 +25,7 @@ namespace PostgRESTSharp
                 }
                 else
                 {
-                    if (view.Columns.Where(x => x.IsUniqueColumn).Count() == 1)
-                    {
-                        pkCol = view.Columns.First(x => x.IsUniqueColumn);
-                    }
+                    pkCol = view.Columns.FirstOrDefault(x => x.IsUniqueColumn);
                 }
 
                 var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] { new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true) }, new RESTParameter[] { });

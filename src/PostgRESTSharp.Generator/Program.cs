@@ -6,6 +6,7 @@ using StructureMap;
 using StructureMap.Graph;
 using Synoptic;
 using PostgRESTSharp.Conventions;
+using PostgRESTSharp.Commands.GenerateRAML.Maps;
 
 namespace PostgRESTSharp.Generator
 {
@@ -21,6 +22,7 @@ namespace PostgRESTSharp.Generator
                             y.WithDefaultConventions();
                             y.AssembliesFromApplicationBaseDirectory();
                             y.AddAllTypesOf<IConvention>();
+                            y.AddAllTypesOf<IMapping>();
                         });
 
                     x.For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();

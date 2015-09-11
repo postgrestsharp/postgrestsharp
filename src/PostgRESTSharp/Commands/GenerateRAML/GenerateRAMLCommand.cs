@@ -32,14 +32,19 @@ namespace PostgRESTSharp.Commands.GenerateRAML
         }
 
         [CommandAction]
-        public void All([CommandParameter(Prototype = "d|database", Description = "The database name to generate models for.", IsRequired = true)]string database,
-            [CommandParameter(Prototype = "i|includedSchemas", Description = "Comma separated list of schemas to include during table discovery.", IsRequired = true)]string includedSchemas,
-            [CommandParameter(Prototype = "o|out", Description = "The output directory for the generated RAML.", IsRequired = true)]string outputDirectory,
+        public void All(
+            [CommandParameter(Prototype = "u|uri", Description = "The default uri for the RAML service.", IsRequired = true)]string uri,
+            [CommandParameter(Prototype = "t|title", Description = "The default service title.", IsRequired = true)]string title,
             [CommandParameter(Prototype = "v|version", Description = "The view schema version.", IsRequired = true, DefaultValue = 1)]int viewSchemaVersion,
-            [CommandParameter(Prototype = "c|connectionString", Description = "The connection string to use to connect to the database.", IsRequired = true)]string connectionString,
             [CommandParameter(Prototype = "f|fileName", Description = "The filename to use for the generated RAML document.", IsRequired = true)]string fileName,
-            [CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly
 
+            [CommandParameter(Prototype = "c|connectionString", Description = "The connection string to use to connect to the database.", IsRequired = true)]string connectionString,
+            [CommandParameter(Prototype = "d|database", Description = "The database name to generate models for.", IsRequired = true)]string database,
+            [CommandParameter(Prototype = "i|includedSchemas", Description = "Comma separated list of schemas to include during table discovery.", IsRequired = true)]string includedSchemas,
+            
+            [CommandParameter(Prototype = "o|out", Description = "The output directory for the generated RAML.", IsRequired = true)]string outputDirectory,
+            
+            [CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly
         )
         {
             // setup the connection
@@ -49,8 +54,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
             var resources = this.restResourceProcessor.Process(views.Where(x => x.HasKey), bool.Parse(readOnly));
-
-            //this.generateRAMLCommandProcessor.Process(views, viewSchemaVersion, fileName, outputDirectory);
+            this.generateRAMLCommandProcessor.Process(uri, title, resources, viewSchemaVersion, fileName, outputDirectory);
         }
 
     }
