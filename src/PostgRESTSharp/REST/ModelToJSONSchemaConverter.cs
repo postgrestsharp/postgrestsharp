@@ -40,7 +40,7 @@ namespace PostgRESTSharp.REST
                 }
             }
 
-            sb.AppendLine("\t}");
+            sb.AppendLine("\t},");
             sb.AppendLine("\t\"required\": []");
 
             sb.AppendLine("}");
