@@ -62,7 +62,9 @@
     <Compile Include="Commands\GenerateRAML\GenerateRAMLCommand.cs" />
     <Compile Include="Commands\GenerateRAML\GenerateRAMLCommandProcessor.cs" />
     <Compile Include="Commands\GenerateRAML\IGenerateRAMLCommandProcessor.cs" />
-    <Compile Include="Commands\GenerateRAML\Maps\MapConfiguration.cs" />
+    <Compile Include="Commands\GenerateRAML\IMapConfiguration.cs" />
+    <Compile Include="Commands\GenerateRAML\IMapping.cs" />
+    <Compile Include="Commands\GenerateRAML\MapConfiguration.cs" />
     <Compile Include="Commands\GenerateRAML\Maps\MimeMapping.cs" />
     <Compile Include="Commands\GenerateRAML\Maps\ResponseMapping.cs" />
     <Compile Include="Commands\GenerateRAML\Maps\ParamterMapping.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="InfoSchemaKeyColumnUsage.cs" />
     <Compile Include="InfoSchemaTable.cs" />
     <Compile Include="IViewMetaModel.cs" />
+    <Compile Include="RAML\IRamlSerializer.cs" />
     <Compile Include="RESTModelBuilder.cs" />
     <Compile Include="REST\IModelToJSONSchemaConverter.cs" />
     <Compile Include="REST\ModelToJSONSchemaConverter.cs" />

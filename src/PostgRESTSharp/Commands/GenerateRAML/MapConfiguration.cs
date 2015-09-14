@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PostgRESTSharp.Commands.GenerateRAML.Maps
+namespace PostgRESTSharp.Commands.GenerateRAML
 {
     public class MapConfiguration : IMapConfiguration
     {
@@ -29,16 +29,5 @@ namespace PostgRESTSharp.Commands.GenerateRAML.Maps
         {
             return Mapper.Map<T, U>(model);
         }
-    }
-
-    public interface IMapConfiguration
-    {
-        void ConfigureAllMappings();
-
-        U Transform<T,U>(T model);
-    }
-    public interface IMapping
-    {
-        void Configure();
     }
 }

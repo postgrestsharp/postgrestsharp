@@ -22,7 +22,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML.Maps
             )
             .ForMember(
                 model => model.Example,
-                expression => expression.MapFrom(src => src)
+                expression => expression.MapFrom(src => src.ResponseExample)
             );
         }
     }

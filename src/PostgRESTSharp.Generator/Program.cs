@@ -1,12 +1,12 @@
-﻿using PostgRESTSharp.Commands.GenerateViewScripts;
+﻿using PostgRESTSharp.Commands.GenerateRAML;
+using PostgRESTSharp.Commands.GenerateViewScripts;
 using PostgRESTSharp.Configuration;
+using PostgRESTSharp.Conventions;
 using PostgRESTSharp.Data;
 using PostgRESTSharp.Pgsql;
 using StructureMap;
 using StructureMap.Graph;
 using Synoptic;
-using PostgRESTSharp.Conventions;
-using PostgRESTSharp.Commands.GenerateRAML.Maps;
 
 namespace PostgRESTSharp.Generator
 {
