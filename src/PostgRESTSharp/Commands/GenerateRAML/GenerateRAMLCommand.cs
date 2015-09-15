@@ -47,7 +47,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             [CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly,
 
             [CommandParameter(Prototype = "b|baseRaml", Description = "Base raml file to include.", IsRequired = true, DefaultValue = "true")]string baseRamlFile,
-            [CommandParameter(Prototype = "e|externalRamls", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string externalRamls
+            [CommandParameter(Prototype = "e|externalRamlFolder", Description = "Folder containing raml files to import resources.", IsRequired = true, DefaultValue = "true")]string externalRamls
         )
         {
             // setup the connection

@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace PostgRESTSharp.RAML
 {
+
+    //to do - take a raml file deserialize it and serialize it
+    //this makes me sad panda
+    //compare and make sure it passes the raml spec
     public class RamlSerializer : IRamlSerializer
     {
         private const string RamlVersion = "0.8";
@@ -167,13 +171,13 @@ namespace PostgRESTSharp.RAML
         private void SerializeResource(StringBuilder sb, Resource resource, int indentation)
         {
             sb.AppendLine((resource.RelativeUri + ":").Indent(indentation));
+            SerializeType(sb, resource.Type.Keys, resource.Type, indentation + 2);
             SerializeParameters(sb, "baseUriParameters", resource.BaseUriParameters, indentation + 2);
             SerializeDescriptionProperty(sb, resource.Description, indentation + 2);
             SerializeProperty(sb, "displayName", resource.DisplayName, indentation + 2);
             SerializeProtocols(sb, resource.Protocols, indentation + 2);
             SerializeParameters(sb, "uriParameters", resource.UriParameters, indentation + 2);
             SerializeMethods(sb, resource.Methods, indentation + 2);
-            SerializeType(sb, resource.Type.Keys,resource.Type, indentation + 2);
             SerializeResources(sb, resource.Resources, indentation + 2);
         }
 
@@ -234,7 +238,7 @@ namespace PostgRESTSharp.RAML
         {
             sb.AppendLine((mimeType.Key + ":").Indent(indentation));
             SerializeDescriptionProperty(sb, mimeType.Value.Description, indentation + 2);
-            SerializeProperty(sb, "type", mimeType.Value.Type, indentation + 2);
+            //SerializeProperty(sb, "type", mimeType.Value.Type, indentation + 2);
             SerializeParameters(sb, "formParameters", mimeType.Value.FormParameters, indentation + 2);
             SerializeProperty(sb, "schema", mimeType.Value.Schema, indentation + 2);
             SerializeProperty(sb, "example", mimeType.Value.Example, indentation + 2);

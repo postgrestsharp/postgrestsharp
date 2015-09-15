@@ -16,20 +16,18 @@ namespace PostgRESTSharp.Commands.GenerateRAML
     {
         IMapConfiguration mapper;
         IRamlSerializer serializer;
-        RamlParser ramlParser;
 
         public GenerateRAMLCommandProcessor(IMapConfiguration mapper, IRamlSerializer serializer)
         {
             this.mapper = mapper;
             this.serializer = serializer;
-            this.ramlParser = new RamlParser();
         }
 
         public void Process(string baseURI, string title, IEnumerable<IRESTResource> resources, int viewSchemaVersion, string fileName, string outputDirectory, string baseRamlFile, string includedRamlDirectory)
         {
             this.Configure();
             var ramlDocuent = this.CreateNewDocument(baseURI,title,viewSchemaVersion.ToString(),baseRamlFile);
-            //why they did it with a array of dictionaries :/
+            
             var baseResources = ramlDocuent.ResourceTypes.FirstOrDefault().Keys;
             
             foreach (IRESTResource restResource in resources)
@@ -39,10 +37,10 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                 ramlDocuent.Resources.Add(resource);
             }
 
+            ImportExternalRAMLResources(ramlDocuent, includedRamlDirectory);
+
             string ramlSerializedDoBument = this.serializer.Serialize(ramlDocuent);
             
-            //to do : perform validation on serialized document
-
             this.WriteFileContents(Path.Combine(outputDirectory, fileName), ramlSerializedDoBument);
         }
 
@@ -54,11 +52,16 @@ namespace PostgRESTSharp.Commands.GenerateRAML
 
         private void RebaseResources(Resource resource, IEnumerable<string> baseResources)
         {
-            resource.Type = new Dictionary<string, IDictionary<string, string>>();
+            if (resource.Type == null)
+            {
+                resource.Type = new Dictionary<string, IDictionary<string, string>>();
+            }
+            
             foreach (string baseResourceKey in baseResources)
             {
                 resource.Type.Add(baseResourceKey, null);
             }
+
             foreach (Resource nestedResource in resource.Resources)
             {
                 RebaseResources(nestedResource, baseResources);
@@ -68,11 +71,28 @@ namespace PostgRESTSharp.Commands.GenerateRAML
         private RamlDocument CreateNewDocument(string baseURI, string title, string version, string baseRamlFile)
         {
             var ramlDocuent = Extensions.New(baseURI, title, version);
-            if (File.Exists(baseRamlFile)) {
-                var baseDocument = ramlParser.LoadAsync(baseRamlFile).Result;
-                ramlDocuent.ResourceTypes = baseDocument.ResourceTypes;
+            var baseRaml = Extensions.LoadRamlDocument(baseRamlFile);
+            if (baseRaml != null)
+            {
+                ramlDocuent.ResourceTypes = baseRaml.ResourceTypes;
             }
             return ramlDocuent;
+        }
+
+        private void ImportExternalRAMLResources(RamlDocument generatedRamlDoc,string includedRamlDirectory)
+        {
+            var ramlFiles = Extensions.FindFiles(includedRamlDirectory, "*.raml");
+            foreach (var ramlFile in ramlFiles)
+            {
+                var loadedRamlFile = Extensions.LoadRamlDocument(ramlFile);
+                if (loadedRamlFile!=null)
+                {
+                    foreach (var resource in loadedRamlFile.Resources)
+                    {
+                        generatedRamlDoc.Resources.Add(resource);
+                    }
+                }
+            }
         }
     }
 }
