@@ -28,7 +28,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             this.Configure();
             var ramlDocuent = this.CreateNewDocument(baseURI,title,viewSchemaVersion.ToString(),baseRamlFile);
             
-            var baseResources = ramlDocuent.ResourceTypes.FirstOrDefault().Keys;
+            var baseResources = ramlDocuent.ResourceTypes.Count() > 0 ? ramlDocuent.ResourceTypes.FirstOrDefault().Keys : null;
             
             foreach (IRESTResource restResource in resources)
             {
@@ -87,6 +87,11 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                 var loadedRamlFile = Extensions.LoadRamlDocument(ramlFile);
                 if (loadedRamlFile!=null)
                 {
+                    if (loadedRamlFile.ResourceTypes.Count() > 0)
+                    { 
+                        generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(loadedRamlFile.ResourceTypes);
+                    }
+
                     foreach (var resource in loadedRamlFile.Resources)
                     {
                         generatedRamlDoc.Resources.Add(resource);

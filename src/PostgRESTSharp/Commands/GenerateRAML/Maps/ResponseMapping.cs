@@ -22,7 +22,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML.Maps
             .ForMember(
                 model => model.Body,
                 expression => expression.MapFrom(src => new Dictionary<string,RESTResponseDefinition>(){
-                    {"application/javascript",src}
+                    {"application/json",src}
                 })
             )
             .ForMember(

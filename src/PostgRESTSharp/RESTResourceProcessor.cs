@@ -20,11 +20,15 @@ namespace PostgRESTSharp
             foreach (var view in views)
             {
                 var methods = new List<RESTMethod>();
-
-                // GET on Collection
-                var getCollectionMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Collection, new RESTParameter[] { }, new RESTParameter[] { });
+                var getRestModel = this.restModelBuilder.BuildRESTModel(view, RESTVerbEnum.GET);
 
                 // create a response schema for the collection get
+                string collectionGetSchemaDef = this.schemaConverter.ConvertCollection(getRestModel);
+
+                // GET on Collection
+                var getCollectionMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Collection, new RESTParameter[] { }, new RESTParameter[] { },
+                    new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, collectionGetSchemaDef, "Some Example") }
+                );
 
                 methods.Add(getCollectionMethod);
 
@@ -40,13 +44,15 @@ namespace PostgRESTSharp
                 }
 
                 // create a response schema for the collection item get
-                var result = this.restModelBuilder.BuildRESTModel(view, RESTVerbEnum.GET);
-                string schemaDef = this.schemaConverter.Convert(result);
+
+                string itemGetSchemaDef = this.schemaConverter.Convert(getRestModel);
+
+                
 
                 var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] {
                     new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true)
                 }, new RESTParameter[] { },
-                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, schemaDef, "Some Example")}
+                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, itemGetSchemaDef, "Some Example") }
                 );
 
 

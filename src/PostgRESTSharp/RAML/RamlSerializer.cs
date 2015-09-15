@@ -238,7 +238,7 @@ namespace PostgRESTSharp.RAML
         {
             sb.AppendLine((mimeType.Key + ":").Indent(indentation));
             SerializeDescriptionProperty(sb, mimeType.Value.Description, indentation + 2);
-            //SerializeProperty(sb, "type", mimeType.Value.Type, indentation + 2);
+            //SerializeProperty(sb, "type", mimeType.Value.Type, indentation + 2); // i think this is no longer valid
             SerializeParameters(sb, "formParameters", mimeType.Value.FormParameters, indentation + 2);
             SerializeProperty(sb, "schema", mimeType.Value.Schema, indentation + 2);
             SerializeProperty(sb, "example", mimeType.Value.Example, indentation + 2);
