@@ -43,10 +43,11 @@ namespace PostgRESTSharp.Generator
                 .WithDependencyResolver(resolver)
                 .WithCommandsFromAssembly(typeof(GenerateViewScriptsCommand).Assembly)
                 .Run(args);
-
+            
+            #if DEBUG
             System.Console.WriteLine("Press any key to continue...");
-
             System.Console.ReadKey();
+            #endif
         }
     }
 }
