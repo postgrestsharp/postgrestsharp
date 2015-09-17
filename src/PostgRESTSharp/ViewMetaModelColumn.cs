@@ -53,5 +53,10 @@
             this.IsHidden = true;
         }
 
+        public void SetColumnToVisisble()
+        {
+            this.IsHidden = false;
+        }
+
     }
 }

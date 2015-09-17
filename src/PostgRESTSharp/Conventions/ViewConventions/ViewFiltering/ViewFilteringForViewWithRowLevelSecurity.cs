@@ -12,7 +12,7 @@ namespace PostgRESTSharp.Conventions.ViewConventions.ViewFiltering
 
         public IEnumerable<IViewFilterElement> FilterElements()
         {
-            return new List<IViewFilterElement> { new ViewFilterElement("current_setting('user_vars.user_id')", "=", "Any({0}.originationsource_access)") };
+            return new List<IViewFilterElement> { new ViewFilterElement("cast(current_setting('user_vars.user_id') as integer)", "=", "Any({0}.originationsource_access)") };
         }
     }
 }
