@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using System.Linq;
 using PostgRESTSharp.Conventions;
+using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
 
 namespace PostgRESTSharp
 {
@@ -21,6 +23,7 @@ namespace PostgRESTSharp
 				// check for a view table exclusion convention
 				var inclusionConvention = this.conventionResolver.ResolveTableConvention<IViewInclusionConvention>(tableModel);
                 var viewBuilderConvention = this.conventionResolver.ResolveTableConvention<IViewBuildingConvention>(tableModel);
+
 				inclusionConvention.AddView(views, () =>
                     {
                         var viewNamingConvention = this.conventionResolver.ResolveTableConvention<IViewNamingConvention>(tableModel);
@@ -37,6 +40,7 @@ namespace PostgRESTSharp
             // go back and reprocess the view relations
             foreach (var view in views)
             {
+                
                 // look for foreign keys in all tables that make up the view
                 List<ITableMetaModel> sources = new List<ITableMetaModel>();
                 sources.Add(view.PrimarySource);

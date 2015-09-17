@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
 
 
 namespace PostgRESTSharp
@@ -24,6 +25,8 @@ namespace PostgRESTSharp
 
 		IEnumerable<ViewMetaModelSource> JoinSources { get; }
 
+        IEnumerable<ViewFilterElement> FilterElements { get; }
+
         bool HasKey { get; }
 
         bool HasViewKey { get; }
@@ -32,7 +35,12 @@ namespace PostgRESTSharp
 
 		void AddJoinSource (ITableMetaModel joinSource, TableMetaModelColumn joinColumn, ITableMetaModel source, TableMetaModelColumn sourceColumn);
 
+        void AddFilterElements(IEnumerable<IViewFilterElement> viewFilterElement);
+
         void SetPrimaryTableSource(ITableMetaModel primaryTableSource);
-    }
+
+	    void SetColumnToHidden(string columnName);
+
+	}
 }
 

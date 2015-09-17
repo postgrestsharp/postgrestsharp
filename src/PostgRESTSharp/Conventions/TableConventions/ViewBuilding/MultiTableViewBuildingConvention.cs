@@ -1,4 +1,6 @@
-﻿using PostgRESTSharp.Text;
+﻿using AutoMapper.Internal;
+using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
+using PostgRESTSharp.Text;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -84,6 +86,17 @@ namespace PostgRESTSharp.Conventions
                 currentTable = table;
             }
 
+            foreach (var filteringConvention in conventionResolver.ResolveViewConventions<IViewFilteringConvention>(viewToBuild))
+            {
+                viewToBuild.AddFilterElements(filteringConvention.FilterElements());
+                viewToBuild.FilterElements.Each(x => x.SetTableName(viewToBuild.PrimarySource.TableName));
+            }
+
+            foreach (var columnRemovalConvention in conventionResolver.ResolveViewConventions<IColumnRemovalConvention>(viewToBuild))
+            {
+                viewToBuild.SetColumnToHidden(columnRemovalConvention.ColumnToRemove());
+            }
+            
             return viewToBuild;
         }
 

@@ -1,4 +1,5 @@
-﻿using PostgRESTSharp.Commands.GenerateViewScripts;
+﻿using System.Diagnostics;
+using PostgRESTSharp.Commands.GenerateViewScripts;
 using PostgRESTSharp.Configuration;
 using PostgRESTSharp.Data;
 using PostgRESTSharp.Pgsql;
@@ -14,6 +15,10 @@ namespace PostgRESTSharp.Generator
     {
         public static void Main(string[] args)
         {
+
+            Debugger.Launch();
+            Debugger.Break();
+
             IContainer container = new Container(x =>
                 {
                     x.Scan(y =>

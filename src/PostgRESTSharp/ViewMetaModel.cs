@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
 
 namespace PostgRESTSharp
 {
@@ -7,6 +9,7 @@ namespace PostgRESTSharp
     {
         private List<ViewMetaModelColumn> columns;
         private List<ViewMetaModelSource> joinSources;
+        private List<ViewFilterElement> viewFilterElements; 
 
         public ViewMetaModel(string databaseName, string schemaName, string viewName, string modelName, string modelNamePluralised, string description)
         {
@@ -18,6 +21,7 @@ namespace PostgRESTSharp
             this.ModelNamePluralised = modelNamePluralised;
             this.columns = new List<ViewMetaModelColumn>();
             this.joinSources = new List<ViewMetaModelSource>();
+            this.viewFilterElements = new List<ViewFilterElement>();
         }
 
         public string DatabaseName { get; protected set; }
@@ -37,6 +41,8 @@ namespace PostgRESTSharp
         public IEnumerable<ViewMetaModelSource> JoinSources { get { return this.joinSources; } }
 
         public IEnumerable<ViewMetaModelColumn> Columns { get { return this.columns; } }
+
+        public IEnumerable<ViewFilterElement> FilterElements { get { return this.viewFilterElements; } }
 
         public bool HasKey { get { return this.Columns.Where(x => x.IsKeyColumn).Any(); } }
 
@@ -76,9 +82,30 @@ namespace PostgRESTSharp
             this.PrimarySource = primaryTableSource;
         }
 
+        public void SetColumnToHidden(string columnName)
+        {
+            foreach (var column in columns.Where(x => x.ColumnName == columnName))
+            {
+                column.SetColumnToHidden();
+            }
+        }
+
         public void AddJoinSource(ITableMetaModel joinSource, TableMetaModelColumn joinColumn, ITableMetaModel source, TableMetaModelColumn sourceColumn)
         {
             this.joinSources.Add(new ViewMetaModelSource(joinSource, joinColumn, source, sourceColumn));
         }
+
+        public void AddFilterElements(IEnumerable<IViewFilterElement> viewFilterElements)
+        {
+            if (viewFilterElements == null) return;
+
+            foreach (var viewFilterElement in viewFilterElements)
+            {
+                this.viewFilterElements.Add((ViewFilterElement) viewFilterElement);    
+            }
+
+            
+        }
+
     }
 }
