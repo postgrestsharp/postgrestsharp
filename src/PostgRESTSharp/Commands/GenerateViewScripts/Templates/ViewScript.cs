@@ -98,7 +98,48 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts.Templates
             
             #line default
             #line hidden
-            this.Write(";");
+            this.Write(";\r\n\r\n");
+            
+            #line 17 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
+foreach(var priv in MetaModel.PrimarySource.Privileges){
+            
+            #line default
+            #line hidden
+            this.Write("GRANT ");
+            
+            #line 18 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(priv.Type));
+            
+            #line default
+            #line hidden
+            this.Write(" ON \"");
+            
+            #line 18 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ViewSchemaVersion));
+            
+            #line default
+            #line hidden
+            this.Write("\".\"");
+            
+            #line 18 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(MetaModel.ViewName));
+            
+            #line default
+            #line hidden
+            this.Write("\" TO \"");
+            
+            #line 18 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(priv.Grantee));
+            
+            #line default
+            #line hidden
+            this.Write("\";\r\n");
+            
+            #line 19 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateViewScripts\Templates\ViewScript.tt"
+}
+            
+            #line default
+            #line hidden
             return this.GenerationEnvironment.ToString();
         }
     }

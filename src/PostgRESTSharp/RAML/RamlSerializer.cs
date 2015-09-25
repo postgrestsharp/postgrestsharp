@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace PostgRESTSharp.RAML
 {
-    public class RamlSerializer
+
+    //to do - take a raml file deserialize it and serialize it
+    //this makes me sad panda
+    //compare and make sure it passes the raml spec
+    public class RamlSerializer : IRamlSerializer
     {
         private const string RamlVersion = "0.8";
         public string Serialize(RamlDocument ramlDocument)
@@ -29,6 +33,8 @@ namespace PostgRESTSharp.RAML
             SerializeProtocols(sb, ramlDocument.Protocols);
 
             SerializeParameters(sb, "uriParameters", ramlDocument.BaseUriParameters);
+
+            SerializeResourceTypes(sb, "resourceTypes", ramlDocument.ResourceTypes);
 
             if (ramlDocument.Documentation.Any())
             {
@@ -156,7 +162,7 @@ namespace PostgRESTSharp.RAML
 
         private void SerializeResources(StringBuilder sb, IEnumerable<Resource> resources, int indentation = 0)
         {
-            foreach (var resource in resources)
+            foreach (var resource in resources.OrderBy(x=>x.RelativeUri))
             {
                 SerializeResource(sb, resource, indentation);
             }
@@ -165,17 +171,23 @@ namespace PostgRESTSharp.RAML
         private void SerializeResource(StringBuilder sb, Resource resource, int indentation)
         {
             sb.AppendLine((resource.RelativeUri + ":").Indent(indentation));
+            SerializeType(sb, resource.Type.Keys, resource.Type, indentation + 2);
             SerializeParameters(sb, "baseUriParameters", resource.BaseUriParameters, indentation + 2);
             SerializeDescriptionProperty(sb, resource.Description, indentation + 2);
             SerializeProperty(sb, "displayName", resource.DisplayName, indentation + 2);
             SerializeProtocols(sb, resource.Protocols, indentation + 2);
             SerializeParameters(sb, "uriParameters", resource.UriParameters, indentation + 2);
             SerializeMethods(sb, resource.Methods, indentation + 2);
-            //SerializeType(sb, resource.Type, indentation + 2);
             SerializeResources(sb, resource.Resources, indentation + 2);
         }
 
-
+        private void SerializeType(StringBuilder sb, ICollection<string> typeKeys, IDictionary<string, IDictionary<string, string>> types, int indentation)
+        {
+            if (typeKeys != null && typeKeys.Count > 0)
+            {
+                sb.AppendLine(string.Format("type: {0}", typeKeys.First()).Indent(indentation));
+            }
+        }
 
         private void SerializeMethods(StringBuilder sb, IEnumerable<Method> methods, int indentation)
         {
@@ -226,7 +238,7 @@ namespace PostgRESTSharp.RAML
         {
             sb.AppendLine((mimeType.Key + ":").Indent(indentation));
             SerializeDescriptionProperty(sb, mimeType.Value.Description, indentation + 2);
-            SerializeProperty(sb, "type", mimeType.Value.Type, indentation + 2);
+            //SerializeProperty(sb, "type", mimeType.Value.Type, indentation + 2); // i think this is no longer valid
             SerializeParameters(sb, "formParameters", mimeType.Value.FormParameters, indentation + 2);
             SerializeProperty(sb, "schema", mimeType.Value.Schema, indentation + 2);
             SerializeProperty(sb, "example", mimeType.Value.Example, indentation + 2);
@@ -238,7 +250,7 @@ namespace PostgRESTSharp.RAML
                 return;
 
             sb.AppendLine("responses:".Indent(indentation));
-            foreach (var response in responses)
+            foreach (var response in responses.OrderBy(x=>x.Code))
             {
                 SerializeResponse(sb, response, indentation + 2);
             }
@@ -308,6 +320,57 @@ namespace PostgRESTSharp.RAML
             {
                 SerializeParameter(sb, parameter, indentation + 2);
             }
+        }
+
+        private void SerializeResourceTypes(StringBuilder sb, string parametersTitle, IEnumerable<IDictionary<string, ResourceType>> resourceTypes, int indentation = 0)
+        {
+            if (resourceTypes == null || !resourceTypes.Any())
+                return;
+
+            
+            sb.AppendLine((parametersTitle + ":").Indent(indentation));
+            foreach (var namedTypes in resourceTypes.First())
+            {
+                SerializeResourceType(sb, namedTypes, indentation + 2);
+            }
+        }
+
+        private void SerializeResourceType(StringBuilder sb, KeyValuePair<string, ResourceType> namedTypes, int indentation)
+        {
+            sb.AppendLine(string.Format("- {0}:",namedTypes.Key).Indent(indentation));
+            SerializeResource(sb, namedTypes.Value, indentation + 4);
+        }
+
+        private void SerializeResource(StringBuilder sb, ResourceType resourceType, int indentation)
+        {
+            SerializeVerb(sb, resourceType.Get, indentation);
+            SerializeVerb(sb, resourceType.Post, indentation);
+            SerializeVerb(sb, resourceType.Put, indentation);
+            SerializeVerb(sb, resourceType.Delete, indentation);
+            SerializeVerb(sb, resourceType.Options, indentation);
+            SerializeVerb(sb, resourceType.Patch, indentation);
+        }
+
+        private void SerializeVerb(StringBuilder sb, Verb verb, int indentation)
+        {
+            if (verb == null)
+                return;
+
+            var name = verb.Type.ToString().ToLower();
+            string ramlName = verb.IsOptional ? string.Format("{0}?", name) : name;
+
+            sb.AppendLine(string.Format("{0}:", ramlName).Indent(indentation));
+            SerializeDescriptionProperty(sb,verb.Description,indentation+2);
+            SerializeVerbHeaders(sb, verb.Headers, indentation + 2);
+            if (verb.Body != null) {
+                SerializeMimeType(sb, new KeyValuePair<string, MimeType>(name, verb.Body), indentation + 2);
+            }
+            SerializeResponses(sb, verb.Responses, indentation + 2);
+        }
+
+        private void SerializeVerbHeaders(StringBuilder sb, IEnumerable<Parameter> enumerable, int p)
+        {
+            
         }
 
         private void SerializeParameter(StringBuilder sb, KeyValuePair<string, Parameter> parameter, int indentation)

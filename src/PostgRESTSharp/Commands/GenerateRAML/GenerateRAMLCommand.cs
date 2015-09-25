@@ -44,7 +44,10 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             
             [CommandParameter(Prototype = "o|out", Description = "The output directory for the generated RAML.", IsRequired = true)]string outputDirectory,
             
-            [CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly
+            [CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly,
+
+            [CommandParameter(Prototype = "b|baseRaml", Description = "Base raml file to include.", IsRequired = true, DefaultValue = "true")]string baseRamlFile,
+            [CommandParameter(Prototype = "e|externalRamlFolder", Description = "Folder containing raml files to import resources.", IsRequired = true, DefaultValue = "true")]string externalRamls
         )
         {
             // setup the connection
@@ -54,7 +57,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
             var resources = this.restResourceProcessor.Process(views.Where(x => x.HasKey), bool.Parse(readOnly));
-            this.generateRAMLCommandProcessor.Process(uri, title, resources, viewSchemaVersion, fileName, outputDirectory);
+            this.generateRAMLCommandProcessor.Process(uri, title, resources, viewSchemaVersion, fileName, outputDirectory, baseRamlFile, externalRamls);
         }
 
     }

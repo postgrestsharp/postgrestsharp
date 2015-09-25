@@ -7,6 +7,7 @@
 using Nancy;
 using Nancy.Extensions;
 using Nancy.ModelBinding;
+using Nancy.Security;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -18,15 +19,25 @@ namespace <#=Namespace#>
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
+    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, IRestHeaderBuilder restHeaderBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
     	{
+			
+			//Authentication claims
+			this.RequiresDatabaseRoles(new[] { 
+<# string prefix = ""; #>
+<#foreach(var claim in Resource.AccessClaims){#>
+				<#=prefix#> "<#=claim#>"
+	<# prefix = ","; #>
+<#}#>		});
+			
+
 <#foreach(var method in Resource.Methods){#>
 			<#=GetVerbString(method.Verb)#>["/<#=Resource.Uri + GetParameters(method.URIParameters)#>", true] = async (ctx, ct) =>
     		{
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
-    			var client = new HttpClient();
+    			var client = CreateHttpClient(restHeaderBuilder);
 				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
@@ -43,7 +54,7 @@ namespace <#=Namespace#>
 
 				return models;
 <#}else{#>
-    			var client = new HttpClient();
+    			var client = CreateHttpClient(restHeaderBuilder);
 				string route = string.Format("http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
     			var res = await client.GetAsync(route);
     			var content = await res.Content.ReadAsStringAsync();
@@ -69,6 +80,16 @@ namespace <#=Namespace#>
 <#}#>
     		};
 <#}#>
+		
     	}
+
+		private HttpClient CreateHttpClient(IRestHeaderBuilder restHeaderBuilder)
+		{
+			var client = new HttpClient();
+			restHeaderBuilder.BuildHeader(client, "<#=Resource.ResourceVersion#>", Context.CurrentUser.GetDatabaseUser());
+			return client;
+		}
+
     }
+
 }

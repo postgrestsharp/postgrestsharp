@@ -1,6 +1,8 @@
-﻿using PostgRESTSharp.Commands.GenerateViewScripts;
-﻿using PostgRESTSharp.Commands.GenerateRAML;
+<<<<<<< HEAD
 ﻿using System.Diagnostics;
+=======
+﻿using PostgRESTSharp.Commands.GenerateRAML;
+>>>>>>> origin/dev
 using PostgRESTSharp.Commands.GenerateViewScripts;
 using PostgRESTSharp.Configuration;
 using PostgRESTSharp.Conventions;

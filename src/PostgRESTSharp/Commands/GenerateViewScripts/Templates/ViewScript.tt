@@ -13,3 +13,7 @@ CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>" AS
 
 ALTER VIEW "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>"
   OWNER TO <#=ViewSchemaOwner#>;
+
+<#foreach(var priv in MetaModel.PrimarySource.Privileges){#>
+GRANT <#=priv.Type#> ON "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>" TO "<#=priv.Grantee#>";
+<#}#>
