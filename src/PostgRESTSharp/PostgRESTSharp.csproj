@@ -81,6 +81,7 @@
       <DependentUpon>NancyRESTModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModel2.cs" />
+    <Compile Include="Commands\GenerateRESTRoutes\ErrorHandlingModes.cs" />
     <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

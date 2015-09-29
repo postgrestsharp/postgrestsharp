@@ -42,7 +42,8 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 			[CommandParameter(Prototype = "f|fileName", Description = "The filename to use for the generated routes or the fileName prefix if splitting generated files.", IsRequired = true, DefaultValue = DEFAULT_RESTROUTES_FILENAME)]string fileName,
 			[CommandParameter(Prototype = "n|namespace", Description = "The namespace used for the generated routes.", IsRequired =true)]string fileNamespace,
             [CommandParameter(Prototype = "m|modelNamespace", Description = "The model namespace used for the generated routes.", IsRequired = true)]string modelNamespace,
-			[CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly
+			[CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly,
+            [CommandParameter(Prototype = "e|errorHandlingMode", Description = "The error handling mode to use for the generated routes [none | standard]")]string errorHandlingMode
         )
 		{
 			// setup the connection
@@ -55,7 +56,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 
 			var splitFiles = bool.Parse(splitGeneratedFiles);
 
-			this.generateRESTRoutesCommandProcessor.Process(resources, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace);
+			this.generateRESTRoutesCommandProcessor.Process(resources, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace, errorHandlingMode);
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
 {
     public partial class NancyRESTRoute
     {
-        public NancyRESTRoute(RESTResource resource, string fileNamespace, string modelNamespace)
+        public NancyRESTRoute(RESTResource resource, string fileNamespace, string modelNamespace, string lowerErrorHandlingMode)
         {
             this.Resource = resource;
             this.Namespace = fileNamespace;
@@ -15,7 +15,10 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
             this.GETModelName = resource.ModelName + "GETModel";
             this.POSTModelName = resource.ModelName + "POSTModel";
             this.POSTResponseModelName = resource.ModelName + "POSTResponseModel";
+            this.ErrorHandlingMode = lowerErrorHandlingMode;
         }
+
+        public string ErrorHandlingMode { get; set; }
 
         public string Namespace { get; protected set; }
 

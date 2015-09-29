@@ -35,6 +35,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpResponseCodeMatcher.cs" />
+    <Compile Include="IHttpStatusCodeMatcher.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="IRestLinkBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

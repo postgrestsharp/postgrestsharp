@@ -1,5 +1,6 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ import namespace="PostgRESTSharp.Commands.GenerateRESTRoutes" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
@@ -23,6 +24,9 @@ namespace <#=Namespace#>
 <#foreach(var method in Resource.Methods){#>
 			<#=GetVerbString(method.Verb)#>["/<#=Resource.Uri + GetParameters(method.URIParameters)#>", true] = async (ctx, ct) =>
     		{
+<#if (ErrorHandlingMode.Equals(ErrorHandlingModes.STANDARD)){#>
+                throw new NotImplementedException("TODO: implement try/catches around modules");
+<#}else{#>
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
@@ -66,6 +70,7 @@ namespace <#=Namespace#>
 <#break;#>
 <#default:#>
 <#break;#>
+<#}#>
 <#}#>
     		};
 <#}#>
