@@ -18,7 +18,7 @@ namespace <#=Namespace#>
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
+    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, IRestClient restClient, IRestRequest restRequest) 
     	{
 <#foreach(var method in Resource.Methods){#>
 			<#=GetVerbString(method.Verb)#>["/<#=Resource.Uri + GetParameters(method.URIParameters)#>", true] = async (ctx, ct) =>
@@ -26,29 +26,25 @@ namespace <#=Namespace#>
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
-    			var client = new HttpClient();
-				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
-    			var res = await client.GetAsync(route);
-    			var content = await res.Content.ReadAsStringAsync();
-				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
+				restClient.BaseUrl = new Uri("http://" + postgRESTConfigProvider.Url);
+				restRequest.Resource = "/<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
+				var response = restClient.Execute(restRequest);
+				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(response.Content);
 				foreach(var model in models)
 				{
-					Url url = new Url();
+					var url = new Url();
 					url.HostName = this.Request.Url.HostName;
 					url.Port = this.Request.Url.Port;
 					url.BasePath = this.Request.Url.Path;
 					url.Path = "/" + model.GetPrimaryKeyValue();
 					model.BuildLinks(linkBuilder, url);
 				}
-
 				return models;
 <#}else{#>
-    			var client = new HttpClient();
-				string route = string.Format("http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
-    			var res = await client.GetAsync(route);
-    			var content = await res.Content.ReadAsStringAsync();
-
-				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
+				restClient.BaseUrl = new Uri("http://" + postgRESTConfigProvider.Url);
+				restRequest.Resource = string.Format("/<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
+				var response = restClient.Execute(restRequest);
+    			var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(response.Content);
 				var model = models.First();
 				model.BuildLinks(linkBuilder, this.Request.Url);
 				return model;
@@ -56,11 +52,14 @@ namespace <#=Namespace#>
 <#break;#>
 <#case RESTVerbEnum.POST:#>
 				var model = this.Request.Body.AsString();
-    			var client = new HttpClient();
-				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>";
-    			var res = await client.PostAsync(route, new StringContent(model));
-    			var pkVal = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
-    			var responseModel = new <#=POSTResponseModelName#>(pkVal);
+				restClient.BaseUrl = "http://" + postgRESTConfigProvider.Url;
+    			restRequest.Resource = "/<#=Resource.PostgRESTUri#>";
+				restRequest.Method = Method.POST;
+				restRequest.AddJsonBody(model);
+				var response = restClient.Execute(restRequest);
+				var locationHeader = response.Headers.First(a => a.Name.Equals("Location", StringComparison.OrdinalIgnoreCase));
+				var primaryKeyValue = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
+    			var responseModel = new <#=POSTResponseModelName#>(primaryKeyValue);
     			responseModel.BuildSelfLink(linkBuilder, this.Request.Url);
     			return responseModel;
 <#break;#>
