@@ -57,6 +57,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             var tables = dataStorageMetaModelRetriever.RetrieveMetaModels(database, includedSchemas.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries), new string[] { }).Where(x => x.MetaModelType == TableMetaModelTypeEnum.Table);
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
             var resources = this.restResourceProcessor.Process(views.Where(x => x.HasKey), bool.Parse(readOnly));
+
             this.generateRAMLCommandProcessor.Process(uri, title, resources, viewSchemaVersion, fileName, outputDirectory, baseRamlFile, externalRamls);
         }
 

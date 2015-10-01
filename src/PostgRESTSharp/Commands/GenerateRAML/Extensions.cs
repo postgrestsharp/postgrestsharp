@@ -51,9 +51,15 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             if (Directory.Exists(includedRamlDirectory))
             {
                 IEnumerable<string> fileNames = Directory.GetFiles(includedRamlDirectory,filter);
+                var childDirs = Directory.GetDirectories(includedRamlDirectory);
+                foreach (var child in childDirs)
+                {
+                    var result = FindFiles(child, filter);
+                    fileNames = fileNames.Concat(result);
+                }
                 return fileNames.Select(x => Path.Combine(includedRamlDirectory, x));
             }
-            return null;
+            return Enumerable.Empty<string>();
         }
 
         public static IEnumerable<RAMLNestedResource> Expand(this IEnumerable<RESTMethod> methods)
