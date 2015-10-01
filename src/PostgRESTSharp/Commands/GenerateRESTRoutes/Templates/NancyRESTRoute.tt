@@ -4,14 +4,15 @@
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="PostgRESTSharp.REST" #>
-using Nancy;
-using Nancy.Extensions;
-using Nancy.ModelBinding;
-using System.Net.Http;
-using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using Nancy;
+using Newtonsoft.Json;
 using PostgRESTSharp.Shared;
+using RestSharp;
 using <#=ModelNamespace#>;
 
 namespace <#=Namespace#> 
