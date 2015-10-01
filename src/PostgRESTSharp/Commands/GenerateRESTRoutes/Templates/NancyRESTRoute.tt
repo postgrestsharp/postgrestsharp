@@ -27,8 +27,10 @@ namespace <#=Namespace#>
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
-				restClient.BaseUrl = new Uri("http://" + postgRESTConfigProvider.Url);
-				restRequest.Resource = "/<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
+				restClient.BaseUrl = new Uri(postgRESTConfigProvider.Url);
+                const string resource = "<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
+				restRequest.Resource = postgRESTConfigProvider.Url.EndsWith("/") ? "/" + resource : resource;
+                restRequest.AddHeader("Authorization", "Basic MTo=");
 				var response = restClient.Execute(restRequest);
 				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(response.Content);
 				foreach(var model in models)
@@ -42,9 +44,11 @@ namespace <#=Namespace#>
 				}
 				return models;
 <#}else{#>
-				restClient.BaseUrl = new Uri("http://" + postgRESTConfigProvider.Url);
-				restRequest.Resource = string.Format("/<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
-				var response = restClient.Execute(restRequest);
+				restClient.BaseUrl = new Uri(postgRESTConfigProvider.Url);
+                var resource = string.Format("<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
+				restRequest.Resource = postgRESTConfigProvider.Url.EndsWith("/") ? "/" + resource : resource; 
+				restRequest.AddHeader("Authorization", "Basic MTo=");
+                var response = restClient.Execute(restRequest);
     			var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(response.Content);
 				var model = models.First();
 				model.BuildLinks(linkBuilder, this.Request.Url);
@@ -53,8 +57,10 @@ namespace <#=Namespace#>
 <#break;#>
 <#case RESTVerbEnum.POST:#>
 				var model = this.Request.Body.AsString();
-				restClient.BaseUrl = "http://" + postgRESTConfigProvider.Url;
-    			restRequest.Resource = "/<#=Resource.PostgRESTUri#>";
+				restClient.BaseUrl = postgRESTConfigProvider.Url;
+                var resource = "<#=Resource.PostgRESTUri#>";
+    			restRequest.Resource = postgRESTConfigProvider.Url.EndsWith("/") ? "/" + resource : resource;
+                restRequest.AddHeader("Authorization", "Basic MTo=");
 				restRequest.Method = Method.POST;
 				restRequest.AddJsonBody(model);
 				var response = restClient.Execute(restRequest);
