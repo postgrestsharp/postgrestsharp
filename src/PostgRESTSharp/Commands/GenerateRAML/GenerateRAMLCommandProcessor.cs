@@ -56,10 +56,13 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             {
                 resource.Type = new Dictionary<string, IDictionary<string, string>>();
             }
-            
-            foreach (string baseResourceKey in baseResources)
+
+            if (baseResources != null)
             {
-                resource.Type.Add(baseResourceKey, null);
+                foreach (string baseResourceKey in baseResources)
+                {
+                    resource.Type.Add(baseResourceKey, null);
+                }
             }
 
             foreach (Resource nestedResource in resource.Resources)
