@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Nancy;
 using Nancy.ErrorHandling;
 using Newtonsoft.Json;
 using RestSharp;

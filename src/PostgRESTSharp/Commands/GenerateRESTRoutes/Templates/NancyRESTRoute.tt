@@ -23,12 +23,10 @@ namespace <#=Namespace#>
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IApiClient client, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, IRestLinkBuilder linkBuilder) 
+    	public <#=ClassName#>(IApiClient client, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, IRestLinkBuilder linkBuilder, IRoleEnforcer roleEnforcer) 
     	{
-			
-			//Authentication claims
 <# if (Resource.AccessClaims.Count() > 0) { #>
-			this.RequiresDatabaseRoles(new[] { 
+			roleEnforcer.EnsureUserBelongsToRoles(this, new[] { 
 <# string prefix = ""; #>
 <#foreach(var claim in Resource.AccessClaims){#>
 				<#=prefix#> "<#=claim#>"
