@@ -21,6 +21,19 @@ namespace PostgRESTSharp.Shared
             this.restRequest = restRequest;
         }
 
+        public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
+        {
+            var response = client.Execute(restRequest);
+            var models = JsonConvert.DeserializeObject<T>(response.Content);
+            if (response.ErrorException != null)
+            {
+                //TODO: Custom Error Handling
+                //statusCodeHandler.Handle(xxx);
+                throw response.ErrorException;
+            }
+            return models;
+        }
+
         public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IAuthenticator authenticator = null) where T : new()
         {
             client.BaseUrl = new Uri(baseUrl);
@@ -33,20 +46,10 @@ namespace PostgRESTSharp.Shared
                 restRequest.AddQueryParameter(item.Key, item.Value);
             }
 
-            var response = client.Execute(restRequest);
-            var models = JsonConvert.DeserializeObject<T>(response.Content);
-
-            if (response.ErrorException != null)
-            {
-                //TODO: Custom Error Handling
-                //statusCodeHandler.Handle(xxx);
-
-                throw response.ErrorException;
-            }
-
-            return models;
+            return Execute<T>(restRequest, baseUrl, authenticator);
         }
 
+        //TODO: return T instead of IRestResponse
         public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody, IAuthenticator authenticator = null)
         {
             client.BaseUrl = new Uri(baseUrl);
