@@ -20,7 +20,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
         public IEnumerable<string> GetProperties(IViewMetaModel metaModel)
         {
-            foreach (var col in metaModel.Columns)
+            foreach (var col in GetValidViewableColumns(metaModel))
             {
                 yield return string.Format("public {0} {1} {{ get; protected set; }}", ConvertToNullableIfReq(col.ModelDataType), col.ColumnName);
             }
@@ -28,7 +28,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
         public string GetConstructorArgs(IViewMetaModel viewMetaModel)
         {
-            return string.Join(", ", viewMetaModel.Columns.Select(x => string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnName)));
+            return string.Join(", ", GetValidViewableColumns(viewMetaModel).Select(x => string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnName)));
         }
 
         public IEnumerable<string> GetConstructorAssignments(IViewMetaModel viewMetaModel)
@@ -64,6 +64,11 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
                 default:
                     return fieldType;
             }
+        }
+
+        private IEnumerable<ViewMetaModelColumn> GetValidViewableColumns(IViewMetaModel metaModel)
+        {
+            return metaModel.Columns.Where(x => !x.IsHidden);
         }
     }
 }

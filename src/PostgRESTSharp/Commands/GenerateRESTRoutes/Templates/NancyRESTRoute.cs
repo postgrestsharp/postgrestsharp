@@ -9,6 +9,7 @@
 // ------------------------------------------------------------------------------
 namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
 {
+    using PostgRESTSharp.Commands.GenerateRESTRoutes;
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
@@ -30,145 +31,176 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
         public virtual string TransformText()
         {
             this.Write("using Nancy;\r\nusing Nancy.Extensions;\r\nusing Nancy.ModelBinding;\r\nusing Nancy.Sec" +
-                    "urity;\r\nusing System.Net.Http;\r\nusing Newtonsoft.Json;\r\nusing System.Collections" +
-                    ".Generic;\r\nusing System.Linq;\r\nusing PostgRESTSharp.Shared;\r\nusing ");
+                    "urity;\r\nusing RestSharp;\r\nusing RestSharp.Authenticators;\r\nusing Newtonsoft.Json" +
+                    ";\r\nusing System.Collections.Generic;\r\nusing System.Linq;\r\nusing PostgRESTSharp.S" +
+                    "hared;\r\nusing ");
             
-            #line 16 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 18 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ModelNamespace));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\nusing ");
+            
+            #line 19 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ExtensionNamespace));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\nnamespace ");
             
-            #line 18 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 21 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write(" \r\n{\r\n    public class ");
             
-            #line 20 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 23 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             this.Write(" : NancyModule\r\n    {\r\n    \tpublic ");
             
-            #line 22 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 25 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
-            this.Write(@"(IRestLinkBuilder linkBuilder, IRestHeaderBuilder restHeaderBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
-    	{
-			
-			//Authentication claims
-			this.RequiresDatabaseRoles(new[] { 
-");
+            this.Write("(IApiClient client, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, I" +
+                    "RestLinkBuilder linkBuilder) \r\n    \t{\r\n\t\t\t\r\n\t\t\t//Authentication claims\r\n");
             
-            #line 27 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 29 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+ if (Resource.AccessClaims.Count() > 0) { 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tthis.RequiresDatabaseRoles(new[] { \r\n");
+            
+            #line 31 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
  string prefix = ""; 
             
             #line default
             #line hidden
             
-            #line 28 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 32 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 foreach(var claim in Resource.AccessClaims){
             
             #line default
             #line hidden
             this.Write("\t\t\t\t");
             
-            #line 29 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 33 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prefix));
             
             #line default
             #line hidden
             this.Write(" \"");
             
-            #line 29 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 33 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(claim));
             
             #line default
             #line hidden
             this.Write("\"\r\n\t");
             
-            #line 30 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 34 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
  prefix = ","; 
             
             #line default
             #line hidden
             
-            #line 31 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 35 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\t\t});\r\n\t\t\t\r\n\r\n");
+            this.Write("\t\t});\r\n");
             
-            #line 34 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 36 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 38 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 foreach(var method in Resource.Methods){
             
             #line default
             #line hidden
             this.Write("\t\t\t");
             
-            #line 35 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 39 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GetVerbString(method.Verb)));
             
             #line default
             #line hidden
             this.Write("[\"/");
             
-            #line 35 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 39 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.Uri + GetParameters(method.URIParameters)));
             
             #line default
             #line hidden
             this.Write("\", true] = async (ctx, ct) =>\r\n    \t\t{\r\n");
             
-            #line 37 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 41 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+if (ErrorHandlingMode.Equals(ErrorHandlingModes.STANDARD)){
+            
+            #line default
+            #line hidden
+            this.Write("                throw new NotImplementedException(\"TODO: implement try/catches ar" +
+                    "ound modules\");\r\n");
+            
+            #line 43 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+}else{
+            
+            #line default
+            #line hidden
+            
+            #line 44 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 switch(method.Verb){
             
             #line default
             #line hidden
             
-            #line 38 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 45 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 case RESTVerbEnum.GET:
             
             #line default
             #line hidden
             
-            #line 39 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 46 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 if(method.VerbDetail == RESTVerbDetailEnum.Collection){
             
             #line default
             #line hidden
-            this.Write("    \t\t\tvar client = CreateHttpClient(restHeaderBuilder);\r\n\t\t\t\tstring route = \"htt" +
-                    "p://\" + postgRESTConfigProvider.Url + \"/");
+            this.Write("\t\t\t\t\r\n\t\t\t\tvar authenticator = new HttpBasicAuthenticator(Context.CurrentUser.GetD" +
+                    "atabaseUser(), \"\");\r\n                var request = new RestRequest(\"");
             
-            #line 41 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 49 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
             
             #line default
             #line hidden
-            this.Write("?order=");
+            this.Write("\");\r\n    \t\t    request.AddQueryParameter(\"order\", \"");
             
-            #line 41 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 50 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.KeyName));
             
             #line default
             #line hidden
-            this.Write(".asc\";\r\n    \t\t\tvar res = await client.GetAsync(route);\r\n    \t\t\tvar content = awai" +
-                    "t res.Content.ReadAsStringAsync();\r\n\t\t\t\tvar models = JsonConvert.DeserializeObje" +
-                    "ct<List<");
+            this.Write(".asc\");\r\n                var models = client.Execute<List<");
             
-            #line 44 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 51 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
             
             #line default
             #line hidden
-            this.Write(@">>(content);
+            this.Write(@">>(request, postgRESTConfigProvider.Url, Context, authenticator);
+                
 				foreach(var model in models)
 				{
 					Url url = new Url();
@@ -182,66 +214,58 @@ if(method.VerbDetail == RESTVerbDetailEnum.Collection){
 				return models;
 ");
             
-            #line 56 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 64 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 }else{
             
             #line default
             #line hidden
-            this.Write("    \t\t\tvar client = CreateHttpClient(restHeaderBuilder);\r\n\t\t\t\tstring route = stri" +
-                    "ng.Format(\"http://\" + postgRESTConfigProvider.Url + \"/");
+            this.Write("    \t\t\t\r\n\t\t\t\tvar authenticator = new HttpBasicAuthenticator(Context.CurrentUser.G" +
+                    "etDatabaseUser(), \"\");\r\n                var request = new RestRequest(\"");
             
-            #line 58 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 67 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
             
             #line default
             #line hidden
-            this.Write("?");
+            this.Write("\");\r\n                request.AddQueryParameter(\"id\", string.Format(\"eq.{0}\", ctx." +
+                    "id));\r\n                var models = client.Execute<List<");
             
-            #line 58 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(method.URIParameters.First().Name));
-            
-            #line default
-            #line hidden
-            this.Write("=eq.{0}\", ctx.");
-            
-            #line 58 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(method.URIParameters.First().Name));
-            
-            #line default
-            #line hidden
-            this.Write(");\r\n    \t\t\tvar res = await client.GetAsync(route);\r\n    \t\t\tvar content = await re" +
-                    "s.Content.ReadAsStringAsync();\r\n\r\n\t\t\t\tvar models = JsonConvert.DeserializeObject" +
-                    "<List<");
-            
-            #line 62 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 69 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
             
             #line default
             #line hidden
-            this.Write(">>(content);\r\n\t\t\t\tvar model = models.First();\r\n\t\t\t\tmodel.BuildLinks(linkBuilder, " +
-                    "this.Request.Url);\r\n\t\t\t\treturn model;\r\n");
+            this.Write(@">>(request, postgRESTConfigProvider.Url, Context, authenticator);
+
+				var model = models.FirstOrDefault();
+    		    if (model != null)
+    		    {
+                    model.BuildLinks(linkBuilder, this.Request.Url);
+    		    }
+				return model;
+");
             
-            #line 66 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 77 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 }
             
             #line default
             #line hidden
             
-            #line 67 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 78 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 break;
             
             #line default
             #line hidden
             
-            #line 68 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 79 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 case RESTVerbEnum.POST:
             
             #line default
             #line hidden
             this.Write("\t\t\t\tvar model = this.Request.Body.AsString();\r\n    \t\t\tvar client = new HttpClient" +
-                    "();\r\n\t\t\t\tstring route = \"http://\" + postgRESTConfigProvider.Url + \"/");
+                    "();\r\n\t\t\t\tstring route = postgRESTConfigProvider.Url + \"");
             
-            #line 71 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 82 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
             
             #line default
@@ -250,7 +274,7 @@ case RESTVerbEnum.POST:
                     "  \t\t\tvar pkVal = locationHeaderParser.ParseLocationHeader<int>(\"id\", res.Headers" +
                     ".Location);\r\n    \t\t\tvar responseModel = new ");
             
-            #line 74 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 85 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(POSTResponseModelName));
             
             #line default
@@ -258,46 +282,43 @@ case RESTVerbEnum.POST:
             this.Write("(pkVal);\r\n    \t\t\tresponseModel.BuildSelfLink(linkBuilder, this.Request.Url);\r\n   " +
                     " \t\t\treturn responseModel;\r\n");
             
-            #line 77 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 88 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 break;
             
             #line default
             #line hidden
             
-            #line 78 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 89 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 default:
             
             #line default
             #line hidden
             
-            #line 79 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 90 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 break;
             
             #line default
             #line hidden
             
-            #line 80 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 91 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+}
+            
+            #line default
+            #line hidden
+            
+            #line 92 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 }
             
             #line default
             #line hidden
             this.Write("    \t\t};\r\n");
             
-            #line 82 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            #line 94 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\t\t\r\n    \t}\r\n\r\n\t\tprivate HttpClient CreateHttpClient(IRestHeaderBuilder restHeader" +
-                    "Builder)\r\n\t\t{\r\n\t\t\tvar client = new HttpClient();\r\n\t\t\trestHeaderBuilder.BuildHead" +
-                    "er(client, \"");
-            
-            #line 89 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Resource.ResourceVersion));
-            
-            #line default
-            #line hidden
-            this.Write("\", Context.CurrentUser.GetDatabaseUser());\r\n\t\t\treturn client;\r\n\t\t}\r\n\r\n    }\r\n\r\n}");
+            this.Write("\t\t\r\n    \t}\r\n\r\n    }\r\n\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }

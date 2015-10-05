@@ -23,7 +23,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
 		public IEnumerable<string> GetProperties(RESTModelTypeEnum type)
         {
-			var columns = this.MetaModel.Columns;
+            var columns = GetValidViewableColumns();
 			switch(type) 
 			{
 				case RESTModelTypeEnum.Post:
@@ -41,7 +41,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
 		public string GetConstructorArgs(RESTModelTypeEnum type)
         {
-			var columns = this.MetaModel.Columns;
+			var columns = GetValidViewableColumns();
 			switch(type) 
 			{
 				case RESTModelTypeEnum.Post:
@@ -54,9 +54,14 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
             return string.Join(", ",  columns.Select(x=> string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnName)));
         }
 
-		public IEnumerable<string> GetConstructorAssignments(RESTModelTypeEnum type)
+        private IEnumerable<ViewMetaModelColumn> GetValidViewableColumns()
         {
-			var columns = this.MetaModel.Columns;
+            return this.MetaModel.Columns.Where(x => !x.IsHidden);
+        }
+
+        public IEnumerable<string> GetConstructorAssignments(RESTModelTypeEnum type)
+        {
+            var columns = GetValidViewableColumns();
 			switch(type) 
 			{
 				case RESTModelTypeEnum.Post:

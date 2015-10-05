@@ -42,9 +42,13 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 			[CommandParameter(Prototype = "f|fileName", Description = "The filename to use for the generated routes or the fileName prefix if splitting generated files.", IsRequired = true, DefaultValue = DEFAULT_RESTROUTES_FILENAME)]string fileName,
 			[CommandParameter(Prototype = "n|namespace", Description = "The namespace used for the generated routes.", IsRequired =true)]string fileNamespace,
             [CommandParameter(Prototype = "m|modelNamespace", Description = "The model namespace used for the generated routes.", IsRequired = true)]string modelNamespace,
-            [CommandParameter(Prototype = "x|extensionsNamespace", Description = "The extentions namespace included for the generated routes.", IsRequired = true)]string extensionNamespace,
+<<<<<<< Updated upstream
 			[CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly,
             [CommandParameter(Prototype = "e|errorHandlingMode", Description = "The error handling mode to use for the generated routes [none | standard]")]string errorHandlingMode
+=======
+            [CommandParameter(Prototype = "e|extensionsNamespace", Description = "The extentions namespace included for the generated routes.", IsRequired = true)]string extensionNamespace,
+			[CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly
+>>>>>>> Stashed changes
         )
 		{
 			// setup the connection
@@ -57,7 +61,11 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 
 			var splitFiles = bool.Parse(splitGeneratedFiles);
 
-			this.generateRESTRoutesCommandProcessor.Process(resources, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace, errorHandlingMode, extensionNamespace);
+<<<<<<< Updated upstream
+			this.generateRESTRoutesCommandProcessor.Process(resources, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace, errorHandlingMode);
+=======
+			this.generateRESTRoutesCommandProcessor.Process(resources, splitFiles, fileName, outputDirectory, fileNamespace, modelNamespace, extensionNamespace);
+>>>>>>> Stashed changes
 		}
 	}
 }

@@ -6,7 +6,11 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
 {
     public partial class NancyRESTRoute
     {
-        public NancyRESTRoute(RESTResource resource, string fileNamespace, string modelNamespace, string lowerErrorHandlingMode, string extensionNamespace)
+<<<<<<< Updated upstream
+        public NancyRESTRoute(RESTResource resource, string fileNamespace, string modelNamespace, string lowerErrorHandlingMode)
+=======
+        public NancyRESTRoute(RESTResource resource, string fileNamespace, string modelNamespace, string extensionNamespace)
+>>>>>>> Stashed changes
         {
             this.Resource = resource;
             this.Namespace = fileNamespace;
@@ -19,7 +23,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes.Templates
             this.ErrorHandlingMode = lowerErrorHandlingMode;
         }
 
-        public string ErrorHandlingMode { get; protected set; }
+        public string ErrorHandlingMode { get; set; }
 
         public string Namespace { get; protected set; }
 

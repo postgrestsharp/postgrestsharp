@@ -8,7 +8,8 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 {
     public class GenerateRESTRoutesCommandProcessor : CommandProcessor, IGenerateRESTRoutesCommandProcessor
     {
-		public void Process(IEnumerable<RESTResource> resources, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace, string errorHandlingMode, string extensionNamespace)
+<<<<<<< Updated upstream
+		public void Process(IEnumerable<RESTResource> resources, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace, string errorHandlingMode)
 		{
 		    var lowerErrorHandlingMode = string.IsNullOrWhiteSpace(errorHandlingMode)
                 ? ErrorHandlingModes.DEFAULT
@@ -20,6 +21,11 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 		    }
 
 		    // write out the root route
+=======
+        public void Process(IEnumerable<RESTResource> resources, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace, string extensionNamespace)
+        {
+            // write out the root route
+>>>>>>> Stashed changes
 
             // generate the files
             if (splitGeneratedFiles)
@@ -33,7 +39,11 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
                 // we need to generate one file per view
                 foreach (var resource in resources)
                 {
-					var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, lowerErrorHandlingMode, extensionNamespace);
+<<<<<<< Updated upstream
+					var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, lowerErrorHandlingMode);
+=======
+					var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, extensionNamespace);
+>>>>>>> Stashed changes
                     string contents = restRoute.TransformText();
                     string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", resource.ModelName));
                     this.WriteFileContents(viewFileName, contents);

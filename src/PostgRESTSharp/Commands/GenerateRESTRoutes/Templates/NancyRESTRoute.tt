@@ -1,5 +1,6 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ import namespace="PostgRESTSharp.Commands.GenerateRESTRoutes" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
@@ -8,40 +9,47 @@ using Nancy;
 using Nancy.Extensions;
 using Nancy.ModelBinding;
 using Nancy.Security;
-using System.Net.Http;
+using RestSharp;
+using RestSharp.Authenticators;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using PostgRESTSharp.Shared;
 using <#=ModelNamespace#>;
+using <#=ExtensionNamespace#>;
 
 namespace <#=Namespace#> 
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, IRestHeaderBuilder restHeaderBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider) 
+    	public <#=ClassName#>(IApiClient client, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, IRestLinkBuilder linkBuilder) 
     	{
 			
 			//Authentication claims
+<# if (Resource.AccessClaims.Count() > 0) { #>
 			this.RequiresDatabaseRoles(new[] { 
 <# string prefix = ""; #>
 <#foreach(var claim in Resource.AccessClaims){#>
 				<#=prefix#> "<#=claim#>"
 	<# prefix = ","; #>
 <#}#>		});
-			
+<#}#>
 
 <#foreach(var method in Resource.Methods){#>
 			<#=GetVerbString(method.Verb)#>["/<#=Resource.Uri + GetParameters(method.URIParameters)#>", true] = async (ctx, ct) =>
     		{
+<#if (ErrorHandlingMode.Equals(ErrorHandlingModes.STANDARD)){#>
+                throw new NotImplementedException("TODO: implement try/catches around modules");
+<#}else{#>
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
-    			var client = CreateHttpClient(restHeaderBuilder);
-				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
-    			var res = await client.GetAsync(route);
-    			var content = await res.Content.ReadAsStringAsync();
-				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
+				
+				var authenticator = new HttpBasicAuthenticator(Context.CurrentUser.GetDatabaseUser(), "");
+                var request = new RestRequest("<#=Resource.PostgRESTUri#>");
+    		    request.AddQueryParameter("order", "<#=Resource.KeyName#>.asc");
+                var models = client.Execute<List<<#=GETModelName#>>>(request, postgRESTConfigProvider.Url, Context, authenticator);
+                
 				foreach(var model in models)
 				{
 					Url url = new Url();
@@ -54,21 +62,24 @@ namespace <#=Namespace#>
 
 				return models;
 <#}else{#>
-    			var client = CreateHttpClient(restHeaderBuilder);
-				string route = string.Format("http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
-    			var res = await client.GetAsync(route);
-    			var content = await res.Content.ReadAsStringAsync();
+    			
+				var authenticator = new HttpBasicAuthenticator(Context.CurrentUser.GetDatabaseUser(), "");
+                var request = new RestRequest("<#=Resource.PostgRESTUri#>");
+                request.AddQueryParameter("id", string.Format("eq.{0}", ctx.id));
+                var models = client.Execute<List<<#=GETModelName#>>>(request, postgRESTConfigProvider.Url, Context, authenticator);
 
-				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(content);
-				var model = models.First();
-				model.BuildLinks(linkBuilder, this.Request.Url);
+				var model = models.FirstOrDefault();
+    		    if (model != null)
+    		    {
+                    model.BuildLinks(linkBuilder, this.Request.Url);
+    		    }
 				return model;
 <#}#>
 <#break;#>
 <#case RESTVerbEnum.POST:#>
 				var model = this.Request.Body.AsString();
     			var client = new HttpClient();
-				string route = "http://" + postgRESTConfigProvider.Url + "/<#=Resource.PostgRESTUri#>";
+				string route = postgRESTConfigProvider.Url + "<#=Resource.PostgRESTUri#>";
     			var res = await client.PostAsync(route, new StringContent(model));
     			var pkVal = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
     			var responseModel = new <#=POSTResponseModelName#>(pkVal);
@@ -78,17 +89,11 @@ namespace <#=Namespace#>
 <#default:#>
 <#break;#>
 <#}#>
+<#}#>
     		};
 <#}#>
 		
     	}
-
-		private HttpClient CreateHttpClient(IRestHeaderBuilder restHeaderBuilder)
-		{
-			var client = new HttpClient();
-			restHeaderBuilder.BuildHeader(client, "<#=Resource.ResourceVersion#>", Context.CurrentUser.GetDatabaseUser());
-			return client;
-		}
 
     }
 
