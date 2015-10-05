@@ -172,7 +172,8 @@ namespace PostgRESTSharp.Pgsql
                 table_catalog as TableCatalog,
                 table_schema as TableSchema,
                 table_name as TableName,
-                privilege_type as PrivilegeType
+                privilege_type as PrivilegeType,
+                CASE When grantee = grantor Then 1 else 0 END as IsOwner 
                 from information_schema.role_table_grants where table_catalog = '{0}' and table_schema = '{1}' and table_name = '{2}' and grantee != 'postgres'", databaseName, schemaName, tableName);
         }
     }

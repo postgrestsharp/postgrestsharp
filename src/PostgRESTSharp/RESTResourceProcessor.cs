@@ -70,11 +70,38 @@ namespace PostgRESTSharp
 
                 // Options (SOMETIME)
 
-                var resource = new RESTResource(view.ModelNamePluralised.ToLower(), view.ViewName, view.ModelName, pkCol.ColumnName.ToLower(), methods);
+
+                //prepare claims 
+                var roleClaims = new List<string>();
+                IEnumerable<Grantee> grantees = GetAllSelectGrantees(view);
+                foreach (var grantee in grantees)
+                {
+                    roleClaims.Add(grantee.Name);
+                }
+
+                var resource = new RESTResource(view.ModelNamePluralised.ToLower(), view.ViewName, view.ModelName, pkCol.ColumnName.ToLower(), methods, roleClaims, view.SchemaName);
                 resources.Add(resource);
             }
 
             return resources;
         }
+
+        private static IEnumerable<Grantee> GetAllSelectGrantees(IViewMetaModel view)
+        {
+            return view.PrimarySource.Privileges
+                .Where(x => x.Type.ToLower().Equals("select") && !x.IsOwner)
+                .GroupBy(x => x.Grantee)
+                .Select(group => new Grantee(@group.Key));
+        }
+
+    }
+
+    public class Grantee
+    {
+        public Grantee(string name)
+        {
+            Name = name;
+        }
+        public string Name { get; protected set; }
     }
 }

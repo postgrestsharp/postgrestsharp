@@ -13,5 +13,7 @@
         public string TableName { get; set; }
 
         public string PrivilegeType { get; set; }
+
+        public bool IsOwner { get; set; }
     }
 }

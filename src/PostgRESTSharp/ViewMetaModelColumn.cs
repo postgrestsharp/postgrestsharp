@@ -14,6 +14,7 @@
             this.TableColumn = tableColumn;
 			this.IsPrimaryKeyColumn = isPrimaryKeyColumn;
             this.IsUniqueColumn = isUniqueColumn;
+            this.IsHidden = false;
         }
 
         public string ColumnName { get; protected set; }
@@ -34,6 +35,8 @@
 
         public string Description { get; protected set; }
 
+        public bool IsHidden { get; protected set; }
+
         public ViewMetaModelRelation RelatedView { get; protected set; }
 
         public TableMetaModelColumn TableColumn { get; protected set; }
@@ -44,5 +47,16 @@
         {
             this.RelatedView = viewRelation;
         }
+
+        public void SetColumnToHidden()
+        {
+            this.IsHidden = true;
+        }
+
+        public void SetColumnToVisisble()
+        {
+            this.IsHidden = false;
+        }
+
     }
 }

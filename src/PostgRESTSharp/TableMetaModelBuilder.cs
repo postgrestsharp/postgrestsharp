@@ -45,7 +45,7 @@ namespace PostgRESTSharp
 
             foreach(var tabPrivilege in tablePrivileges)
             {
-                var privilege = new TableMetaModelPrivilege(tabPrivilege.PrivilegeType, tabPrivilege.Grantee);
+                var privilege = new TableMetaModelPrivilege(tabPrivilege.PrivilegeType, tabPrivilege.Grantee, tabPrivilege.IsOwner);
                 privileges.Add(privilege);
             }
 

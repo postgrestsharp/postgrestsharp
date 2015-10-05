@@ -1,80 +1,101 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
+<#@ import namespace="PostgRESTSharp.Commands.GenerateRESTRoutes" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="PostgRESTSharp.REST" #>
 using System;
+using Nancy;
+using Nancy.Extensions;
+using Nancy.ModelBinding;
+using Nancy.Security;
+using RestSharp;
+using RestSharp.Authenticators;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Text;
-using Nancy;
-using Newtonsoft.Json;
 using PostgRESTSharp.Shared;
-using RestSharp;
 using <#=ModelNamespace#>;
+using <#=ExtensionNamespace#>;
 
 namespace <#=Namespace#> 
 {
     public class <#=ClassName#> : NancyModule
     {
-    	public <#=ClassName#>(IRestLinkBuilder linkBuilder, ILocationHeaderParser locationHeaderParser, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, IRestClient restClient, IRestRequest restRequest) 
+    	public <#=ClassName#>(IApiClient client, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, IRestLinkBuilder linkBuilder) 
     	{
+			
+			//Authentication claims
+<# if (Resource.AccessClaims.Count() > 0) { #>
+			this.RequiresDatabaseRoles(new[] { 
+<# string prefix = ""; #>
+<#foreach(var claim in Resource.AccessClaims){#>
+				<#=prefix#> "<#=claim#>"
+	<# prefix = ","; #>
+<#}#>		});
+<#}#>
+
 <#foreach(var method in Resource.Methods){#>
 			<#=GetVerbString(method.Verb)#>["/<#=Resource.Uri + GetParameters(method.URIParameters)#>", true] = async (ctx, ct) =>
     		{
+<#if (ErrorHandlingMode.Equals(ErrorHandlingModes.STANDARD)){#>
+                throw new NotImplementedException("TODO: implement try/catches around modules");
+<#}else{#>
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
-				restClient.BaseUrl = new Uri(postgRESTConfigProvider.Url);
-                const string resource = "<#=Resource.PostgRESTUri#>?order=<#=Resource.KeyName#>.asc";
-				restRequest.Resource = postgRESTConfigProvider.Url.EndsWith("/") ? "/" + resource : resource;
-                restRequest.AddHeader("Authorization", "Basic MTo=");
-				var response = restClient.Execute(restRequest);
-				var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(response.Content);
+				var authenticator = new HttpBasicAuthenticator(Context.CurrentUser.GetDatabaseUser(), "");
+    		    var queryStringParameters = new[]
+                {
+                    new KeyValuePair<string, string>("order", "<#=Resource.KeyName#>.asc"),
+                };
+                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, queryStringParameters, authenticator);
 				foreach(var model in models)
 				{
-					var url = new Url();
+					Url url = new Url();
 					url.HostName = this.Request.Url.HostName;
 					url.Port = this.Request.Url.Port;
 					url.BasePath = this.Request.Url.Path;
 					url.Path = "/" + model.GetPrimaryKeyValue();
 					model.BuildLinks(linkBuilder, url);
 				}
+
 				return models;
 <#}else{#>
-				restClient.BaseUrl = new Uri(postgRESTConfigProvider.Url);
-                var resource = string.Format("<#=Resource.PostgRESTUri#>?<#=method.URIParameters.First().Name#>=eq.{0}", ctx.<#=method.URIParameters.First().Name#>);
-				restRequest.Resource = postgRESTConfigProvider.Url.EndsWith("/") ? "/" + resource : resource; 
-				restRequest.AddHeader("Authorization", "Basic MTo=");
-                var response = restClient.Execute(restRequest);
-    			var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(response.Content);
-				var model = models.First();
-				model.BuildLinks(linkBuilder, this.Request.Url);
+				var authenticator = new HttpBasicAuthenticator(Context.CurrentUser.GetDatabaseUser(), "");
+                var queryStringParameters = new[]
+                {
+                    new KeyValuePair<string, string>("id", string.Format("eq.{0}", ctx.id)),
+                };
+                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, queryStringParameters, authenticator);
+				var model = models.FirstOrDefault();
+    		    if (model != null)
+    		    {
+                    model.BuildLinks(linkBuilder, this.Request.Url);
+    		    }
 				return model;
 <#}#>
 <#break;#>
 <#case RESTVerbEnum.POST:#>
 				var model = this.Request.Body.AsString();
-				restClient.BaseUrl = postgRESTConfigProvider.Url;
-                var resource = "<#=Resource.PostgRESTUri#>";
-    			restRequest.Resource = postgRESTConfigProvider.Url.EndsWith("/") ? "/" + resource : resource;
-                restRequest.AddHeader("Authorization", "Basic MTo=");
-				restRequest.Method = Method.POST;
-				restRequest.AddJsonBody(model);
-				var response = restClient.Execute(restRequest);
-				var locationHeader = response.Headers.First(a => a.Name.Equals("Location", StringComparison.OrdinalIgnoreCase));
-				var primaryKeyValue = locationHeaderParser.ParseLocationHeader<int>("id", res.Headers.Location);
-    			var responseModel = new <#=POSTResponseModelName#>(primaryKeyValue);
-    			responseModel.BuildSelfLink(linkBuilder, this.Request.Url);
+                var authenticator = new HttpBasicAuthenticator(Context.CurrentUser.GetDatabaseUser(), "");
+                var response = client.ExecutePost("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, model, authenticator);
+                var locationHeader = response.Headers.First(a => a.Name.Equals("Location", StringComparison.OrdinalIgnoreCase));
+	            var primaryKeyValue = locationHeaderParser.ParseLocationHeader<int>("id", new Uri((string)locationHeader.Value));
+                var responseModel = new <#=POSTResponseModelName#>(primaryKeyValue);
+    		    responseModel.BuildSelfLink(linkBuilder, this.Request.Url);
     			return responseModel;
 <#break;#>
 <#default:#>
 <#break;#>
 <#}#>
+<#}#>
     		};
 <#}#>
+		
     	}
+
     }
+
 }

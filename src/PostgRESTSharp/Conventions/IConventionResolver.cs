@@ -7,7 +7,8 @@ namespace PostgRESTSharp.Conventions
 	{
         void Initialise(IEnumerable<IConvention> conventions);
 
-		T ResolveTableConvention<T>(ITableMetaModel metaModel) where T : class, ITableConvention; 
+		T ResolveTableConvention<T>(ITableMetaModel metaModel) where T : class, ITableConvention;
+        IEnumerable<T> ResolveViewConventions<T>(IViewMetaModel metaModel) where T : class, IViewConvention; 
 	}
 }
 

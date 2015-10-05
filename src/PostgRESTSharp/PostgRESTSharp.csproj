@@ -81,6 +81,7 @@
       <DependentUpon>NancyRESTModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Commands\GenerateRESTModels\Templates\NancyRESTModel2.cs" />
+    <Compile Include="Commands\GenerateRESTRoutes\ErrorHandlingModes.cs" />
     <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,6 +97,23 @@
     <Compile Include="Conventions\ConventionHolder.cs" />
     <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceOwnerColumn.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceAccessColumn.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\DefaultColumnRemovalConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\IColumnRemovalConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithIsActiveColumn.cs" />
+    <Compile Include="Conventions\ViewConventions\IDefaultViewConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\IExplicitViewConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\IImplicitViewConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\IViewConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ViewFiltering\DefaultViewFilteringConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ViewFiltering\IViewFilterElement.cs" />
+    <Compile Include="Conventions\ViewConventions\ViewFiltering\IViewFilteringConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ViewFiltering\ViewFilterElement.cs" />
+    <Compile Include="Conventions\ViewConventions\ViewFiltering\ViewFilteringForViewWithRowLevelSecurity.cs" />
+    <Compile Include="Conventions\ViewConventions\ViewFiltering\ViewFilteringForViewWithIsActiveColumn.cs" />
+    <Compile Include="Core\Conventions\ConventionHelper.cs" />
+    <Compile Include="Core\Conventions\DuplicateItem.cs" />
     <Compile Include="InfoSchemaTableGrant.cs" />
     <Compile Include="IRESTModelBuilder.cs" />
     <Compile Include="IRESTResourceProcessor.cs" />
@@ -220,7 +238,9 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Conventions\RouteConventions\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="edge\x64\edge.node">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

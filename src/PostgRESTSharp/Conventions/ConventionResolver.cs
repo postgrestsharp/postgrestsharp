@@ -13,7 +13,7 @@ namespace PostgRESTSharp.Conventions
 		public void Initialise (IEnumerable<IConvention> conventions)
 		{
             this.conventionsByRoot = new Dictionary<Type, IDictionary<Type, ConventionHolder>>();
-            this.rootConventions = new List<Type>() { typeof(ITableConvention) };
+            this.rootConventions = new List<Type>() { typeof(ITableConvention), typeof(IViewConvention) };
             this.rootConventionExclusions = new List<string>() {"IConvention", "IDefaultConvention", "IImplicitConvention", "IExplicitConvention" };
             foreach(var rootConvention in this.rootConventions)
             {
@@ -55,8 +55,7 @@ namespace PostgRESTSharp.Conventions
                 }
             }
         }
-
-
+        
 		public T ResolveTableConvention<T>(ITableMetaModel metaModel) 
             where T : class, ITableConvention
 		{
@@ -98,6 +97,58 @@ namespace PostgRESTSharp.Conventions
             }
             return default(T);
 		}
+
+        public IEnumerable<T> ResolveViewConventions<T>(IViewMetaModel metaModel)
+            where T : class, IViewConvention
+        {
+            if (this.conventionsByRoot.ContainsKey(typeof(IViewConvention)))
+            {
+                if (this.conventionsByRoot[typeof(IViewConvention)].ContainsKey(typeof(T)))
+                {
+                    var conventionHolder = this.conventionsByRoot[typeof(IViewConvention)][typeof(T)];
+                    // do the explicits
+                    foreach (var explicitConvention in conventionHolder.Explicits.OfType<IExplicitViewConvention>())
+                    {
+
+                        IList<T> exResults = new List<T>();
+
+                        if (explicitConvention.DatabaseName == metaModel.DatabaseName &&
+                            explicitConvention.SchemaName == metaModel.SchemaName &&
+                            explicitConvention.ViewName == metaModel.ViewName)
+                        {
+                            var exResult = (T)explicitConvention;
+                            if (exResult == null)
+                            {
+                                throw new Exception("this shouldn't happen");
+                            }
+                            exResults.Add(exResult);
+                            return exResults;
+                        }
+                    }
+
+                    // do the implicits
+                    IList<T> imResults = new List<T>();
+                    foreach (var implicitConvention in conventionHolder.Implicits.OfType<IImplicitViewConvention>())
+                    {
+                        if (implicitConvention.IsMatch(metaModel))
+                        {
+                            imResults.Add((T) implicitConvention);
+                        }
+                    }
+                    
+                    if (imResults.Count > 0)
+                    {
+                        return imResults;    
+                    }
+                    
+
+                    // do the default
+                    var defResults = new List<T>() { (T)conventionHolder.Default };
+                    return defResults;
+                }
+            }
+            return default(List<T>);
+        }
 
 	}
 }

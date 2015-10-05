@@ -1,4 +1,6 @@
+﻿using PostgRESTSharp.Commands.GenerateViewScripts;
 ﻿using PostgRESTSharp.Commands.GenerateRAML;
+﻿using System.Diagnostics;
 using PostgRESTSharp.Commands.GenerateViewScripts;
 using PostgRESTSharp.Configuration;
 using PostgRESTSharp.Conventions;
@@ -14,6 +16,10 @@ namespace PostgRESTSharp.Generator
     {
         public static void Main(string[] args)
         {
+
+            //Debugger.Launch();
+            //Debugger.Break();
+
             IContainer container = new Container(x =>
                 {
                     x.Scan(y =>
