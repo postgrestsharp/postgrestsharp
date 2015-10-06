@@ -50,12 +50,14 @@
     <Compile Include="IHttpStatusCodeMatcher.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="IRestLinkBuilder.cs" />
+    <Compile Include="IRoleEnforcer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestLink.cs" />
     <Compile Include="RestLinkBuilder.cs" />
     <Compile Include="RestLinksJavaScriptConverter.cs" />
     <Compile Include="ILocationHeaderParser.cs" />
     <Compile Include="LocationHeaderParser.cs" />
+    <Compile Include="RoleEnforcer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
