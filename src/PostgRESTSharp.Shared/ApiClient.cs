@@ -21,6 +21,11 @@ namespace PostgRESTSharp.Shared
             this.restRequest = restRequest;
         }
 
+        public IRestResponse Execute(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
+        {
+            return client.Execute(restRequest);
+        }
+
         public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
         {
             var response = client.Execute(restRequest);
@@ -49,7 +54,6 @@ namespace PostgRESTSharp.Shared
             return Execute<T>(restRequest, baseUrl, authenticator);
         }
 
-        //TODO: return T instead of IRestResponse
         public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody, IAuthenticator authenticator = null)
         {
             client.BaseUrl = new Uri(baseUrl);
