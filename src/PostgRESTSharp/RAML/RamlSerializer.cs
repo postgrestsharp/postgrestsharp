@@ -33,7 +33,7 @@ namespace PostgRESTSharp.RAML
             SerializeProtocols(sb, ramlDocument.Protocols);
 
             SerializeParameters(sb, "uriParameters", ramlDocument.BaseUriParameters);
-
+            
             SerializeResourceTypes(sb, "resourceTypes", ramlDocument.ResourceTypes);
 
             if (ramlDocument.Documentation.Any())
@@ -119,7 +119,10 @@ namespace PostgRESTSharp.RAML
             SerializeProperty(sb, "requestTokenUri", settings.RequestTokenUri, indent + 2);
             SerializeProperty(sb, "tokenCredentialsUri", settings.TokenCredentialsUri, indent + 2);
             SerializeArrayProperty(sb, "authorizationGrants", settings.AuthorizationGrants, indent + 2);
-            SerializeListProperty(sb, "scopes", settings.Scopes, indent + 2);
+            if (settings.Scopes != null && settings.Scopes.Count() > 0)
+            {
+                SerializeListProperty(sb, "scopes", settings.Scopes, indent + 2);
+            }
         }
 
         private void SerializeListProperty(StringBuilder sb, string title, IEnumerable<string> enumerable, int indent)
@@ -329,9 +332,12 @@ namespace PostgRESTSharp.RAML
 
             
             sb.AppendLine((parametersTitle + ":").Indent(indentation));
-            foreach (var namedTypes in resourceTypes.First())
+            foreach (var resource in resourceTypes)
             {
-                SerializeResourceType(sb, namedTypes, indentation + 2);
+                foreach (var namedTypes in resource)
+                {
+                    SerializeResourceType(sb, namedTypes, indentation + 2);
+                }
             }
         }
 
@@ -358,7 +364,7 @@ namespace PostgRESTSharp.RAML
 
             var name = verb.Type.ToString().ToLower();
             string ramlName = verb.IsOptional ? string.Format("{0}?", name) : name;
-
+            
             sb.AppendLine(string.Format("{0}:", ramlName).Indent(indentation));
             SerializeDescriptionProperty(sb,verb.Description,indentation+2);
             SerializeVerbHeaders(sb, verb.Headers, indentation + 2);
@@ -368,9 +374,17 @@ namespace PostgRESTSharp.RAML
             SerializeResponses(sb, verb.Responses, indentation + 2);
         }
 
-        private void SerializeVerbHeaders(StringBuilder sb, IEnumerable<Parameter> enumerable, int p)
+        private void SerializeVerbHeaders(StringBuilder sb, IEnumerable<Parameter> enumerable, int indentation)
         {
-            
+            if (enumerable != null && enumerable.Count() > 0)
+            {
+                sb.AppendLine("headers:".Indent(indentation));
+                foreach (var header in enumerable)
+                {
+                    sb.AppendLine(string.Format("{0}:", header.DisplayName).Indent(indentation + 2));
+                    SerializeParameterProperties(sb, header, indentation + 2);
+                }
+            }
         }
 
         private void SerializeParameter(StringBuilder sb, KeyValuePair<string, Parameter> parameter, int indentation)

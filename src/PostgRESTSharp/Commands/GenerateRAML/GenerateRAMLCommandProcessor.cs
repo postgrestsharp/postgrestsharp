@@ -78,6 +78,8 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             if (baseRaml != null)
             {
                 ramlDocuent.ResourceTypes = baseRaml.ResourceTypes;
+                ramlDocuent.SecuritySchemes = baseRaml.SecuritySchemes;
+                ramlDocuent.SecuredBy = baseRaml.SecuredBy;
             }
             return ramlDocuent;
         }
@@ -90,6 +92,16 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                 var loadedRamlFile = Extensions.LoadRamlDocument(ramlFile);
                 if (loadedRamlFile!=null)
                 {
+                    if (loadedRamlFile.SecuritySchemes.Count() > 0)
+                    {
+                        generatedRamlDoc.SecuritySchemes = generatedRamlDoc.SecuritySchemes.Concat(loadedRamlFile.SecuritySchemes);
+                    }
+
+                    if (loadedRamlFile.SecuredBy.Count() > 0)
+                    {
+                        generatedRamlDoc.SecuredBy = generatedRamlDoc.SecuredBy.Concat(loadedRamlFile.SecuredBy);
+                    }
+
                     if (loadedRamlFile.ResourceTypes.Count() > 0)
                     { 
                         generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(loadedRamlFile.ResourceTypes);
