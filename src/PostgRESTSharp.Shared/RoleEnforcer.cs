@@ -9,7 +9,7 @@ namespace PostgRESTSharp.Shared
     {
         public void EnsureUserBelongsToRoles(INancyModule module, IEnumerable<string> roles)
         {
-            module.RequiresClaims(roles.Select(a => "db:role:" + a));
+            module.RequiresClaims(roles.Select(a => "db_role:" + a));
         }
     }
 }
