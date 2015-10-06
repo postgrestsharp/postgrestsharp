@@ -22,6 +22,8 @@ namespace PostgRESTSharp.Shared
 
         public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
         {
+            client.Authenticator = authenticator;
+            client.BaseUrl = new Uri(baseUrl);
             var response = client.Execute(restRequest);
             var models = JsonConvert.DeserializeObject<T>(response.Content);
             if (response.ErrorException != null)
@@ -35,9 +37,6 @@ namespace PostgRESTSharp.Shared
 
         public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IAuthenticator authenticator = null) where T : new()
         {
-            client.BaseUrl = new Uri(baseUrl);
-            client.Authenticator = authenticator;
-
             restRequest.Resource = baseUrl.EndsWith("/") ? "/" + resource : resource;
 
             foreach (var item in queryStringParameters ?? Enumerable.Empty<KeyValuePair<string, string>>())
