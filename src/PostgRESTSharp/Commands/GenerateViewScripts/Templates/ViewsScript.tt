@@ -12,8 +12,10 @@ CREATE SCHEMA IF NOT EXISTS "<#=ViewSchemaVersion#>"
 
 CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>"."<#=view.ViewName#>" AS 
  SELECT <#=GetColumns(view)#>
-   FROM <#=GetSources(view)#>
- <#=GetWhereClause(view)#>;
+   FROM <#=GetSources(view)#><#if(!HasWhereClause(view)){#>;
+<#}#>
+ <#=GetWhereClause(view)#><#if(HasWhereClause(view)){#>;
+<#}#>
 
 ALTER VIEW "<#=ViewSchemaVersion#>"."<#=view.ViewName#>"
   OWNER TO <#=ViewSchemaOwner#>;

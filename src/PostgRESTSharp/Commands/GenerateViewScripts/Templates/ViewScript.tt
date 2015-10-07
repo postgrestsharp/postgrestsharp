@@ -8,8 +8,8 @@ CREATE SCHEMA IF NOT EXISTS "<#=ViewSchemaVersion#>"
 
 CREATE OR REPLACE VIEW "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>" AS 
  SELECT <#=GetColumns(MetaModel)#>
-   FROM <#=GetSources(MetaModel)#>
-<#=GetWhereClause(MetaModel)#>;
+   FROM <#=GetSources(MetaModel)#><#if(!HasWhereClause(MetaModel)){#>;<#}#>
+<#=GetWhereClause(MetaModel)#><#if(HasWhereClause(MetaModel)){#>;<#}#>
 
 ALTER VIEW "<#=ViewSchemaVersion#>"."<#=MetaModel.ViewName#>"
   OWNER TO <#=ViewSchemaOwner#>;
