@@ -45,9 +45,12 @@
     <Compile Include="ApiClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AuthenticatorFactory.cs" />
     <Compile Include="HttpResponseCodeMatcher.cs" />
     <Compile Include="IApiClient.cs" />
+    <Compile Include="IAuthenticatorFactory.cs" />
     <Compile Include="IHttpStatusCodeMatcher.cs" />
+    <Compile Include="IPostgrestAuthenticator.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="IRestLinkBuilder.cs" />
     <Compile Include="IRoleEnforcer.cs" />
