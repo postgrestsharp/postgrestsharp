@@ -194,9 +194,11 @@ namespace PostgRESTSharp.RAML
 
         private void SerializeMethods(StringBuilder sb, IEnumerable<Method> methods, int indentation)
         {
-            foreach (var method in methods)
-            {
-                SerializeMethod(sb, method, indentation);
+            if (methods != null) { 
+                foreach (var method in methods)
+                {
+                    SerializeMethod(sb, method, indentation);
+                }
             }
         }
 

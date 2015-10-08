@@ -46,11 +46,14 @@
     <Compile Include="ApiClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AuthenticatorFactory.cs" />
     <Compile Include="HttpResponseCodeMatcher.cs" />
     <Compile Include="IApiClient.cs" />
+    <Compile Include="IAuthenticatorFactory.cs" />
     <Compile Include="IHttpStatusCodeMatcher.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
+    <Compile Include="IPostgRESTUserProvider.cs" />
     <Compile Include="Transformers\QueryString\PassThroughQueryStringTransformer.cs" />
     <Compile Include="Transformers\RequestHeader\IRequestHeaderTransformer.cs" />
     <Compile Include="IRestLinkBuilder.cs" />

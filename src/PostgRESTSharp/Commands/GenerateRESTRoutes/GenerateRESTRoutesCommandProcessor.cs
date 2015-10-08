@@ -8,7 +8,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
 {
     public class GenerateRESTRoutesCommandProcessor : CommandProcessor, IGenerateRESTRoutesCommandProcessor
     {
-		public void Process(IEnumerable<RESTResource> resources, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace, string errorHandlingMode, string extensionNamespace)
+		public void Process(IEnumerable<RESTResource> resources, bool splitGeneratedFiles, string fileName, string outputDirectory, string fileNamespace, string modelNamespace, string errorHandlingMode)
 		{
 		    var lowerErrorHandlingMode = string.IsNullOrWhiteSpace(errorHandlingMode)
                 ? ErrorHandlingModes.DEFAULT
@@ -33,7 +33,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
                 // we need to generate one file per view
                 foreach (var resource in resources)
                 {
-					var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, lowerErrorHandlingMode, extensionNamespace);
+					var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, lowerErrorHandlingMode);
                     string contents = restRoute.TransformText();
                     string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", resource.ModelName));
                     this.WriteFileContents(viewFileName, contents);
