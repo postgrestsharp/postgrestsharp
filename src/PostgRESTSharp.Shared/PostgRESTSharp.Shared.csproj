@@ -54,6 +54,7 @@
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
     <Compile Include="IPostgRESTUserProvider.cs" />
+    <Compile Include="Transformers\OrderAttribute.cs" />
     <Compile Include="Transformers\QueryString\OrderByQueryStringTransformer.cs" />
     <Compile Include="Transformers\QueryString\PassThroughQueryStringTransformer.cs" />
     <Compile Include="Transformers\RequestHeader\IRequestHeaderTransformer.cs" />

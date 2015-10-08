@@ -8,6 +8,7 @@ using Nancy;
 
 namespace PostgRESTSharp.Shared
 {
+    [Order(1)]
     public class PassThroughQueryStringTransformer : IQueryStringTransformer
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, string>> postgRestQueryStringValuesToAddTo)

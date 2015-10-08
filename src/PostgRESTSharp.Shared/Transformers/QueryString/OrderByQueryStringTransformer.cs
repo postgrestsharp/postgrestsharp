@@ -7,6 +7,7 @@ using Nancy;
 
 namespace PostgRESTSharp.Shared.Transformers.QueryString
 {
+    [Order(2)]
     public class OrderByQueryStringTransformer : IQueryStringTransformer
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, string>> postgRestQueryStringValuesToAddTo)
