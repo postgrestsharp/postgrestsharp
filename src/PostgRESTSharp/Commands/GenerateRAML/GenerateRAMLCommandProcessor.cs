@@ -107,10 +107,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                         generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(loadedRamlFile.ResourceTypes);
                     }
 
-                    foreach (var resource in loadedRamlFile.Resources)
-                    {
-                        generatedRamlDoc.Resources.Add(resource);
-                    }
+                    Extensions.Merge(generatedRamlDoc.Resources, loadedRamlFile.Resources);
                 }
             }
         }
