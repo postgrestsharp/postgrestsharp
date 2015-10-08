@@ -12,16 +12,15 @@ namespace PostgRESTSharp.Shared
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, string>> postgRestQueryStringValuesToAddTo)
         {
-            if (postgRestQueryStringValuesToAddTo == null)
-            {
-                postgRestQueryStringValuesToAddTo = new List<KeyValuePair<string, string>>();
-            }
-
             var query = (IEnumerable<string>)incomingRequestToProcess.Query;
 
             foreach (var key in query)
             {
-                var value = (string)incomingRequestToProcess.Query[key];
+                var value = incomingRequestToProcess.Query[key] as string;
+                if (value == null)
+                {
+                    continue;
+                }
                 postgRestQueryStringValuesToAddTo.Add(new KeyValuePair<string, string>(key, value));
             }
         }

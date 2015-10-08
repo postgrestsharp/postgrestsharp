@@ -9,11 +9,6 @@ namespace PostgRESTSharp.Shared
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, IEnumerable<string>>> postgRestHeadersToAddTo)
         {
-            if (postgRestHeadersToAddTo == null)
-            {
-                postgRestHeadersToAddTo = new List<KeyValuePair<string, IEnumerable<string>>>();
-            }
-
             var rangeHeader = incomingRequestToProcess.Headers.SingleOrDefault(a => a.Key.Equals("Range", StringComparison.OrdinalIgnoreCase));
             var rangeUnitHeader = incomingRequestToProcess.Headers.SingleOrDefault(a => a.Key.Equals("Range-Unit", StringComparison.OrdinalIgnoreCase));
 

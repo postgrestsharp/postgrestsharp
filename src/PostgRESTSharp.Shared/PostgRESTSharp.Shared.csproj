@@ -63,6 +63,7 @@
     <Compile Include="ILocationHeaderParser.cs" />
     <Compile Include="LocationHeaderParser.cs" />
     <Compile Include="RoleEnforcer.cs" />
+    <Compile Include="Transformers\RequestHeader\PostgRestVersionHeaderTransformer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
