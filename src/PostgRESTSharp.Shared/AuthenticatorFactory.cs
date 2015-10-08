@@ -4,9 +4,9 @@ namespace PostgRESTSharp.Shared
 {
     public class AuthenticatorFactory : IAuthenticatorFactory
     {
-        public IPostgrestAuthenticator GetPostgrestAuthenticator(string dbUser, string password)
+        public IAuthenticator GetPostgrestAuthenticator(string dbUser, string password)
         {
-            return (IPostgrestAuthenticator) new HttpBasicAuthenticator(dbUser, password);
+            return new HttpBasicAuthenticator(dbUser, password);
         }
     }
 }

@@ -50,8 +50,8 @@
     <Compile Include="IApiClient.cs" />
     <Compile Include="IAuthenticatorFactory.cs" />
     <Compile Include="IHttpStatusCodeMatcher.cs" />
-    <Compile Include="IPostgrestAuthenticator.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
+    <Compile Include="IPostgRESTUserProvider.cs" />
     <Compile Include="IRestLinkBuilder.cs" />
     <Compile Include="IRoleEnforcer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
