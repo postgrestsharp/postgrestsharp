@@ -41,8 +41,35 @@ namespace <#=Namespace#>
                 throw new NotImplementedException("TODO: implement try/catches around modules");
 <#}else{#>
 <#switch(method.Verb){#>
-<#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
+				var headers = new List<KeyValuePair<string, IEnumerable<string>>>();
+
+				foreach(var item in requestHeaderTransformers ?? Enumerable.Empty<IRequestHeaderTransformer>())
+				{
+					item.Transform(Request, headers);
+				}
+
+				foreach(var item in headers)
+				{
+					restRequest.AddHeader(item.Key, string.Join("; ", item.Value));
+				}
+
+				var query = new List<KeyValuePair<string, string>>();
+				query.Add(new KeyValuePair<string, string>("order", "id.asc")); //default
+
+				foreach(var item in queryStringTransformers ?? Enumerable.Empty<IQueryStringTransformer>())
+				{
+					item.Transform(Request, query);
+				}
+
+				foreach(var item in query)
+				{
+					restRequest.AddQueryParameter(item.Key, item.Value);
+				}
+
+				//TODO: combine with client.Execute
+				//TODO: cleanup below
+
 				var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
     		    var queryStringParameters = new[]
                 {
