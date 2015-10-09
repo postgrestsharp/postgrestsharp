@@ -23,8 +23,7 @@ namespace <#=Namespace#>
     public class <#=ClassName#> : NancyModule
     {
     	public <#=ClassName#>(IApiClient client, IAuthenticatorFactory authenticatorFactory, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, 
-				IRestLinkBuilder linkBuilder, IRoleEnforcer roleEnforcer, IPostgRESTUserProvider postgRestUserProvider, IEnumerable<IQueryStringTransformer> queryStringTransformers,
-                IEnumerable<IRequestHeaderTransformer> requestHeaderTransformers) 
+				IRestLinkBuilder linkBuilder, IRoleEnforcer roleEnforcer, IPostgRESTUserProvider postgRestUserProvider, IRequestTransformer requestTransformer) 
     	{
 <# if (Resource.AccessClaims.Count() > 0) { #>
 			roleEnforcer.EnsureUserBelongsToRoles(this, new[] { 
@@ -44,21 +43,11 @@ namespace <#=Namespace#>
 <#switch(method.Verb){#>
 <#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
-                //process request headers
 				var headers = new List<KeyValuePair<string, IEnumerable<string>>>();
-                foreach(var item in requestHeaderTransformers)
-				{
-					item.Transform(Request, headers);
-				}
-
-                //process query string
 				var query = new List<KeyValuePair<string, string>>();
 				query.Add(new KeyValuePair<string, string>("order", "<#=Resource.KeyName#>.asc")); //default
-                var orderedQueryStringTransformers = queryStringTransformers.OrderByOrderAttribute();
-                foreach(var item in orderedQueryStringTransformers)
-				{
-					item.Transform(Request, query);
-				}
+
+                requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
                 var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
@@ -74,12 +63,14 @@ namespace <#=Namespace#>
 
 				return models;
 <#}else{#>
+                var headers = new List<KeyValuePair<string, IEnumerable<string>>>();
+				var query = new List<KeyValuePair<string, string>>();
+				query.Add(new KeyValuePair<string, string>("<#=Resource.KeyName#>", string.Format("eq.{0}", ctx.id))); //default
+
+                requestTransformer.Transform(Request, query, headers);
+
 				var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var queryStringParameters = new[]
-                {
-                    new KeyValuePair<string, string>("id", string.Format("eq.{0}", ctx.id)),
-                };
-                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, queryStringParameters, null, authenticator);
+                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
 				var model = models.FirstOrDefault();
     		    if (model != null)
     		    {

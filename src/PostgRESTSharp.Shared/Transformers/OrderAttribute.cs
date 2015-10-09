@@ -17,7 +17,7 @@ namespace PostgRESTSharp.Shared
 
     public static class OrderAttributeExtensions
     {
-        public static IOrderedEnumerable<IQueryStringTransformer> OrderByOrderAttribute(this IEnumerable<IQueryStringTransformer> queryStringTransformers)
+        public static IOrderedEnumerable<T> OrderByOrderAttribute<T>(this IEnumerable<T> queryStringTransformers)
         {
             return queryStringTransformers.OrderBy(a =>
             {
