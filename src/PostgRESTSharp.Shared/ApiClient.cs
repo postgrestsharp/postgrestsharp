@@ -44,23 +44,21 @@ namespace PostgRESTSharp.Shared
         {
             restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
 
-            foreach (var item in requestHeaders ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
-            {
-                restRequest.AddHeader(item.Key, string.Join("; ", item.Value));
-            }
+            AddHeaders(requestHeaders);
 
-            foreach (var item in queryStringParameters ?? Enumerable.Empty<KeyValuePair<string, string>>())
-            {
-                restRequest.AddQueryParameter(item.Key, item.Value);
-            }
+            AddQuery(queryStringParameters);
 
             return Execute<T>(restRequest, baseUrl, authenticator);
         }
 
-        public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody, IAuthenticator authenticator = null)
+        public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
         {
             client.BaseUrl = new Uri(baseUrl);
             client.Authenticator = authenticator;
+
+            AddHeaders(requestHeaders);
+
+            AddQuery(queryStringParameters);
 
             restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
 
@@ -73,6 +71,22 @@ namespace PostgRESTSharp.Shared
         private static string PrefixResourceIfNecessary(string baseUrl, string resource)
         {
             return baseUrl.EndsWith("/") ? "/" + resource : resource;
+        }
+
+        private void AddQuery(IEnumerable<KeyValuePair<string, string>> queryStringParameters)
+        {
+            foreach (var item in queryStringParameters ?? Enumerable.Empty<KeyValuePair<string, string>>())
+            {
+                this.restRequest.AddQueryParameter(item.Key, item.Value);
+            }
+        }
+
+        private void AddHeaders(IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders)
+        {
+            foreach (var item in requestHeaders ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
+            {
+                this.restRequest.AddHeader(item.Key, string.Join("; ", item.Value));
+            }
         }
     }
 }

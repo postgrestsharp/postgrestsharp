@@ -7,5 +7,8 @@ namespace PostgRESTSharp.Shared
     {
         void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, string>> queryString,
             IList<KeyValuePair<string, IEnumerable<string>>> requestHeaders);
+
+        IList<KeyValuePair<string, string>> EmptyQuery();
+        IList<KeyValuePair<string, IEnumerable<string>>> EmptyHeaders();
     }
 }
