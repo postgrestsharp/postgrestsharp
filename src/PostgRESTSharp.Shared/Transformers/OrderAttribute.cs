@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PostgRESTSharp.Shared
 {
@@ -9,6 +12,23 @@ namespace PostgRESTSharp.Shared
         public OrderAttribute(int order)
         {
             this.Order = order;
+        }
+    }
+
+    public static class OrderAttributeExtensions
+    {
+        public static IOrderedEnumerable<IQueryStringTransformer> OrderByOrderAttribute(this IEnumerable<IQueryStringTransformer> queryStringTransformers)
+        {
+            return queryStringTransformers.OrderBy(a =>
+            {
+                var orderAttribute = a
+                    .GetType()
+                    .GetCustomAttributes(typeof(OrderAttribute), true)
+                    .Cast<OrderAttribute>()
+                    .SingleOrDefault();
+
+                return orderAttribute == null ? int.MaxValue : orderAttribute.Order;
+            });
         }
     }
 }

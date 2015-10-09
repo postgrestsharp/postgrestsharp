@@ -23,7 +23,8 @@ namespace <#=Namespace#>
     public class <#=ClassName#> : NancyModule
     {
     	public <#=ClassName#>(IApiClient client, IAuthenticatorFactory authenticatorFactory, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, 
-				IRestLinkBuilder linkBuilder, IRoleEnforcer roleEnforcer, IPostgRESTUserProvider postgRestUserProvider) 
+				IRestLinkBuilder linkBuilder, IRoleEnforcer roleEnforcer, IPostgRESTUserProvider postgRestUserProvider, IEnumerable<IQueryStringTransformer> queryStringTransformers,
+                IEnumerable<IRequestHeaderTransformer> requestHeaderTransformers) 
     	{
 <# if (Resource.AccessClaims.Count() > 0) { #>
 			roleEnforcer.EnsureUserBelongsToRoles(this, new[] { 
@@ -41,41 +42,26 @@ namespace <#=Namespace#>
                 throw new NotImplementedException("TODO: implement try/catches around modules");
 <#}else{#>
 <#switch(method.Verb){#>
+<#case RESTVerbEnum.GET:#>
 <#if(method.VerbDetail == RESTVerbDetailEnum.Collection){#>
+                //process request headers
 				var headers = new List<KeyValuePair<string, IEnumerable<string>>>();
-
-				foreach(var item in requestHeaderTransformers ?? Enumerable.Empty<IRequestHeaderTransformer>())
+                foreach(var item in requestHeaderTransformers)
 				{
 					item.Transform(Request, headers);
 				}
 
-				foreach(var item in headers)
-				{
-					restRequest.AddHeader(item.Key, string.Join("; ", item.Value));
-				}
-
+                //process query string
 				var query = new List<KeyValuePair<string, string>>();
-				query.Add(new KeyValuePair<string, string>("order", "id.asc")); //default
-
-				foreach(var item in queryStringTransformers ?? Enumerable.Empty<IQueryStringTransformer>())
+				query.Add(new KeyValuePair<string, string>("order", "<#=Resource.KeyName#>.asc")); //default
+                var orderedQueryStringTransformers = queryStringTransformers.OrderByOrderAttribute();
+                foreach(var item in orderedQueryStringTransformers)
 				{
 					item.Transform(Request, query);
 				}
 
-				foreach(var item in query)
-				{
-					restRequest.AddQueryParameter(item.Key, item.Value);
-				}
-
-				//TODO: combine with client.Execute
-				//TODO: cleanup below
-
-				var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-    		    var queryStringParameters = new[]
-                {
-                    new KeyValuePair<string, string>("order", "<#=Resource.KeyName#>.asc"),
-                };
-                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, queryStringParameters, authenticator);
+                var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
+                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
 				foreach(var model in models)
 				{
 					Url url = new Url();
@@ -93,7 +79,7 @@ namespace <#=Namespace#>
                 {
                     new KeyValuePair<string, string>("id", string.Format("eq.{0}", ctx.id)),
                 };
-                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, queryStringParameters, authenticator);
+                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, queryStringParameters, null, authenticator);
 				var model = models.FirstOrDefault();
     		    if (model != null)
     		    {

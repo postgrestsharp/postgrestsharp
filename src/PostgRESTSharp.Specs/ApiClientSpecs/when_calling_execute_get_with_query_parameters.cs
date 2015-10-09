@@ -43,7 +43,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
                 new KeyValuePair<string, string>("Id", "1")
             };
             
-            test = apiClient.ExecuteGet<SimpleTest>(endpointResource, url, parameters, authenticator);
+            test = apiClient.ExecuteGet<SimpleTest>(endpointResource, url, parameters, null, authenticator);
         };
 
         public It should_add_query_parameters = () => restRequest.WasToldTo(x => x.AddQueryParameter("Id", "1"));

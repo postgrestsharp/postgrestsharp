@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Nancy;
 
-namespace PostgRESTSharp.Shared.Transformers.QueryString
+namespace PostgRESTSharp.Shared
 {
     [Order(2)]
     public class OrderByQueryStringTransformer : IQueryStringTransformer

@@ -40,9 +40,14 @@ namespace PostgRESTSharp.Shared
             return models;
         }
 
-        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IAuthenticator authenticator = null) where T : new()
+        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null) where T : new()
         {
-            restRequest.Resource = baseUrl.EndsWith("/") ? "/" + resource : resource;
+            restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
+
+            foreach (var item in requestHeaders ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
+            {
+                restRequest.AddHeader(item.Key, string.Join("; ", item.Value));
+            }
 
             foreach (var item in queryStringParameters ?? Enumerable.Empty<KeyValuePair<string, string>>())
             {
@@ -57,12 +62,17 @@ namespace PostgRESTSharp.Shared
             client.BaseUrl = new Uri(baseUrl);
             client.Authenticator = authenticator;
 
-            restRequest.Resource = baseUrl.EndsWith("/") ? "/" + resource : resource;
+            restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
 
             restRequest.Method = Method.POST;
             restRequest.AddJsonBody(requestBody);
 
             return client.Execute(restRequest);
+        }
+
+        private static string PrefixResourceIfNecessary(string baseUrl, string resource)
+        {
+            return baseUrl.EndsWith("/") ? "/" + resource : resource;
         }
     }
 }

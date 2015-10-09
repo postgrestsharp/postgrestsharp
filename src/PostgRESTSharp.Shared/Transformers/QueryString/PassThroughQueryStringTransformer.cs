@@ -17,12 +17,8 @@ namespace PostgRESTSharp.Shared
 
             foreach (var key in query)
             {
-                var value = incomingRequestToProcess.Query[key] as string;
-                if (value == null)
-                {
-                    continue;
-                }
-                postgRestQueryStringValuesToAddTo.Add(new KeyValuePair<string, string>(key, value));
+                var value = incomingRequestToProcess.Query[key] as object;
+                postgRestQueryStringValuesToAddTo.Add(new KeyValuePair<string, string>(key, (value ?? string.Empty).ToString()));
             }
         }
     }
