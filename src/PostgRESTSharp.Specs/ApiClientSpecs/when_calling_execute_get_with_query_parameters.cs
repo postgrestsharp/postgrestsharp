@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -23,7 +22,6 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
         private static string url = "http://test.com/";
         private static string endpointResource = "test";
         private static SimpleTest test;
-        private static CancellationTokenSource cancellationTokenSource;
 
         Establish that = () =>
         {
@@ -31,14 +29,13 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             restClient = An<IRestClient>();
             restResponse = An<IRestResponse>();
             restResponse.WhenToldTo(x => x.Content).Return(@"{ id: 1, Description: 'Description' }");
-            cancellationTokenSource = new CancellationTokenSource();
 
             restClient.WhenToldTo(x => x.Execute(restRequest)).Return(restResponse);
 
             apiClient = new ApiClient(restClient, restRequest);
         };
 
-        public Because of = async () =>
+        public Because of = () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
             IEnumerable<KeyValuePair<string, string>> parameters = new List<KeyValuePair<string, string>>
@@ -46,7 +43,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
                 new KeyValuePair<string, string>("Id", "1")
             };
             
-            test = await apiClient.ExecuteGet<SimpleTest>(endpointResource, url, parameters, authenticator);
+            test = await apiClient.ExecuteGet<SimpleTest>(endpointResource, url, parameters, null, authenticator);
         };
 
         public It should_add_query_parameters = () => restRequest.WasToldTo(x => x.AddQueryParameter("Id", "1"));
@@ -59,7 +56,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.Execute(restRequest));
 
     }
 }

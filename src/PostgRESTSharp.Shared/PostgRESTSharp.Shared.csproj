@@ -29,6 +29,7 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -50,17 +51,29 @@
     <Compile Include="IApiClient.cs" />
     <Compile Include="IAuthenticatorFactory.cs" />
     <Compile Include="IHttpStatusCodeMatcher.cs" />
+    <Compile Include="IGeneratedModule.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
+    <Compile Include="PostgRestHttpRequest.cs" />
+    <Compile Include="PostgRestHttpRequestFactory.cs" />
+    <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
     <Compile Include="IPostgRESTUserProvider.cs" />
+    <Compile Include="Transformers\OrderAttribute.cs" />
+    <Compile Include="Transformers\IRequestTransformer.cs" />
+    <Compile Include="Transformers\QueryString\OrderByQueryStringTransformer.cs" />
+    <Compile Include="Transformers\QueryString\PassThroughQueryStringTransformer.cs" />
+    <Compile Include="Transformers\RequestTransformer.cs" />
+    <Compile Include="Transformers\RequestHeader\IRequestHeaderTransformer.cs" />
     <Compile Include="IRestLinkBuilder.cs" />
     <Compile Include="IRoleEnforcer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transformers\RequestHeader\PostgRestRangeHeaderTransformer.cs" />
     <Compile Include="RestLink.cs" />
     <Compile Include="RestLinkBuilder.cs" />
     <Compile Include="RestLinksJavaScriptConverter.cs" />
     <Compile Include="ILocationHeaderParser.cs" />
     <Compile Include="LocationHeaderParser.cs" />
     <Compile Include="RoleEnforcer.cs" />
+    <Compile Include="Transformers\RequestHeader\PostgRestVersionHeaderTransformer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

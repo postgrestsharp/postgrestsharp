@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -35,10 +34,10 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             apiClient = new ApiClient(restClient, restRequest);
         };
 
-        public Because of = async () =>
+        public Because of = () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
-            restResponse = await apiClient.ExecutePost(endpointResource, url, json, authenticator);
+            restResponse = await apiClient.ExecutePost(endpointResource, url, json, null, null, authenticator);
         };
 
         public It should_have_base_url_set_on_client = () => restClient.BaseUrl.ShouldEqual(new Uri(url));
@@ -51,7 +50,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_call_add_json_body = () => restRequest.WasToldTo(x => x.AddJsonBody(json));
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest, Param.IsAny<CancellationToken>()));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.Execute(restRequest));
 
     }
 }
