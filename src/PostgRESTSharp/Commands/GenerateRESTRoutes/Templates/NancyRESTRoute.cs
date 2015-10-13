@@ -196,22 +196,22 @@ if(method.VerbDetail == RESTVerbDetailEnum.Collection){
                 requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), """");
-                IRestResponse restResponse;
-                var models = client.ExecuteGet<List<");
+                var restResponse = client.Execute(""");
+            
+            #line 55 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
+            
+            #line default
+            #line hidden
+            this.Write("\", postgRESTConfigProvider.Url, authenticator, query, headers);\r\n                " +
+                    "var models = JsonConvert.DeserializeObject<List<");
             
             #line 56 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
             
             #line default
             #line hidden
-            this.Write(">>(\"");
-            
-            #line 56 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
-            
-            #line default
-            #line hidden
-            this.Write(@""", postgRESTConfigProvider.Url, out restResponse, query, headers, authenticator);
+            this.Write(@">>(restResponse.Content);
 				foreach(var model in models)
 				{
 					Url url = new Url();

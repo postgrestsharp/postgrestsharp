@@ -34,7 +34,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             apiClient = new ApiClient(restClient, restRequest);
         };
 
-        public Because of = () =>
+        public Because of = async () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
             restResponse = await apiClient.ExecutePost(endpointResource, url, json, null, null, authenticator);
@@ -50,7 +50,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_call_add_json_body = () => restRequest.WasToldTo(x => x.AddJsonBody(json));
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.Execute(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
 
     }
 }

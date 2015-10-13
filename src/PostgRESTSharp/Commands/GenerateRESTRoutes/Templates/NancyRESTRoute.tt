@@ -52,8 +52,8 @@ namespace <#=Namespace#>
                 requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                IRestResponse restResponse;
-                var models = await client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, out restResponse, query, headers, authenticator);
+                var restResponse = await client.Execute("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, authenticator, query, headers);
+                var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(restResponse.Content);
 				foreach(var model in models)
 				{
 					Url url = new Url();

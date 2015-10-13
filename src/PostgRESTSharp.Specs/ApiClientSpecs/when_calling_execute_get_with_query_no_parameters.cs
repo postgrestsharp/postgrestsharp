@@ -35,7 +35,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             apiClient = new ApiClient(restClient, restRequest);
         };
 
-        public Because of = () =>
+        public Because of = async () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
             test = await apiClient.ExecuteGet<SimpleTest>(endpointResource, url, null, null, authenticator);
@@ -49,7 +49,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.Execute(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
 
     }
 }
