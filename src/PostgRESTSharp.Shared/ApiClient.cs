@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Nancy.ErrorHandling;
 using Newtonsoft.Json;
 using RestSharp;
@@ -20,11 +22,12 @@ namespace PostgRESTSharp.Shared
             this.restRequest = restRequest;
         }
 
-        public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
+        public async Task<T> Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
         {
             client.Authenticator = authenticator;
             client.BaseUrl = new Uri(baseUrl);
-            var response = client.Execute(restRequest);
+            var cancellationTokenSource = new CancellationTokenSource();
+            var response = await client.ExecuteTaskAsync(restRequest);
             var models = JsonConvert.DeserializeObject<T>(response.Content);
             if (response.ErrorException != null)
             {
@@ -35,7 +38,7 @@ namespace PostgRESTSharp.Shared
             return models;
         }
 
-        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IAuthenticator authenticator = null) where T : new()
+        public async Task<T> ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IAuthenticator authenticator = null) where T : new()
         {
             restRequest.Resource = baseUrl.EndsWith("/") ? "/" + resource : resource;
 
@@ -44,21 +47,22 @@ namespace PostgRESTSharp.Shared
                 restRequest.AddQueryParameter(item.Key, item.Value);
             }
 
-            return Execute<T>(restRequest, baseUrl, authenticator);
+            return await Execute<T>(restRequest, baseUrl, authenticator);;
         }
 
         //TODO: return T instead of IRestResponse
-        public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody, IAuthenticator authenticator = null)
+        public async Task<IRestResponse> ExecutePost(string resource, string baseUrl, string requestBody, IAuthenticator authenticator = null)
         {
             client.BaseUrl = new Uri(baseUrl);
             client.Authenticator = authenticator;
+            var cancellationTokenSource = new CancellationTokenSource();
 
             restRequest.Resource = baseUrl.EndsWith("/") ? "/" + resource : resource;
 
             restRequest.Method = Method.POST;
             restRequest.AddJsonBody(requestBody);
 
-            return client.Execute(restRequest);
+            return await client.ExecuteTaskAsync(restRequest, cancellationTokenSource.Token); ;
         }
     }
 }

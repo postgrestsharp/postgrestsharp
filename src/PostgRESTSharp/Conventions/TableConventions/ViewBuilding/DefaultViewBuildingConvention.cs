@@ -1,5 +1,6 @@
 ﻿using AutoMapper.Internal;
 using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
+using PostgRESTSharp.Core.Managers;
 using PostgRESTSharp.Text;
 using System.Collections.Generic;
 
@@ -20,10 +21,16 @@ namespace PostgRESTSharp.Conventions
             // there is only one table involved
             viewToBuild.SetPrimaryTableSource(storageModel);
 
-            // add the columns
-            foreach (var col in storageModel.Columns)
+            //find lookup tables and add to join
+            if (storageModel != null)
             {
-                viewToBuild.AddColumn(col, storageModel);
+                RelationshipManager.AddLookupRelationships(viewToBuild, storageModel, storageModel.DatabaseName, storageModel.SchemaName, additionalStorageModels);
+            }
+
+            // add the columns from the table
+            if (storageModel != null)
+            {
+                ColumnManager.AddViewColumns(viewToBuild, storageModel);
             }
 
             foreach (var filteringConvention in conventionResolver.ResolveViewConventions<IViewFilteringConvention>(viewToBuild))

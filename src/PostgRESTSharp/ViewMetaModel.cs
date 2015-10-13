@@ -10,8 +10,10 @@ namespace PostgRESTSharp
         private List<ViewMetaModelColumn> columns;
         private List<ViewMetaModelSource> joinSources;
         private List<ViewFilterElement> viewFilterElements; 
+       
 
-        public ViewMetaModel(string databaseName, string schemaName, string viewName, string modelName, string modelNamePluralised, string description)
+        public ViewMetaModel(string databaseName, string schemaName, string viewName, 
+            string modelName, string modelNamePluralised, string description)
         {
             this.DatabaseName = databaseName;
             this.SchemaName = schemaName;
@@ -44,6 +46,7 @@ namespace PostgRESTSharp
 
         public IEnumerable<ViewFilterElement> FilterElements { get { return this.viewFilterElements; } }
 
+
         public bool HasKey { get { return this.Columns.Where(x => x.IsKeyColumn).Any(); } }
 
         public bool HasViewKey
@@ -66,14 +69,19 @@ namespace PostgRESTSharp
             }
         }
 
-        public void AddColumn(TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource)
+        public void AddColumn(TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource, 
+            string columnAlias, bool isComplex, IJoinRelationModel joinRelationModel)
         {
-            var col = new ViewMetaModelColumn(storageColumn.FieldNameCamelCased, storageColumn.StorageDataType, storageColumn.StorageDataTypeLength,
+            var alias = columnAlias.Length > 0 ? columnAlias : storageColumn.FieldNameCamelCased;
+            var col = new ViewMetaModelColumn(storageColumn.FieldNameCamelCased, 
+                alias, storageColumn.StorageDataType, 
+                storageColumn.StorageDataTypeLength,
                 storageColumn.FieldDataType, this.columns.Count,
                 storageColumn.IsPrimaryKeyColumn || storageColumn.IsUnique ? true : false, 
 				storageColumn.IsPrimaryKeyColumn,
-                storageColumn.IsUnique,
-                storageColumnSource, storageColumn);
+                storageColumn.IsUnique, isComplex,
+                joinRelationModel, storageColumnSource, 
+                storageColumn);
             this.columns.Add(col);
         }
 

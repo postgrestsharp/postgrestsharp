@@ -35,7 +35,19 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 			}
 			foreach (var col in columns)
             {
-                yield return string.Format("public {0} {1} {{ get; protected set; }}", ConvertToNullableIfReq(col.ModelDataType), col.ColumnName);
+
+                if (col.IsComplexType && col.JoinRelationModel == null) { continue; }
+
+                if (col.IsComplexType)
+                {
+                    yield return string.Format("public {0} {1} {{ get; protected set; }}",
+                        col.JoinRelationModel.RelatedModeType, col.JoinRelationModel.RelatedModelName);
+                }
+                else
+                {
+                    yield return string.Format("public {0} {1} {{ get; protected set; }}",
+                        ConvertToNullableIfReq(col.ModelDataType), col.ColumnAlias);
+                }
             }
         }
 
@@ -51,7 +63,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 					columns = this.MetaModel.Columns.Where (x => x.IsPrimaryKeyColumn);
 					break;
 			}
-            return string.Join(", ",  columns.Select(x=> string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnName)));
+            return string.Join(", ",  columns.Select(x=> string.Format("{0} {1}", ConvertToNullableIfReq(x.ModelDataType), x.ColumnAlias)));
         }
 
         private IEnumerable<ViewMetaModelColumn> GetValidViewableColumns()
@@ -73,7 +85,21 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 			}
             foreach (var col in columns)
             {
-                yield return string.Format("this.{0} = {0};" , col.ColumnName);
+                if (col.IsComplexType && col.JoinRelationModel == null) { continue; }
+
+                if (col.IsComplexType)
+                {
+
+                    string constructor = string.Join("", col.JoinRelationModel.Fields.Select(x => string.Format("{0},", x.Key)));
+                    constructor = constructor.Substring(0, constructor.Length - 1);
+
+                    yield return string.Format("this.{0} = new {1} ({2});",
+                        col.JoinRelationModel.RelatedModelName, col.JoinRelationModel.RelatedModeType, constructor);
+                }
+                else
+                {
+                    yield return string.Format("this.{0} = {0};", col.ColumnName);
+                }
             }
         }
 

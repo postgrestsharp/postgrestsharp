@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Text;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Fakes.Adapters.NSubstitute;
 using Machine.Specifications;
 using NSubstitute.Core.Arguments;
+using NSubstitute.Extensions;
 using NUnit.Framework.Constraints;
 using NUnit.Specifications;
 using NSubstitute;
@@ -35,28 +37,36 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             restResponse = An<IRestResponse>();
             restResponse.WhenToldTo(x => x.Content).Return(@"{ id: 1, Description: 'Description' }");
 
-            restClient.WhenToldTo(x => x.Execute(restRequest)).Return(restResponse);
+            var task = StartNewTask();
+            restClient.When(x => x.ExecuteTaskAsync(restRequest)).Do(y => task.Wait(500));
 
+            restClient.WhenToldTo(x => x.ExecuteTaskAsync(restRequest)).Return(task);
+            
             apiClient = new ApiClient(restClient, restRequest);
         };
         
-        public Because of = () =>
+        public Because of = async () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
-            test = apiClient.Execute<SimpleTest>(restRequest, url, authenticator);
+            test = await apiClient.Execute<SimpleTest>(restRequest, url, authenticator);
         };
 
         public It should_have_base_url_set_on_client = () => restClient.BaseUrl.ShouldEqual(new Uri(url));
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.Execute(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
 
         public It should_return_a_model = () =>
         {
             test.Id.ShouldEqual(1);
             test.Description.ShouldEqual("Description");
         };
+
+        public static Task<IRestResponse> StartNewTask()
+        {
+            return Task<IRestResponse>.Factory.StartNew(() => restResponse);
+        }
         
     }
 

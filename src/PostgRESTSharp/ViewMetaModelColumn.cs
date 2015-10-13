@@ -1,8 +1,15 @@
-﻿namespace PostgRESTSharp
+﻿using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
+
+namespace PostgRESTSharp
 {
     public class ViewMetaModelColumn
     {
-        public ViewMetaModelColumn(string columnName, string storageDataType, long storageDataTypeLength, string modelDataType, int order, bool isKeyColumn, bool isPrimaryKeyColumn, bool isUniqueColumn, ITableMetaModel table, TableMetaModelColumn tableColumn)
+        public ViewMetaModelColumn(string columnName, string columnAlias, string storageDataType, 
+            long storageDataTypeLength, string modelDataType, 
+            int order, bool isKeyColumn, bool isPrimaryKeyColumn,
+            bool isUniqueColumn, bool isComplexType, IJoinRelationModel joinRelationModel,
+            ITableMetaModel table, TableMetaModelColumn tableColumn)
         {
             this.ColumnName = columnName;
             this.StorageDataType = storageDataType;
@@ -15,9 +22,14 @@
 			this.IsPrimaryKeyColumn = isPrimaryKeyColumn;
             this.IsUniqueColumn = isUniqueColumn;
             this.IsHidden = false;
+            this.ColumnAlias = columnAlias;
+            this.IsComplexType = isComplexType;
+            this.JoinRelationModel = joinRelationModel;
         }
 
         public string ColumnName { get; protected set; }
+
+        public string ColumnAlias { get; protected set; }
 
         public string ModelDataType { get; protected set; }
 
@@ -36,6 +48,10 @@
         public string Description { get; protected set; }
 
         public bool IsHidden { get; protected set; }
+
+        public bool IsComplexType { get; protected set; }
+
+        public IJoinRelationModel JoinRelationModel { get; protected set; } 
 
         public ViewMetaModelRelation RelatedView { get; protected set; }
 

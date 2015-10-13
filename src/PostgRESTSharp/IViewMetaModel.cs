@@ -31,7 +31,7 @@ namespace PostgRESTSharp
 
         bool HasViewKey { get; }
 
-        void AddColumn (TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource);
+        void AddColumn(TableMetaModelColumn storageColumn, ITableMetaModel storageColumnSource, string columnAlias, bool isComplexType, IJoinRelationModel joinRelationModel);
 
 		void AddJoinSource (ITableMetaModel joinSource, TableMetaModelColumn joinColumn, ITableMetaModel source, TableMetaModelColumn sourceColumn);
 

@@ -190,8 +190,8 @@ if(method.VerbDetail == RESTVerbDetailEnum.Collection){
             
             #line default
             #line hidden
-            this.Write(".asc\"),\r\n                };\r\n                var models = client.ExecuteGet<List<" +
-                    "");
+            this.Write(".asc\"),\r\n                };\r\n                var models = await client.ExecuteGet" +
+                    "<List<");
             
             #line 51 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
@@ -229,7 +229,7 @@ if(method.VerbDetail == RESTVerbDetailEnum.Collection){
                 {
                     new KeyValuePair<string, string>(""id"", string.Format(""eq.{0}"", ctx.id)),
                 };
-                var models = client.ExecuteGet<List<");
+                var models = await client.ExecuteGet<List<");
             
             #line 69 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
@@ -271,7 +271,7 @@ case RESTVerbEnum.POST:
             #line hidden
             this.Write("\t\t\t\tvar model = this.Request.Body.AsString();\r\n                var authenticator " +
                     "= authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDataba" +
-                    "seUser(this), \"\");\r\n                var response = client.ExecutePost(\"");
+                    "seUser(this), \"\");\r\n                var response = await client.ExecutePost(\"");
             
             #line 81 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));

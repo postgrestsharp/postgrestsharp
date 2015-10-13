@@ -1,5 +1,8 @@
-﻿using AutoMapper.Internal;
+﻿using System;
+using System.Security.Cryptography.X509Certificates;
+using AutoMapper.Internal;
 using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
+using PostgRESTSharp.Core.Managers;
 using PostgRESTSharp.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,29 +62,18 @@ namespace PostgRESTSharp.Conventions
                         var joinColumn = table.Columns.Where(x => x.ColumnName == joinColumnName).FirstOrDefault();
                         viewToBuild.AddJoinSource(table, joinColumn, currentTable, sourceColumn);
                     }
+                }
 
-                    //
+                //find lookup tables and add to join
+                if (table != null)
+                {
+                    RelationshipManager.AddLookupRelationships(viewToBuild, table, storageModel.DatabaseName, storageModel.SchemaName, additionalStorageModels);
                 }
 
                 // add the columns from the table
                 if (table != null)
                 {
-                    foreach (var col in table.Columns)
-                    {
-                        // always exclude join columns
-                        var joinTable = viewToBuild.JoinSources.Where(x => x.JoinSource == table).FirstOrDefault();
-                        if (joinTable != null)
-                        {
-                            if (joinTable.JoinColumn == col)
-                            {
-                                continue;
-                            }
-                        }
-
-                        // use conventions here to check if a column should be included
-
-                        viewToBuild.AddColumn(col, table);
-                    }
+                    ColumnManager.AddViewColumns(viewToBuild, table);
                 }
                 currentTable = table;
             }
@@ -111,5 +103,6 @@ namespace PostgRESTSharp.Conventions
                 return string.Format("{0}${1}", currentTableName, tableName);
             }
         }
+
     }
 }
