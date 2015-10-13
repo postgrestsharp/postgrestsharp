@@ -52,7 +52,8 @@ namespace <#=Namespace#>
                 requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
+                IRestResponse restResponse;
+                var models = client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, out restResponse, query, headers, authenticator);
 				foreach(var model in models)
 				{
 					Url url = new Url();
@@ -63,7 +64,20 @@ namespace <#=Namespace#>
 					model.BuildLinks(linkBuilder, url);
 				}
 
-				return models;
+                var response = this.Negotiate.WithModel(models);
+
+                var contentRangeHeader = restResponse.Headers.FirstOrDefault(a => a.Name.Equals("Content-Range", StringComparison.OrdinalIgnoreCase));
+                if (contentRangeHeader != null)
+                {
+                    response.WithHeader("Content-Range", contentRangeHeader.Value.ToString());
+                }
+
+                if (restResponse.StatusCode == System.Net.HttpStatusCode.PartialContent)
+                {
+                    response.WithStatusCode(HttpStatusCode.PartialContent);
+                }
+
+                return response;
 <#}else{#>
 				var query = requestTransformer.EmptyQuery();
                 var headers = requestTransformer.EmptyHeaders();

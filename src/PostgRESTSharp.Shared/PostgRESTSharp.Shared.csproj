@@ -52,6 +52,8 @@
     <Compile Include="IAuthenticatorFactory.cs" />
     <Compile Include="IHttpStatusCodeMatcher.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
+    <Compile Include="PostgRestHttpRequest.cs" />
+    <Compile Include="PostgRestHttpRequestFactory.cs" />
     <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
     <Compile Include="IPostgRESTUserProvider.cs" />
     <Compile Include="Transformers\OrderAttribute.cs" />
