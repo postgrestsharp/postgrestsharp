@@ -52,7 +52,7 @@ namespace <#=Namespace#>
                 requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var restResponse = await client.Execute("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, authenticator, query, headers);
+                var restResponse = await client.ExecuteAsync("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, authenticator, query, headers);
                 var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(restResponse.Content);
 				foreach(var model in models)
 				{
@@ -86,7 +86,7 @@ namespace <#=Namespace#>
                 requestTransformer.Transform(Request, query, headers);
 
 				var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var models = await client.ExecuteGet<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
+                var models = await client.ExecuteGetAsync<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
 				var model = models.FirstOrDefault();
     		    if (model != null)
     		    {
@@ -103,7 +103,7 @@ namespace <#=Namespace#>
 
 				var model = this.Request.Body.AsString();
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var response = await client.ExecutePost("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, model, query, headers, authenticator);
+                var response = await client.ExecutePostAsync("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, model, query, headers, authenticator);
                 var locationHeader = response.Headers.First(a => a.Name.Equals("Location", StringComparison.OrdinalIgnoreCase));
 	            var primaryKeyValue = locationHeaderParser.ParseLocationHeader<int>("<#=Resource.KeyName#>", new Uri((string)locationHeader.Value));
                 var responseModel = new <#=POSTResponseModelName#>(primaryKeyValue);

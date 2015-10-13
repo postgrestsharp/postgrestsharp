@@ -21,7 +21,16 @@ namespace PostgRESTSharp.Shared
             this.restRequest = restRequest;
         }
 
-        public async Task<IRestResponse> Execute(string resource, string baseUrl, IAuthenticator authenticator = null, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null)
+        public IRestResponse Execute(string resource, string baseUrl, IAuthenticator authenticator = null,
+            IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null)
+        {
+            var task = ExecuteAsync(resource, baseUrl, authenticator, queryStringParameters, requestHeaders);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<IRestResponse> ExecuteAsync(string resource, string baseUrl, IAuthenticator authenticator = null, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null)
         {
             client.Authenticator = authenticator;
             client.BaseUrl = new Uri(baseUrl);
@@ -31,7 +40,14 @@ namespace PostgRESTSharp.Shared
             return await client.ExecuteTaskAsync(restRequest);
         }
 
-        public async Task<T> Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
+        public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
+        {
+            var task = ExecuteAsync<T>(restRequest, baseUrl, authenticator);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<T> ExecuteAsync<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
         {
             client.Authenticator = authenticator;
             client.BaseUrl = new Uri(baseUrl);
@@ -44,7 +60,15 @@ namespace PostgRESTSharp.Shared
             return models;
         }
 
-        public async Task<T> ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null) where T : new()
+        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
+        {
+            var task = ExecuteGetAsync<T>(resource, baseUrl, queryStringParameters, requestHeaders, authenticator);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<T> ExecuteGetAsync<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
         {
             restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
 
@@ -52,10 +76,19 @@ namespace PostgRESTSharp.Shared
 
             AddQuery(queryStringParameters);
 
-            return await Execute<T>(restRequest, baseUrl, authenticator);
+            return await ExecuteAsync<T>(restRequest, baseUrl, authenticator);
         }
 
-        public async Task<IRestResponse> ExecutePost(string resource, string baseUrl, string requestBody, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
+        public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody,
+            IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
+        {
+            var task = ExecutePostAsync(resource, baseUrl, requestBody, queryStringParameters, requestHeaders);
+            task.Wait();
+            return task.Result;
+        }
+
+        public async Task<IRestResponse> ExecutePostAsync(string resource, string baseUrl, string requestBody, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
         {
             client.BaseUrl = new Uri(baseUrl);
             client.Authenticator = authenticator;

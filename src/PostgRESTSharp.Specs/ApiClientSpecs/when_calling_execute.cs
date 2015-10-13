@@ -48,7 +48,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
         public Because of = async () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
-            test = await apiClient.Execute<SimpleTest>(restRequest, url, authenticator);
+            test = await apiClient.ExecuteAsync<SimpleTest>(restRequest, url, authenticator);
         };
 
         public It should_have_base_url_set_on_client = () => restClient.BaseUrl.ShouldEqual(new Uri(url));

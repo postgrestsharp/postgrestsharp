@@ -196,7 +196,7 @@ if(method.VerbDetail == RESTVerbDetailEnum.Collection){
                 requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), """");
-                var restResponse = client.Execute(""");
+                var restResponse = await client.ExecuteAsync(""");
             
             #line 55 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
@@ -257,7 +257,7 @@ if(method.VerbDetail == RESTVerbDetailEnum.Collection){
                 requestTransformer.Transform(Request, query, headers);
 
 				var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), """");
-                var models = client.ExecuteGet<List<");
+                var models = await client.ExecuteGetAsync<List<");
             
             #line 89 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GETModelName));
@@ -300,7 +300,7 @@ case RESTVerbEnum.POST:
 
 				var model = this.Request.Body.AsString();
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), """");
-                var response = client.ExecutePost(""");
+                var response = await client.ExecutePostAsync(""");
             
             #line 106 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Resource.PostgRESTUri));
