@@ -20,16 +20,21 @@ namespace PostgRESTSharp.Shared
             this.restRequest = restRequest;
         }
 
-        public IRestResponse Execute(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
-        {
-            return client.Execute(restRequest);
-        }
-
-        public T Execute<T>(IRestRequest restRequest, string baseUrl, out IRestResponse restResponse, IAuthenticator authenticator = null)
+        public IRestResponse Execute(string resource, string baseUrl, IAuthenticator authenticator = null, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null)
         {
             client.Authenticator = authenticator;
             client.BaseUrl = new Uri(baseUrl);
-            restResponse = client.Execute(restRequest);
+            restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
+            AddHeaders(requestHeaders);
+            AddQuery(queryStringParameters);
+            return client.Execute(restRequest);
+        }
+
+        public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
+        {
+            client.Authenticator = authenticator;
+            client.BaseUrl = new Uri(baseUrl);
+            var restResponse = client.Execute(restRequest);
             var models = JsonConvert.DeserializeObject<T>(restResponse.Content);
             if (restResponse.ErrorException != null)
             {
@@ -38,13 +43,7 @@ namespace PostgRESTSharp.Shared
             return models;
         }
 
-        public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
-        {
-            IRestResponse restResponse;
-            return Execute<T>(restRequest, baseUrl, out restResponse, authenticator);
-        }
-
-        public T ExecuteGet<T>(string resource, string baseUrl, out IRestResponse restResponse, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null) where T : new()
+        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null) where T : new()
         {
             restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
 
@@ -52,13 +51,7 @@ namespace PostgRESTSharp.Shared
 
             AddQuery(queryStringParameters);
 
-            return Execute<T>(restRequest, baseUrl, out restResponse, authenticator);
-        }
-
-        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null) where T : new()
-        {
-            IRestResponse restResponse;
-            return ExecuteGet<T>(resource, baseUrl, out restResponse, queryStringParameters, requestHeaders, authenticator);
+            return Execute<T>(restRequest, baseUrl, authenticator);
         }
 
         public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
