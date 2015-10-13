@@ -20,7 +20,7 @@ using <#=ModelNamespace#>;
 
 namespace <#=Namespace#> 
 {
-    public class <#=ClassName#> : NancyModule
+    public class <#=ClassName#> : NancyModule, IGeneratedModule
     {
     	public <#=ClassName#>(IApiClient client, IAuthenticatorFactory authenticatorFactory, IPostgRESTUrlConfigurationProvider postgRESTConfigProvider, 
 				IRestLinkBuilder linkBuilder, IRoleEnforcer roleEnforcer, IPostgRESTUserProvider postgRestUserProvider, IRequestTransformer requestTransformer,
