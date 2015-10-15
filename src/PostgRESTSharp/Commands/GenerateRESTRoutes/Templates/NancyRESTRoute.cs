@@ -62,7 +62,7 @@ using ");
             
             #line default
             #line hidden
-            this.Write(" : NancyModule, IGeneratedModule\r\n    {\r\n    \tpublic ");
+            this.Write(" : NancyModule, IUsePostgRestHttpRequest\r\n    {\r\n    \tpublic ");
             
             #line 25 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
