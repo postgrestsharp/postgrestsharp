@@ -52,8 +52,8 @@ namespace <#=Namespace#>
                 requestTransformer.Transform(Request, query, headers);
 
                 var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var restResponse = await client.ExecuteAsync("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, authenticator, query, headers);
-                var models = JsonConvert.DeserializeObject<List<<#=GETModelName#>>>(restResponse.Content);
+                var apiCall = await client.ExecuteWrappedAsync<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, authenticator, query, headers);
+                var models = apiCall.Data;
 				foreach(var model in models)
 				{
 					Url url = new Url();
@@ -66,13 +66,13 @@ namespace <#=Namespace#>
 
                 var response = this.Negotiate.WithModel(models);
 
-                var contentRangeHeader = restResponse.Headers.FirstOrDefault(a => a.Name.Equals("Content-Range", StringComparison.OrdinalIgnoreCase));
+                var contentRangeHeader = apiCall.Response.Headers.FirstOrDefault(a => a.Name.Equals("Content-Range", StringComparison.OrdinalIgnoreCase));
                 if (contentRangeHeader != null)
                 {
                     response.WithHeader("Content-Range", contentRangeHeader.Value.ToString());
                 }
 
-                if (restResponse.StatusCode == System.Net.HttpStatusCode.PartialContent)
+                if (apiCall.Response.StatusCode == System.Net.HttpStatusCode.PartialContent)
                 {
                     response.WithStatusCode(HttpStatusCode.PartialContent);
                 }
@@ -86,7 +86,8 @@ namespace <#=Namespace#>
                 requestTransformer.Transform(Request, query, headers);
 
 				var authenticator = authenticatorFactory.GetPostgrestAuthenticator(postgRestUserProvider.GetDatabaseUser(this), "");
-                var models = await client.ExecuteGetAsync<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, query, headers, authenticator);
+                var apiCall = await client.ExecuteWrappedAsync<List<<#=GETModelName#>>>("<#=Resource.PostgRESTUri#>", postgRESTConfigProvider.Url, authenticator, query, headers);
+                var models = apiCall.Data;
 				var model = models.FirstOrDefault();
     		    if (model != null)
     		    {

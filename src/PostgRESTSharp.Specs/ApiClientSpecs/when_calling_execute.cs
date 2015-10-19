@@ -39,10 +39,12 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
             var task = StartNewTask();
             restClient.When(x => x.ExecuteTaskAsync(restRequest)).Do(y => task.Wait(500));
-
             restClient.WhenToldTo(x => x.ExecuteTaskAsync(restRequest)).Return(task);
+
+            restRequestFactory = An<IRestRequestFactory>();
+            restRequestFactory.WhenToldTo(a => a.Create()).Return(restRequest);
             
-            apiClient = new ApiClient(restClient, restRequest);
+            apiClient = new ApiClient(restClient, restRequestFactory);
         };
         
         public Because of = async () =>
@@ -62,6 +64,8 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             test.Id.ShouldEqual(1);
             test.Description.ShouldEqual("Description");
         };
+
+        private static IRestRequestFactory restRequestFactory;
 
         public static Task<IRestResponse> StartNewTask()
         {

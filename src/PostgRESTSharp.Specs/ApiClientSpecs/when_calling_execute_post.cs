@@ -31,7 +31,10 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             
             restClient.WhenToldTo(x => x.Execute(restRequest)).Return(restResponse);
 
-            apiClient = new ApiClient(restClient, restRequest);
+            restRequestFactory = An<IRestRequestFactory>();
+            restRequestFactory.WhenToldTo(a => a.Create()).Return(restRequest);
+
+            apiClient = new ApiClient(restClient, restRequestFactory);
         };
 
         public Because of = async () =>
@@ -42,15 +45,17 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_have_base_url_set_on_client = () => restClient.BaseUrl.ShouldEqual(new Uri(url));
 
-        public It should_have_resource_set_on_request = () => restRequest.Resource.ShouldEqual("/" + endpointResource);
+        public It should_have_resource_set_on_request = () => restRequest.Resource.ShouldEqual(endpointResource);
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
         public It should_have_method_set_to_post = () => restRequest.Method.ShouldEqual(Method.POST);
 
-        public It should_call_add_json_body = () => restRequest.WasToldTo(x => x.AddJsonBody(json));
+        public It should_call_add_json_body = () => restRequest.WasToldTo(x => x.AddBody(json));
+
+        public It should_have_set_the_request_format_to_json = () => restRequest.RequestFormat.ShouldEqual(DataFormat.Json);
 
         public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
-
+        private static IRestRequestFactory restRequestFactory;
     }
 }
