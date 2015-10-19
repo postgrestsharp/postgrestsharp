@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace PostgRESTSharp.Shared
 {
@@ -12,24 +14,28 @@ namespace PostgRESTSharp.Shared
     {
         protected IRestClient client;
         protected IRestRequestFactory restRequestFactory;
+        protected ISerializer serialiser;
+        protected IDeserializer deserialiser;
 
-        public ApiClient(IRestClient client, IRestRequestFactory restRequestFactory)
+        public ApiClient(IRestClient client, IRestRequestFactory restRequestFactory, ISerializer serialiser, IDeserializer deserialiser)
         {
             this.client = client;
             this.restRequestFactory = restRequestFactory;
+            this.serialiser = serialiser;
+            this.deserialiser = deserialiser;
         }
 
         public virtual T Execute<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
         {
-            var responseTask = ExecuteAsync(request, baseUrl, authenticator);
+            var responseTask = ExecuteInternalWrappedAsync<T>(request, baseUrl, authenticator);
             responseTask.Wait();
-            return GetContentAs<T>(responseTask.Result);
+            return responseTask.Result.Data;
         }
 
         public virtual async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
         {
-            var response = await ExecuteAsync(request, baseUrl, authenticator);
-            return GetContentAs<T>(response);
+            var response = await ExecuteInternalWrappedAsync<T>(request, baseUrl, authenticator);
+            return response.Data;
         }
 
         public virtual IRestResponse Execute(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
@@ -39,28 +45,24 @@ namespace PostgRESTSharp.Shared
             return task.Result;
         }
 
-        public virtual Task<IRestResponse> ExecuteAsync(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        public virtual async Task<IRestResponse> ExecuteAsync(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            return await ExecuteInternalWrappedAsync<object>(request, baseUrl, authenticator);
+        }
+
+        protected virtual async Task<IRestResponse<T>> ExecuteInternalWrappedAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
         {
             client.Authenticator = authenticator;
             client.BaseUrl = new Uri(baseUrl);
-            return client.ExecuteTaskAsync(request);
+            client.AddHandler("application/json", deserialiser);
+            request.JsonSerializer = serialiser;
+            return await client.ExecuteTaskAsync<T>(request);
         }
 
         public virtual async Task<IApiResponse<T>> ExecuteWrappedAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
         {
-            var response = await ExecuteAsync(request, baseUrl, authenticator);
-            var data = default(T);
-            if (!string.IsNullOrEmpty(response.Content)) //we might not be interested in the Content of our request
-            {
-                try
-                {
-                    data = JsonConvert.DeserializeObject<T>(response.Content);
-                }
-                catch (Exception)
-                {
-                    //swallow
-                }
-            }
+            var response = await ExecuteInternalWrappedAsync<T>(request, baseUrl, authenticator);
+            var data = response.Data;
             return new ApiResponse<T>(response, data);
         }
 
@@ -136,11 +138,6 @@ namespace PostgRESTSharp.Shared
                 request.AddQueryParameter(item1.Key, item1.Value);
             }
             return request;
-        }
-
-        protected virtual T GetContentAs<T>(IRestResponse response)
-        {
-            return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
         protected virtual string PrefixResourceIfNecessary(string baseUrl, string resource)

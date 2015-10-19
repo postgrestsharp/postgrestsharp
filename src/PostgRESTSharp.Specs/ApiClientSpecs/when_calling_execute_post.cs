@@ -9,6 +9,8 @@ using Machine.Specifications;
 using PostgRESTSharp.Shared;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 {
@@ -34,7 +36,10 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             restRequestFactory = An<IRestRequestFactory>();
             restRequestFactory.WhenToldTo(a => a.Create()).Return(restRequest);
 
-            apiClient = new ApiClient(restClient, restRequestFactory);
+            serialiser = An<ISerializer>();
+            deserialiser = An<IDeserializer>();
+
+            apiClient = new ApiClient(restClient, restRequestFactory, serialiser, deserialiser);
         };
 
         public Because of = async () =>
@@ -55,7 +60,10 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_have_set_the_request_format_to_json = () => restRequest.RequestFormat.ShouldEqual(DataFormat.Json);
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync<object>(restRequest));
+
         private static IRestRequestFactory restRequestFactory;
+        private static ISerializer serialiser;
+        private static IDeserializer deserialiser;
     }
 }

@@ -59,6 +59,7 @@
     <Compile Include="PostgRestHttpRequest.cs" />
     <Compile Include="PostgRestHttpRequestFactory.cs" />
     <Compile Include="RestRequestFactory.cs" />
+    <Compile Include="RestSharpNewtonsoftJsonSerialiser.cs" />
     <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
     <Compile Include="IPostgRESTUserProvider.cs" />
     <Compile Include="Transformers\OrderAttribute.cs" />
