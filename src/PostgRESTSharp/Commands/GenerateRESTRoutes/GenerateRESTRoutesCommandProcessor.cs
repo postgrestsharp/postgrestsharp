@@ -33,10 +33,22 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
                 // we need to generate one file per view
                 foreach (var resource in resources)
                 {
-					var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, lowerErrorHandlingMode);
-                    string contents = restRoute.TransformText();
-                    string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", resource.ModelName));
-                    this.WriteFileContents(viewFileName, contents);
+                    if (!resource.IsExcluded)
+                    {
+                        var restRoute = new NancyRESTRoute(resource, fileNamespace, modelNamespace, lowerErrorHandlingMode);
+                        string contents = restRoute.TransformText();
+                        string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", resource.ModelName));
+                        this.WriteFileContents(viewFileName, contents);
+                    }
+                    else
+                    {
+                        string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", resource.ModelName));
+                        if (File.Exists(viewFileName))
+                        {
+                            File.Delete(viewFileName);
+                        }
+                    }
+					
                 }
             }
             else

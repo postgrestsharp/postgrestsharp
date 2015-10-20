@@ -4,7 +4,9 @@ namespace PostgRESTSharp.REST
 {
     public class RESTResource : IRESTResource
     {
-        public RESTResource(string uri, string postgRESTUri, string modelName, string keyName, IEnumerable<RESTMethod> methods, IEnumerable<string> roleClaims, string resourceVersion)
+        public RESTResource(string uri, string postgRESTUri, string modelName, string keyName, 
+            IEnumerable<RESTMethod> methods, IEnumerable<string> roleClaims, string resourceVersion,
+            bool isExcluded)
         {
             this.Uri = uri;
             this.PostgRESTUri = postgRESTUri;
@@ -14,6 +16,7 @@ namespace PostgRESTSharp.REST
             this.AccessClaims = roleClaims;
             this.DisplayName = "Temp Resource Display Name";
             this.ResourceVersion = resourceVersion;
+            this.IsExcluded = isExcluded;
         }
 
         public string Uri { get; protected set; }
@@ -29,6 +32,8 @@ namespace PostgRESTSharp.REST
         public string DisplayName { get; protected set; }
 
         public string ResourceVersion { get; protected set; }
+
+        public bool IsExcluded { get; protected set; }
 
         public IEnumerable<RESTMethod> Methods { get; protected set; }
     }

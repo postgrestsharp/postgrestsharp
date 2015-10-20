@@ -27,6 +27,8 @@ namespace PostgRESTSharp
 
         IEnumerable<ViewFilterElement> FilterElements { get; }
 
+	    bool IsExclused { get; }
+
         bool HasKey { get; }
 
         bool HasViewKey { get; }

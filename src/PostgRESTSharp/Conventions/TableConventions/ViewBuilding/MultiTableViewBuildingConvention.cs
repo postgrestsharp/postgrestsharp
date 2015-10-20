@@ -25,6 +25,9 @@ namespace PostgRESTSharp.Conventions
 
         public IViewMetaModel BuildModel(IViewMetaModel viewToBuild, ITableMetaModel storageModel, IEnumerable<ITableMetaModel> additionalStorageModels)
         {
+
+            //should we be be usoing this table check using the convention
+
             // there are multiple tables involved
             ITableMetaModel currentTable = null;
             string currentTableName = "";

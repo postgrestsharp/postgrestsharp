@@ -1,6 +1,7 @@
 ﻿using PostgRESTSharp.Commands.GenerateViewScripts.Templates;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PostgRESTSharp.Commands.GenerateViewScripts
 {
@@ -20,15 +21,26 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts
                 // we need to generate one file per view
                 foreach (var view in views)
                 {
-                    var viewScript = new ViewScript(view, viewSchemaOwner, viewSchemaVersion);
-                    string contents = viewScript.TransformText();
-                    string viewFileName = Path.Combine(outputDirectory, string.Format("{0}_{1}.sql", fileName, view.ViewName));
-                    this.WriteFileContents(viewFileName, contents);
+                    if (!view.IsExclused)
+                    {
+                        var viewScript = new ViewScript(view, viewSchemaOwner, viewSchemaVersion);
+                        string contents = viewScript.TransformText();
+                        string viewFileName = Path.Combine(outputDirectory, string.Format("{0}_{1}.sql", fileName, view.ViewName));
+                        this.WriteFileContents(viewFileName, contents);
+                    }
+                    else
+                    {
+                        string viewFileName = Path.Combine(outputDirectory, string.Format("{0}_{1}.sql", fileName, view.ViewName));
+                        if (File.Exists(viewFileName))
+                        {
+                            File.Delete(viewFileName);
+                        }
+                    }
                 }
             }
             else
             {
-                var viewScript = new ViewsScript(views, viewSchemaOwner, viewSchemaVersion);
+                var viewScript = new ViewsScript(views.Where(x => !x.IsExclused), viewSchemaOwner, viewSchemaVersion);
                 string contents = viewScript.TransformText();
                 string viewFileName = Path.Combine(outputDirectory, fileName);
                 this.WriteFileContents(viewFileName, contents);

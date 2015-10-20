@@ -94,6 +94,13 @@
     </Compile>
     <Compile Include="Commands\GenerateRESTRoutes\Templates\NancyRESTRouteRoot2.cs" />
     <Compile Include="Conventions\ConventionHolder.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\UsageTypeTableExclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\DataTypeTableExclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\EligibilityQuestionsTableExclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\DeclarationQuestionsTableExclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\CalculatorQuestionsTableExclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\DefaultTableExclusionConvention.cs" />
+    <Compile Include="Conventions\TableConventions\TableExclusion\ITableExclusionConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceOwnerColumn.cs" />

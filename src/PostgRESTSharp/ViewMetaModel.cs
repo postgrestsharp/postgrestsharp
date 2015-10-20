@@ -13,7 +13,7 @@ namespace PostgRESTSharp
        
 
         public ViewMetaModel(string databaseName, string schemaName, string viewName, 
-            string modelName, string modelNamePluralised, string description)
+            string modelName, string modelNamePluralised, string description, bool isExcluded)
         {
             this.DatabaseName = databaseName;
             this.SchemaName = schemaName;
@@ -24,6 +24,8 @@ namespace PostgRESTSharp
             this.columns = new List<ViewMetaModelColumn>();
             this.joinSources = new List<ViewMetaModelSource>();
             this.viewFilterElements = new List<ViewFilterElement>();
+            this.IsExclused = isExcluded;
+
         }
 
         public string DatabaseName { get; protected set; }
@@ -46,7 +48,8 @@ namespace PostgRESTSharp
 
         public IEnumerable<ViewFilterElement> FilterElements { get { return this.viewFilterElements; } }
 
-
+        public bool IsExclused { get; protected set; }
+        
         public bool HasKey { get { return this.Columns.Where(x => x.IsKeyColumn).Any(); } }
 
         public bool HasViewKey

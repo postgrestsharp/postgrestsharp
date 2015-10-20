@@ -21,15 +21,26 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels
                 // we need to generate one file per view
                 foreach (var view in views.Where(x => x.HasKey))
                 {
-					var restModel = new NancyRESTModel(view, fileNamespace,isReadOnly);
-                    string contents = restModel.TransformText();
-                    string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", view.ModelName));
-                    this.WriteFileContents(viewFileName, contents);
+                    if (!view.IsExclused)
+                    {
+                        var restModel = new NancyRESTModel(view, fileNamespace, isReadOnly);
+                        string contents = restModel.TransformText();
+                        string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", view.ModelName));
+                        this.WriteFileContents(viewFileName, contents);
+                    }
+                    else
+                    {
+                        string viewFileName = Path.Combine(outputDirectory, string.Format("{0}.cs", view.ModelName));
+                        if (File.Exists(viewFileName))
+                        {
+                            File.Delete(viewFileName);
+                        }
+                    }
                 }
             }
             else
             {
-                var viewScript = new NancyRESTModels(views.Where(x => x.HasKey), fileNamespace);
+                var viewScript = new NancyRESTModels(views.Where(x => x.HasKey & !x.IsExclused), fileNamespace);
                 string contents = viewScript.TransformText();
                 string viewFileName = Path.Combine(outputDirectory, fileName);
                 this.WriteFileContents(viewFileName, contents);

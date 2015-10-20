@@ -79,7 +79,7 @@ namespace PostgRESTSharp
                     roleClaims.Add(grantee.Name);
                 }
 
-                var resource = new RESTResource(view.ModelNamePluralised.ToLower(), view.ViewName, view.ModelName, pkCol.ColumnName.ToLower(), methods, roleClaims, view.SchemaName);
+                var resource = new RESTResource(view.ModelNamePluralised.ToLower(), view.ViewName, view.ModelName, pkCol.ColumnName.ToLower(), methods, roleClaims, view.SchemaName, view.IsExclused);
                 resources.Add(resource);
             }
 
