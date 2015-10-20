@@ -124,7 +124,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                         generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(loadedRamlFile.ResourceTypes);
                     }
 
-                    Extensions.Merge(generatedRamlDoc.Resources, loadedRamlFile.Resources);
+                    Extensions.Merge(generatedRamlDoc.Resources, loadedRamlFile.Resources,null);
                 }
             }
         }

@@ -76,17 +76,22 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             return nestedResources;
         }
 
-        public static void Merge(ICollection<Resource> baseItems, ICollection<Resource> newItems)
+        public static void Merge(ICollection<Resource> baseItems, ICollection<Resource> newItems, IDictionary<string, IDictionary<string, string>> resourceType)
         {
             foreach (var resource in newItems)
             {
                 if (!baseItems.Any(x => x.RelativeUri == resource.RelativeUri))
                 {
+                    if (resourceType != null)
+                    {
+                        resource.Type = resourceType;
+                    }
                     baseItems.Add(resource);
                 }
                 else
                 {
-                    Merge(baseItems.Single(x => x.RelativeUri == resource.RelativeUri).Resources, resource.Resources);
+                    var newBaseItem = baseItems.Single(x => x.RelativeUri == resource.RelativeUri);
+                    Merge(newBaseItem.Resources, resource.Resources, newBaseItem.Type);
                 }
             }
         }
