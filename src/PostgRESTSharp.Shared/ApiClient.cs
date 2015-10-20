@@ -1,66 +1,89 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Nancy.ErrorHandling;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
+using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace PostgRESTSharp.Shared
 {
     public class ApiClient : IApiClient
     {
         protected IRestClient client;
-        protected IRestRequest restRequest;
+        protected IRestRequestFactory restRequestFactory;
+        protected ISerializer serialiser;
+        protected IDeserializer deserialiser;
 
-        public ApiClient(IRestClient client, IRestRequest restRequest)
+        public ApiClient(IRestClient client, IRestRequestFactory restRequestFactory, ISerializer serialiser, IDeserializer deserialiser)
         {
             this.client = client;
-            this.restRequest = restRequest;
+            this.restRequestFactory = restRequestFactory;
+            this.serialiser = serialiser;
+            this.deserialiser = deserialiser;
         }
 
-        public IRestResponse Execute(string resource, string baseUrl, IAuthenticator authenticator = null,
+        public virtual T Execute<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            var responseTask = ExecuteInternalWrappedAsync<T>(request, baseUrl, authenticator);
+            responseTask.Wait();
+            return responseTask.Result.Data;
+        }
+
+        public virtual async Task<T> ExecuteAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            var response = await ExecuteInternalWrappedAsync<T>(request, baseUrl, authenticator);
+            return response.Data;
+        }
+
+        public virtual IRestResponse Execute(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            var task = ExecuteAsync(request, baseUrl, authenticator);
+            task.Wait();
+            return task.Result;
+        }
+
+        public virtual async Task<IRestResponse> ExecuteAsync(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            return await ExecuteInternalWrappedAsync<object>(request, baseUrl, authenticator);
+        }
+
+        protected virtual async Task<IRestResponse<T>> ExecuteInternalWrappedAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            client.Authenticator = authenticator;
+            client.BaseUrl = new Uri(baseUrl);
+            client.AddHandler("application/json", deserialiser);
+            request.JsonSerializer = serialiser;
+            return await client.ExecuteTaskAsync<T>(request);
+        }
+
+        public virtual async Task<IApiResponse<T>> ExecuteWrappedAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
+        {
+            var response = await ExecuteInternalWrappedAsync<T>(request, baseUrl, authenticator);
+            var data = response.Data;
+            return new ApiResponse<T>(response, data);
+        }
+
+        public virtual async Task<IApiResponse<T>> ExecuteWrappedAsync<T>(string resource, string baseUrl, IAuthenticator authenticator = null,
             IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
-            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null)
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, Method method = Method.GET, object requestBody = null,
+            DataFormat requestFormat = DataFormat.Json)
         {
-            var task = ExecuteAsync(resource, baseUrl, authenticator, queryStringParameters, requestHeaders);
-            task.Wait();
-            return task.Result;
+            var request = CreateRequest(resource, baseUrl, queryStringParameters, requestHeaders, method, requestBody, requestFormat);
+            return await ExecuteWrappedAsync<T>(request, baseUrl, authenticator);
         }
 
-        public async Task<IRestResponse> ExecuteAsync(string resource, string baseUrl, IAuthenticator authenticator = null, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null)
+        public virtual async Task<IRestResponse> ExecuteAsync(string resource, string baseUrl, IAuthenticator authenticator = null,
+            IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, Method method = Method.GET)
         {
-            client.Authenticator = authenticator;
-            client.BaseUrl = new Uri(baseUrl);
-            restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
-            AddHeaders(requestHeaders);
-            AddQuery(queryStringParameters);
-            return await client.ExecuteTaskAsync(restRequest);
+            var request = CreateRequest(resource, baseUrl, queryStringParameters, requestHeaders, method);
+            return await ExecuteAsync(request, baseUrl, authenticator);
         }
 
-        public T Execute<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
-        {
-            var task = ExecuteAsync<T>(restRequest, baseUrl, authenticator);
-            task.Wait();
-            return task.Result;
-        }
-
-        public async Task<T> ExecuteAsync<T>(IRestRequest restRequest, string baseUrl, IAuthenticator authenticator = null)
-        {
-            client.Authenticator = authenticator;
-            client.BaseUrl = new Uri(baseUrl);
-            var restResponse = await client.ExecuteTaskAsync(restRequest);
-            var models = JsonConvert.DeserializeObject<T>(restResponse.Content);
-            if (restResponse.ErrorException != null)
-            {
-                throw restResponse.ErrorException;
-            }
-            return models;
-        }
-
-        public T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+        public virtual T ExecuteGet<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
             IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
         {
             var task = ExecuteGetAsync<T>(resource, baseUrl, queryStringParameters, requestHeaders, authenticator);
@@ -68,62 +91,58 @@ namespace PostgRESTSharp.Shared
             return task.Result;
         }
 
-        public async Task<T> ExecuteGetAsync<T>(string resource, string baseUrl, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
-        {
-            restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
-
-            AddHeaders(requestHeaders);
-
-            AddQuery(queryStringParameters);
-
-            return await ExecuteAsync<T>(restRequest, baseUrl, authenticator);
-        }
-
-        public IRestResponse ExecutePost(string resource, string baseUrl, string requestBody,
+        public virtual async Task<T> ExecuteGetAsync<T>(string resource, string baseUrl,
             IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
             IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
         {
-            var task = ExecutePostAsync(resource, baseUrl, requestBody, queryStringParameters, requestHeaders);
+            var result = await ExecuteWrappedAsync<T>(resource, baseUrl, authenticator, queryStringParameters, requestHeaders);
+            return result.Data;
+        }
+
+        public virtual IRestResponse ExecutePost(string resource, string baseUrl, string requestBody,
+            IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
+        {
+            var task = ExecutePostAsync(resource, baseUrl, requestBody, queryStringParameters, requestHeaders, authenticator);
             task.Wait();
             return task.Result;
         }
 
-        public async Task<IRestResponse> ExecutePostAsync(string resource, string baseUrl, string requestBody, IEnumerable<KeyValuePair<string, string>> queryStringParameters = null, IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
+        public virtual async Task<IRestResponse> ExecutePostAsync(string resource, string baseUrl, string requestBody,
+            IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, IAuthenticator authenticator = null)
         {
-            client.BaseUrl = new Uri(baseUrl);
-            client.Authenticator = authenticator;
+            var request = CreateRequest(resource, baseUrl, queryStringParameters, requestHeaders, Method.POST, requestBody);
+            return await ExecuteAsync(request, baseUrl, authenticator);
+        }
 
-            AddHeaders(requestHeaders);
-
-            AddQuery(queryStringParameters);
-
-            restRequest.Resource = PrefixResourceIfNecessary(baseUrl, resource);
-
-            restRequest.Method = Method.POST;
-            restRequest.AddJsonBody(requestBody);
-
-            return await client.ExecuteTaskAsync(restRequest);
+        protected virtual IRestRequest CreateRequest(string resource, string baseUrl,
+            IEnumerable<KeyValuePair<string, string>> queryStringParameters = null,
+            IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders = null, Method method = Method.GET, object requestBody = null,
+            DataFormat requestFormat = DataFormat.Json)
+        {
+            var request = restRequestFactory.Create();
+            request.Resource = PrefixResourceIfNecessary(baseUrl, resource);
+            request.Method = method;
+            request.RequestFormat = requestFormat;
+            if (requestBody != null)
+            {
+                request.AddBody(requestBody);
+            }
+            foreach (var item in requestHeaders ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
+            {
+                request.AddHeader(item.Key, string.Join("; ", item.Value));
+            }
+            foreach (var item1 in queryStringParameters ?? Enumerable.Empty<KeyValuePair<string, string>>())
+            {
+                request.AddQueryParameter(item1.Key, item1.Value);
+            }
+            return request;
         }
 
         protected virtual string PrefixResourceIfNecessary(string baseUrl, string resource)
         {
-            return baseUrl.EndsWith("/") ? "/" + resource : resource;
-        }
-
-        protected virtual void AddQuery(IEnumerable<KeyValuePair<string, string>> queryStringParameters)
-        {
-            foreach (var item in queryStringParameters ?? Enumerable.Empty<KeyValuePair<string, string>>())
-            {
-                restRequest.AddQueryParameter(item.Key, item.Value);
-            }
-        }
-
-        protected virtual void AddHeaders(IEnumerable<KeyValuePair<string, IEnumerable<string>>> requestHeaders)
-        {
-            foreach (var item in requestHeaders ?? Enumerable.Empty<KeyValuePair<string, IEnumerable<string>>>())
-            {
-                restRequest.AddHeader(item.Key, string.Join("; ", item.Value));
-            }
+            return baseUrl.EndsWith("/") ? resource : "/" + resource;
         }
     }
 }

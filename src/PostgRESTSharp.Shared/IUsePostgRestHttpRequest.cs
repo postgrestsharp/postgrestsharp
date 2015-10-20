@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PostgRESTSharp.Shared
 {
-    public interface IGeneratedModule
+    public interface IUsePostgRestHttpRequest
     {
     }
 }

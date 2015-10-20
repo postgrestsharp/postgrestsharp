@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-
-namespace PostgRESTSharp
+﻿namespace PostgRESTSharp
 {
     public class ViewMetaModelColumn
     {

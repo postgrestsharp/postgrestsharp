@@ -46,15 +46,20 @@
     <Compile Include="ApiClient.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ApiResponse.cs" />
     <Compile Include="AuthenticatorFactory.cs" />
     <Compile Include="HttpResponseCodeMatcher.cs" />
     <Compile Include="IApiClient.cs" />
+    <Compile Include="IApiResponse.cs" />
     <Compile Include="IAuthenticatorFactory.cs" />
     <Compile Include="IHttpStatusCodeMatcher.cs" />
-    <Compile Include="IGeneratedModule.cs" />
+    <Compile Include="IRestRequestFactory.cs" />
+    <Compile Include="IUsePostgRestHttpRequest.cs" />
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="PostgRestHttpRequest.cs" />
     <Compile Include="PostgRestHttpRequestFactory.cs" />
+    <Compile Include="RestRequestFactory.cs" />
+    <Compile Include="RestSharpNewtonsoftJsonSerialiser.cs" />
     <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
     <Compile Include="IPostgRESTUserProvider.cs" />
     <Compile Include="Transformers\OrderAttribute.cs" />

@@ -16,7 +16,8 @@ using NSubstitute;
 using PostgRESTSharp.Shared;
 using RestSharp;
 using RestSharp.Authenticators;
-
+using RestSharp.Deserializers;
+using RestSharp.Serializers;
 
 namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 {
@@ -26,7 +27,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
         private static ApiClient apiClient;
         private static IRestRequest restRequest;
         private static IRestClient restClient;
-        private static IRestResponse restResponse;
+        private static IRestResponse<SimpleTest> restResponse;
         private static string url = "http://test.com/";
         private static SimpleTest test;
 
@@ -34,15 +35,24 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
         {
             restRequest = An<IRestRequest>();
             restClient = An<IRestClient>();
-            restResponse = An<IRestResponse>();
-            restResponse.WhenToldTo(x => x.Content).Return(@"{ id: 1, Description: 'Description' }");
+            restResponse = An<IRestResponse<SimpleTest>>();
+            restResponse.WhenToldTo(x => x.Data).Return(new SimpleTest
+            {
+                Id = 1,
+                Description = "Description"
+            });
 
             var task = StartNewTask();
-            restClient.When(x => x.ExecuteTaskAsync(restRequest)).Do(y => task.Wait(500));
+            restClient.When(x => x.ExecuteTaskAsync<SimpleTest>(restRequest)).Do(y => task.Wait(500));
+            restClient.WhenToldTo(x => x.ExecuteTaskAsync<SimpleTest>(restRequest)).Return(task);
 
-            restClient.WhenToldTo(x => x.ExecuteTaskAsync(restRequest)).Return(task);
-            
-            apiClient = new ApiClient(restClient, restRequest);
+            restRequestFactory = An<IRestRequestFactory>();
+            restRequestFactory.WhenToldTo(a => a.Create()).Return(restRequest);
+
+            serialiser = An<ISerializer>();
+            deserialiser = An<IDeserializer>();
+
+            apiClient = new ApiClient(restClient, restRequestFactory, serialiser, deserialiser);
         };
         
         public Because of = async () =>
@@ -55,7 +65,7 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync<SimpleTest>(restRequest));
 
         public It should_return_a_model = () =>
         {
@@ -63,9 +73,13 @@ namespace PostgRESTSharp.Specs.ConventionResolverSpecs
             test.Description.ShouldEqual("Description");
         };
 
-        public static Task<IRestResponse> StartNewTask()
+        private static IRestRequestFactory restRequestFactory;
+        private static ISerializer serialiser;
+        private static IDeserializer deserialiser;
+
+        public static Task<IRestResponse<SimpleTest>> StartNewTask()
         {
-            return Task<IRestResponse>.Factory.StartNew(() => restResponse);
+            return Task<IRestResponse<SimpleTest>>.Factory.StartNew(() => restResponse);
         }
         
     }
