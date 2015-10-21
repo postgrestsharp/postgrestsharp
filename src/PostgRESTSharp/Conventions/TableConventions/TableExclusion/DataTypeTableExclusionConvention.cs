@@ -9,11 +9,19 @@ namespace PostgRESTSharp.Conventions
             return true;
         }
 
-        public string DatabaseName => "halo";
+        public string DatabaseName
+        {
+            get { return "halo"; }
+        }
 
-        public string SchemaName => "public";
+        public string SchemaName
+        {
+            get { return "public"; }
+        }
 
-        public string TableName => "data_type_enum";
-
+        public string TableName
+        {
+            get { return "data_type_enum"; }
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace PostgRESTSharp.Shared
 
     public class ApiResponse<T> : ApiResponse, IApiResponse<T>
     {
-        public T Data { get; }
+        public T Data { get; private set; }
 
         public ApiResponse(IRestResponse response, T data)
         {
