@@ -32,9 +32,12 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             
             foreach (IRESTResource restResource in resources)
             {
-                var resource = mapper.Transform<IRESTResource,Resource>(restResource);
-                RebaseResources(resource, baseResources);
-                ramlDocuent.Resources.Add(resource);
+                if (ShouldEntityBeIncluded(restResource))
+                {
+                    var resource = mapper.Transform<IRESTResource, Resource>(restResource);
+                    RebaseResources(resource, baseResources);
+                    ramlDocuent.Resources.Add(resource);
+                }
             }
 
             ImportExternalRAMLResources(ramlDocuent, includedRamlDirectory);
@@ -44,7 +47,12 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             this.WriteFileContents(Path.Combine(outputDirectory, fileName), ramlSerializedDoBument);
         }
 
-        
+        private bool ShouldEntityBeIncluded(IRESTResource restResource)
+        {
+            return !restResource.IsExcluded;
+        }
+
+
         private void Configure()
         {
             mapper.ConfigureAllMappings();

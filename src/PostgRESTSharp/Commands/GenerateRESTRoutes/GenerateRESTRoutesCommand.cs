@@ -44,6 +44,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTRoutes
             [CommandParameter(Prototype = "m|modelNamespace", Description = "The model namespace used for the generated routes.", IsRequired = true)]string modelNamespace,
 			[CommandParameter(Prototype = "r|readOnly", Description = "Generate read only routes.", IsRequired = true, DefaultValue = "true")]string readOnly,
             [CommandParameter(Prototype = "e|errorHandlingMode", Description = "The error handling mode to use for the generated routes [none | standard]")]string errorHandlingMode
+            //,[CommandParameter(Prototype = "a|accessRole", Description = "The role the routes are generated for")]string accessRole
         )
 		{
 			// setup the connection

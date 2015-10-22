@@ -28,8 +28,8 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts.Templates
         {
 			if (view.JoinSources.Count () > 0) {
 				return string.Format ("{0} {1} \n", view.PrimarySource.TableName, view.PrimarySource.TableName.Replace ("$", "_")) +
-				string.Join ("\n", view.JoinSources.Select (x => string.Format ("JOIN {0} {1} ON {2}.{3} = {1}.{4}", 
-					x.JoinSource.TableName, x.JoinSource.TableName.Replace ("$", "_"), 
+				string.Join ("\n", view.JoinSources.Select (x => string.Format ("{0} {1} {2} ON {3}.{4} = {2}.{5}",
+                    GetJoinType(x.SourceColumn), x.JoinSource.TableName, x.JoinSource.TableName.Replace ("$", "_"), 
 					x.Source.TableName.Replace ("$", "_"), x.SourceColumn.ColumnName, x.JoinColumn.ColumnName))) + " \n";
 			} else {
 				return string.Format ("{0} \n", view.PrimarySource.TableName);
@@ -48,6 +48,15 @@ namespace PostgRESTSharp.Commands.GenerateViewScripts.Templates
             string where = string.Join("", view.FilterElements.Select(x => string.Format(" AND " + x.ToString())));
             return "WHERE " + where.Substring(5, where.Length - 5);
 
+        }
+
+        public string GetJoinType(TableMetaModelColumn column)
+        {
+            if (column.IsNullable)
+            {
+                return "LEFT JOIN";
+            }
+            return "JOIN";
         }
     }
 }

@@ -13,5 +13,7 @@ namespace PostgRESTSharp.REST
         string Uri { get; }
 
         string DisplayName { get; }
+
+        bool IsExcluded { get; }
     }
 }
