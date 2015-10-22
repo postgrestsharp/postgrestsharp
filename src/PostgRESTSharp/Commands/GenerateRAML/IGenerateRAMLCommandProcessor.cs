@@ -6,7 +6,8 @@ namespace PostgRESTSharp.Commands.GenerateRAML
 {
 	public interface IGenerateRAMLCommandProcessor
     {
-        void Process(string baseURI, string title, IEnumerable<IRESTResource> resources, int viewSchemaVersion, string fileName, string outputDirectory,string baseRamlFile,string includedRamlDirectory);
+        void Process(string baseURI, string title, IEnumerable<IRESTResource> resources, int viewSchemaVersion, string fileName, string outputDirectory,
+            string baseRamlFile, string includedRamlDirectory, string accessRole);
 	}
 }
 

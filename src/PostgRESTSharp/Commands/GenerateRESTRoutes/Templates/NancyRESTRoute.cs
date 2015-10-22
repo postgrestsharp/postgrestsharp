@@ -81,7 +81,7 @@ using ");
             
             #line default
             #line hidden
-            this.Write("\t\t\troleEnforcer.EnsureUserBelongsToRoles(this, new[] { \r\n");
+            this.Write("\t\t\troleEnforcer.EnsureUserBelongsToAtLeastOneRole(this, new[] { \r\n");
             
             #line 32 "D:\postgrestsharp\src\PostgRESTSharp\Commands\GenerateRESTRoutes\Templates\NancyRESTRoute.tt"
  string prefix = ""; 

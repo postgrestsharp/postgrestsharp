@@ -28,7 +28,7 @@ namespace <#=Namespace#>
                 )
     	{
 <# if (Resource.AccessClaims.Count() > 0) { #>
-			roleEnforcer.EnsureUserBelongsToRoles(this, new[] { 
+			roleEnforcer.EnsureUserBelongsToAtLeastOneRole(this, new[] { 
 <# string prefix = ""; #>
 <#foreach(var claim in Resource.AccessClaims){#>
 				<#=prefix#> "<#=claim#>"

@@ -8,6 +8,8 @@ using Raml.Parser.Expressions;
 using PostgRESTSharp.RAML;
 using PostgRESTSharp.Commands.GenerateRAML.Maps;
 using AutoMapper;
+using AutoMapper.Internal;
+using Microsoft.SqlServer.Server;
 using Raml.Parser;
 
 namespace PostgRESTSharp.Commands.GenerateRAML
@@ -23,7 +25,8 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             this.serializer = serializer;
         }
 
-        public void Process(string baseURI, string title, IEnumerable<IRESTResource> resources, int viewSchemaVersion, string fileName, string outputDirectory, string baseRamlFile, string includedRamlDirectory)
+        public void Process(string baseURI, string title, IEnumerable<IRESTResource> resources, int viewSchemaVersion, string fileName, string outputDirectory, 
+            string baseRamlFile, string includedRamlDirectory, string accessRole)
         {
             this.Configure();
             var ramlDocuent = this.CreateNewDocument(baseURI,title,viewSchemaVersion.ToString(),baseRamlFile);
@@ -32,7 +35,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             
             foreach (IRESTResource restResource in resources)
             {
-                if (ShouldEntityBeIncluded(restResource))
+                if (ShouldEntityBeIncluded(restResource, accessRole))
                 {
                     var resource = mapper.Transform<IRESTResource, Resource>(restResource);
                     RebaseResources(resource, baseResources);
@@ -47,9 +50,15 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             this.WriteFileContents(Path.Combine(outputDirectory, fileName), ramlSerializedDoBument);
         }
 
-        private bool ShouldEntityBeIncluded(IRESTResource restResource)
+        private bool ShouldEntityBeIncluded(IRESTResource restResource, string requiredRole)
         {
-            return !restResource.IsExcluded;
+            if (requiredRole.Length == 0)
+            {
+                return !restResource.IsExcluded;
+            }
+
+            return !restResource.IsExcluded && restResource.AccessClaims.Contains(requiredRole);
+
         }
 
 
@@ -62,7 +71,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
         {
             if (resource.Type == null)
             {
-                resource.Type = new Dictionary<string, IDictionary<string, string>>();
+                resource.Type = new Dictionary<string, System.Collections.Generic.IDictionary<string, string>>();
             }
 
             if (baseResources != null)
