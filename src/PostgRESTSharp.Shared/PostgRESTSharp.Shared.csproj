@@ -58,6 +58,8 @@
     <Compile Include="IPostgRESTUrlConfigurationProvider.cs" />
     <Compile Include="PostgRestHttpRequest.cs" />
     <Compile Include="PostgRestHttpRequestFactory.cs" />
+    <Compile Include="RestLinks\Links\RestLinkUri.cs" />
+    <Compile Include="RestLinks\RestLinkJsonConverter.cs" />
     <Compile Include="RestRequestFactory.cs" />
     <Compile Include="RestSharpNewtonsoftJsonSerialiser.cs" />
     <Compile Include="Transformers\QueryString\IQueryStringTransformer.cs" />
@@ -72,9 +74,9 @@
     <Compile Include="IRoleEnforcer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transformers\RequestHeader\PostgRestRangeHeaderTransformer.cs" />
-    <Compile Include="RestLink.cs" />
-    <Compile Include="RestLinkBuilder.cs" />
-    <Compile Include="RestLinksJavaScriptConverter.cs" />
+    <Compile Include="RestLinks\Links\RestLink.cs" />
+    <Compile Include="RestLinks\RestLinkBuilder.cs" />
+    <Compile Include="RestLinks\RestLinksJavaScriptConverter.cs" />
     <Compile Include="ILocationHeaderParser.cs" />
     <Compile Include="LocationHeaderParser.cs" />
     <Compile Include="RoleEnforcer.cs" />
