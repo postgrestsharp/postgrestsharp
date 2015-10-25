@@ -20,7 +20,7 @@ namespace PostgRESTSharp
             foreach (var view in views)
             {
                 var methods = new List<RESTMethod>();
-                var getRestModel = this.restModelBuilder.BuildRESTModel(view, RESTVerbEnum.GET);
+                var getRestModel = this.restModelBuilder.BuildRESTModel(view, RESTVerbEnum.GET, views);
 
                 // create a response schema for the collection get
                 string collectionGetSchemaDef = this.schemaConverter.ConvertCollection(getRestModel);

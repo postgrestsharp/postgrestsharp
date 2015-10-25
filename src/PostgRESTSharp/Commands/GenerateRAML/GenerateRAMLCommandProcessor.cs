@@ -35,7 +35,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             
             foreach (IRESTResource restResource in resources)
             {
-                if (ShouldEntityBeIncluded(restResource, accessRole))
+                if (EntityShouldBeIncludedCheck(restResource, accessRole))
                 {
                     var resource = mapper.Transform<IRESTResource, Resource>(restResource);
                     RebaseResources(resource, baseResources);
@@ -50,7 +50,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             this.WriteFileContents(Path.Combine(outputDirectory, fileName), ramlSerializedDoBument);
         }
 
-        private bool ShouldEntityBeIncluded(IRESTResource restResource, string requiredRole)
+        private bool EntityShouldBeIncludedCheck(IRESTResource restResource, string requiredRole)
         {
             if (requiredRole.Length == 0)
             {

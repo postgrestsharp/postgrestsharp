@@ -7,14 +7,14 @@ namespace PostgRESTSharp
 {
     public class RESTModelBuilder : IRESTModelBuilder
     {
-        public RESTModel BuildRESTModel(IViewMetaModel view, RESTVerbEnum modelType)
+        public RESTModel BuildRESTModel(IViewMetaModel view, RESTVerbEnum modelType, IEnumerable<IViewMetaModel> views)
         {
             string modelClassName = string.Format("{0}{1}Model", view.ModelName, ConvertToRESTVerbString(modelType));
             RESTModel model = new RESTModel(modelType, view.ModelName , modelClassName, view.Description,
                 GetPrimaryKeyColumnName(view),
-                this.GetProperties(view, modelType),
+                this.GetProperties(view, modelType, views),
                 this.GetParameters(view, modelType));
-
+            ;
             return model;
         }
 
@@ -60,23 +60,40 @@ namespace PostgRESTSharp
             throw new Exception("View has not primary key or no single unique column");
         }
 
-        public IEnumerable<RESTModelProperty> GetProperties(IViewMetaModel view, RESTVerbEnum type)
+        public IEnumerable<RESTModelProperty> GetProperties(IViewMetaModel view, RESTVerbEnum type, IEnumerable<IViewMetaModel> views)
         {
-            var columns = view.Columns;
+            var columns = GetViewableColumns(view);
             switch (type)
             {
                 case RESTVerbEnum.POST:
-                    columns = view.Columns.Where(x => !x.IsPrimaryKeyColumn);
+                    columns = columns.Where(x => !x.IsPrimaryKeyColumn);
                     break;
 
                 case RESTVerbEnum.POSTResponse:
-                    columns = view.Columns.Where(x => x.IsPrimaryKeyColumn);
+                    columns = columns.Where(x => x.IsPrimaryKeyColumn);
                     break;
             }
             foreach (var col in columns)
             {
-                yield return new RESTModelProperty(col.ColumnName, col.Description, ConvertToNullableIfReq(col.ModelDataType));
+                if (col.IsComplexType)
+                {
+                    if(col.JoinRelationModel != null)
+                    { 
+                        var relatedView = views.FirstOrDefault(x => x.ModelName.Equals(col.JoinRelationModel.RelatedModelName, StringComparison.InvariantCultureIgnoreCase));
+                        IEnumerable<IRESTModelProperty> properties = GetProperties(relatedView, type, views);
+                        yield return new RESTModelProperty(col.JoinRelationModel.RelatedModelName, "", "object", properties);
+                    }
+                }
+                else
+                {
+                    yield return new RESTModelProperty(col.ColumnName, col.Description, ConvertToNullableIfReq(col.ModelDataType));
+                }
             }
+        }
+
+        private static IEnumerable<ViewMetaModelColumn> GetViewableColumns(IViewMetaModel view)
+        {
+            return view.Columns.Where(x => !x.IsHidden);
         }
 
         public IEnumerable<RESTModelProperty> GetParameters(IViewMetaModel view, RESTVerbEnum type)

@@ -143,6 +143,7 @@
     <Compile Include="RAML\IRamlSerializer.cs" />
     <Compile Include="RESTModelBuilder.cs" />
     <Compile Include="REST\IModelToJSONSchemaConverter.cs" />
+    <Compile Include="REST\IRESTModelProperty.cs" />
     <Compile Include="REST\ModelToJSONSchemaConverter.cs" />
     <Compile Include="REST\RESTModel.cs" />
     <Compile Include="REST\RESTModelLink.cs" />
