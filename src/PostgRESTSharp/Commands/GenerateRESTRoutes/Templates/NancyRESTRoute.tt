@@ -77,6 +77,11 @@ namespace <#=Namespace#>
                     response.WithStatusCode(HttpStatusCode.PartialContent);
                 }
 
+                if (apiCall.Response.StatusCode == System.Net.HttpStatusCode.RequestedRangeNotSatisfiable)
+                {
+                    response.WithStatusCode(HttpStatusCode.RequestedRangeNotSatisfiable);
+                }
+
                 return response;
 <#}else{#>
 				var query = requestTransformer.EmptyQuery();
