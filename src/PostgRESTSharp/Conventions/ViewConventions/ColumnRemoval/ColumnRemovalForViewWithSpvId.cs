@@ -12,7 +12,7 @@ namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
         
         public string ColumnToRemove()
         {
-            return "spv_id";
+            return "spvId";
         }
     }
 }

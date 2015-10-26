@@ -12,7 +12,7 @@ namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
         
         public string ColumnToRemove()
         {
-            return "product_id";
+            return "legalentityId";
         }
     }
 }
