@@ -5,6 +5,7 @@ using Nancy;
 
 namespace PostgRESTSharp.Shared
 {
+    [Order(1)]
     public class PostgRestRangeHeaderTransformer : IRequestHeaderTransformer
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, IEnumerable<string>>> postgRestHeadersToAddTo)

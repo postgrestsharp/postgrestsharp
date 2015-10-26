@@ -68,6 +68,7 @@
     <Compile Include="Transformers\IRequestTransformer.cs" />
     <Compile Include="Transformers\QueryString\OrderByQueryStringTransformer.cs" />
     <Compile Include="Transformers\QueryString\PassThroughQueryStringTransformer.cs" />
+    <Compile Include="Transformers\RequestHeader\PostgRestRangeLimitHeaderTransformer.cs" />
     <Compile Include="Transformers\RequestTransformer.cs" />
     <Compile Include="Transformers\RequestHeader\IRequestHeaderTransformer.cs" />
     <Compile Include="IRestLinkBuilder.cs" />

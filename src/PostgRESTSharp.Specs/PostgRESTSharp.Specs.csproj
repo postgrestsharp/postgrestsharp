@@ -45,6 +45,7 @@
       <HintPath>..\packages\SignedBuild-Machine.Specifications.Should.0.7.2\lib\net45\Machine.Specifications.Should.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Nancy, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -74,6 +75,20 @@
     <Compile Include="RestLinkJsonConverterSpecs\when_serialising_a_collection_of_simple_link_uris.cs" />
     <Compile Include="RestLinkJsonConverterSpecs\when_serialising_a_templated_link_uri.cs" />
     <Compile Include="RestLinkJsonConverterSpecs\when_serialising_a_rest_link_uri.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_an_items_prefix.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_a_non_zero_starting_open_ended_range.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_an_acceptable_non_zero_starting_range.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_an_acceptable_range.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_an_open_ended_range.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_a_negative_starting_range.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_a_non_integer_end_index.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_a_non_integer_start_index.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_a_non_zero_starting_range_greater_than_the_count_limit.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_a_range_greater_than_the_count_limit.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_no_range.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_no_range_separator.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_no_range_unit.cs" />
+    <Compile Include="Transformers\RequestHeader\when_transforming_a_range_header_with_no_range_value_specified.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
