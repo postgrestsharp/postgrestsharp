@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace PostgRESTSharp.Conventions.ViewConventions.ViewFiltering
+﻿namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
 {
     public interface IColumnRemovalConvention : IViewConvention
     {
         string ColumnToRemove();
     }
-    
 }

@@ -6,6 +6,7 @@ using PostgRESTSharp.Core.Managers;
 using PostgRESTSharp.Text;
 using System.Collections.Generic;
 using System.Linq;
+using PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval;
 
 namespace PostgRESTSharp.Conventions
 {

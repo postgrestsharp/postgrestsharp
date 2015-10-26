@@ -1,4 +1,4 @@
-﻿namespace PostgRESTSharp.Conventions
+﻿namespace PostgRESTSharp.Conventions.ViewConventions
 {
     public interface IImplicitViewConvention : IImplicitConvention, IViewConvention
     {

@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 
-namespace PostgRESTSharp.Conventions.ViewConventions.ViewFiltering
+namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
 {
-
     public class ColumnRemovalForViewWithOriginationSourceOwnerColumn : IColumnRemovalConvention, IImplicitViewConvention
     {
-
         public bool IsMatch(IViewMetaModel metaModel)
         {
-            return metaModel.Columns.FirstOrDefault(x => x.ColumnName.ToLower() == "originationsourceowner") != null;
+            return metaModel.Columns.Any(x => x.ColumnName.Equals(ColumnToRemove(), StringComparison.OrdinalIgnoreCase));
         }
         
         public string ColumnToRemove()
@@ -17,5 +15,4 @@ namespace PostgRESTSharp.Conventions.ViewConventions.ViewFiltering
             return "originationsourceOwner";
         }
     }
-
 }

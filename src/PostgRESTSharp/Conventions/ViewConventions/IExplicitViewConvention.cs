@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PostgRESTSharp.Conventions
+﻿namespace PostgRESTSharp.Conventions.ViewConventions
 {
 	public interface IExplicitViewConvention : IExplicitConvention, IViewConvention
 	{

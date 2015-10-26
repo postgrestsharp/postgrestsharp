@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using PostgRESTSharp.Conventions.ViewConventions.ViewFiltering;
+﻿using System.Collections.Generic;
 
-namespace PostgRESTSharp.Conventions
+namespace PostgRESTSharp.Conventions.ViewConventions.ViewFiltering
 {
 	public class DefaultViewFilteringConvention : IViewFilteringConvention, IDefaultViewConvention
 	{
