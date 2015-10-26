@@ -60,7 +60,6 @@ namespace PostgRESTSharp.Commands.GenerateRAML
             var views = this.viewMetaModelProcessor.ProcessModels(tables, viewSchemaVersion);
             var resources = this.restResourceProcessor.Process(views.Where(x => x.HasKey), bool.Parse(readOnly));
 
-            this.generateRAMLCommandProcessor.Process(uri, title, resources, viewSchemaVersion, fileName, outputDirectory, baseRamlFile, externalRamls);
             this.generateRAMLCommandProcessor.Process(uri, title, resources, viewSchemaVersion, fileName, outputDirectory, baseRamlFile, externalRamls,accessRole,baseResourceSecurity);
         }
 

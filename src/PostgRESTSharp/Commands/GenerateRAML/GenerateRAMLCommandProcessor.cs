@@ -125,7 +125,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                         {
                             if(!generatedRamlDoc.ResourceTypes.Any(x=>x.First().Key == resourceType.First().Key))
                             {
-                                generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(new IDictionary<string, ResourceType>[1] { resourceType });
+                                generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(new System.Collections.Generic.IDictionary<string, ResourceType>[1] { resourceType });
                             }
                         }
                     }
