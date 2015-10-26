@@ -49,6 +49,7 @@
     <Compile Include="Conventions\TableExclusion\DeclarationTableExclusionConventionTests.cs" />
     <Compile Include="Conventions\TableExclusion\CalculationTableExclusionConventionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Text\TextUtilityTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
