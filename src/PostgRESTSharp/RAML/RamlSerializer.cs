@@ -14,8 +14,10 @@ namespace PostgRESTSharp.RAML
     public class RamlSerializer : IRamlSerializer
     {
         private const string RamlVersion = "0.8";
-        public string Serialize(RamlDocument ramlDocument)
+        private string baseResourceSecurity;
+        public string Serialize(RamlDocument ramlDocument, string baseResourceSecurity)
         {
+            this.baseResourceSecurity = baseResourceSecurity;
             var sb = new StringBuilder(ramlDocument.Resources.Count + ramlDocument.Resources.Sum(r => r.Resources.Count) * 20);
 
             sb.AppendLine("#%RAML " + RamlVersion);
@@ -33,7 +35,9 @@ namespace PostgRESTSharp.RAML
             SerializeProtocols(sb, ramlDocument.Protocols);
 
             SerializeParameters(sb, "uriParameters", ramlDocument.BaseUriParameters);
-            
+
+            SerializeSecuritySchemes(sb, ramlDocument.SecuritySchemes);
+
             SerializeResourceTypes(sb, "resourceTypes", ramlDocument.ResourceTypes);
 
             if (ramlDocument.Documentation.Any())
@@ -46,8 +50,6 @@ namespace PostgRESTSharp.RAML
                 }
                 sb.AppendLine();
             }
-
-            SerializeSecuritySchemes(sb, ramlDocument.SecuritySchemes);
 
             SerializeSchemas(sb, ramlDocument.Schemas);
 
@@ -346,6 +348,10 @@ namespace PostgRESTSharp.RAML
         private void SerializeResourceType(StringBuilder sb, KeyValuePair<string, ResourceType> namedTypes, int indentation)
         {
             sb.AppendLine(string.Format("- {0}:",namedTypes.Key).Indent(indentation));
+            if (!string.IsNullOrEmpty(baseResourceSecurity))//personal hack to allow this, cause i really hate the default models, and they don't fit our business case.
+            {
+                SerializeArrayProperty(sb, "securedBy", new string[1] { this.baseResourceSecurity }, indentation + 4);
+            }
             SerializeResource(sb, namedTypes.Value, indentation + 4);
         }
 

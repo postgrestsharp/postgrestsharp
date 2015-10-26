@@ -4,6 +4,6 @@ namespace PostgRESTSharp.RAML
 {
     public interface IRamlSerializer
     {
-        string Serialize(RamlDocument ramlDocument);
+        string Serialize(RamlDocument ramlDocument,string baseResourceSecurity);
     }
 }

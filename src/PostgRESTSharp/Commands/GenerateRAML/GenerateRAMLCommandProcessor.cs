@@ -26,7 +26,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
         }
 
         public void Process(string baseURI, string title, IEnumerable<IRESTResource> resources, int viewSchemaVersion, string fileName, string outputDirectory, 
-            string baseRamlFile, string includedRamlDirectory, string accessRole)
+            string baseRamlFile, string includedRamlDirectory, string accessRole, string baseResourceSecurity)
         {
             this.Configure();
             var ramlDocuent = this.CreateNewDocument(baseURI,title,viewSchemaVersion.ToString(),baseRamlFile);
@@ -45,7 +45,7 @@ namespace PostgRESTSharp.Commands.GenerateRAML
 
             ImportExternalRAMLResources(ramlDocuent, includedRamlDirectory);
 
-            string ramlSerializedDoBument = this.serializer.Serialize(ramlDocuent);
+            string ramlSerializedDoBument = this.serializer.Serialize(ramlDocuent, baseResourceSecurity);
             
             this.WriteFileContents(Path.Combine(outputDirectory, fileName), ramlSerializedDoBument);
         }
@@ -120,11 +120,17 @@ namespace PostgRESTSharp.Commands.GenerateRAML
                     }
 
                     if (loadedRamlFile.ResourceTypes.Count() > 0)
-                    { 
-                        generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(loadedRamlFile.ResourceTypes);
+                    {
+                        foreach(var resourceType in loadedRamlFile.ResourceTypes)
+                        {
+                            if(!generatedRamlDoc.ResourceTypes.Any(x=>x.First().Key == resourceType.First().Key))
+                            {
+                                generatedRamlDoc.ResourceTypes = generatedRamlDoc.ResourceTypes.Concat(new System.Collections.Generic.IDictionary<string, ResourceType>[1] { resourceType });
+                            }
+                        }
                     }
 
-                    Extensions.Merge(generatedRamlDoc.Resources, loadedRamlFile.Resources);
+                    Extensions.Merge(generatedRamlDoc.Resources, loadedRamlFile.Resources,null, generatedRamlDoc.ResourceTypes);
                 }
             }
         }
