@@ -123,7 +123,7 @@ namespace PostgRESTSharp.Commands.GenerateRESTModels.Templates
 
 		public IEnumerable<ViewMetaModelRelation> GetRelations()
 		{
-			return this.MetaModel.Columns.Where(x => x.RelatedView != null).Select(y=>y.RelatedView);
+			return this.MetaModel.Columns.Where(x => x.RelatedView != null && !x.IsHidden).Select(y=>y.RelatedView);
 		}
 
 		public string GetRelationUrl(ViewMetaModelRelation relation)

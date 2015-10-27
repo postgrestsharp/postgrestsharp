@@ -17,13 +17,11 @@ namespace PostgRESTSharp.Conventions.ViewConventions.EntityRemoval
 
         public virtual IEnumerable<string> ColumnsToRemove(IViewMetaModel metaModel)
         {
-            return metaModel.Columns.Where(IsColumnMatch).Select(a => a.ColumnName);
+            return metaModel.Columns.Where(IsColumnMatch).Select(a => a.ColumnAlias);
         }
 
         protected virtual bool IsColumnMatch(ViewMetaModelColumn column)
         {
-            return GetKeywordsToSearch().Any(a => column.ColumnName.IndexOf(a, StringComparison.OrdinalIgnoreCase) >= 0
-                || column.ColumnAlias.IndexOf(a, StringComparison.OrdinalIgnoreCase) >= 0);
-        }
+            return GetKeywordsToSearch().Any(a => column.ColumnAlias.IndexOf(a, StringComparison.OrdinalIgnoreCase) >= 0);}
     }
 }

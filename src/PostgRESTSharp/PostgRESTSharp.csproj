@@ -105,7 +105,7 @@
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceOwnerColumn.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceAccessColumn.cs" />
-    <Compile Include="Conventions\ViewConventions\EntityRemoval\DefaultColumnRemovalConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\EntityRemoval\DefaultEntityRemovalConvention.cs" />
     <Compile Include="Conventions\ViewConventions\EntityRemoval\EntityRemovalForViewWithCategory.cs" />
     <Compile Include="Conventions\ViewConventions\EntityRemoval\EntityRemovalForViewWithColumnNameContainsConvention.cs" />
     <Compile Include="Conventions\ViewConventions\EntityRemoval\EntityRemovalForViewWithLegalEntity.cs" />

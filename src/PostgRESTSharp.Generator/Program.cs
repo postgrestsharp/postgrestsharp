@@ -17,9 +17,6 @@ namespace PostgRESTSharp.Generator
         public static void Main(string[] args)
         {
 
-            //Debugger.Launch();
-            //Debugger.Break();
-
             IContainer container = new Container(x =>
                 {
                     x.Scan(y =>

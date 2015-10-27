@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using PostgRESTSharp.Conventions.ViewConventions.EntityRemoval;
+﻿using System.Collections.Generic;
 
-namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
+namespace PostgRESTSharp.Conventions.ViewConventions.EntityRemoval
 {
     public class EntityRemovalForViewWithSpv : EntityRemovalForViewWithColumnNameContainsConvention
     {
