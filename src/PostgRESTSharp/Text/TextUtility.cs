@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Inflector;
 
 namespace PostgRESTSharp.Text
@@ -32,68 +34,93 @@ namespace PostgRESTSharp.Text
 
 		public string ToCapitalCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
-			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-			var result = "";
-			foreach (var word in words)
-			{
-				result += ( char.ToUpper(word[0]) +
-					((word.Length > 1) ? word.Substring(1).ToLower() : string.Empty));
-			}
-			return result;
-		}
+		    var words = PrepareWordsArray(text);
+			return CombineWords(words);
+        }
 
 		public string ToPluralCapitalCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
-			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+		    var words = PrepareWordsArray(text);
 			words [words.Length - 1] = ToPlural (words [words.Length - 1]);
-			var result = "";
-			foreach (var word in words)
-			{
-				result += ( char.ToUpper(word[0]) +
-					((word.Length > 1) ? word.Substring(1).ToLower() : string.Empty));
-			}
-			return result;
+		    return CombineWords(words);
 		}
 
 		public string ToCamelCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
-			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-			var result = "";
-			foreach (var word in words)
-			{
-				result += (char.ToUpper(word[0]) +
-					((word.Length > 1) ? word.Substring(1).ToLower() : string.Empty));
-			}
-
-			result = (char.ToLower(result[0]) +
-				((result.Length > 1) ? result.Substring(1) : string.Empty));
-			return result;
+            string[] words = PrepareWordsArray(text);
+            var result = CombineWords(words);
+            return ForceFirstLetterLower(result);
 		}
-
-		public string ToPluralCamelCase(string text)
+        
+	    public string ToPluralCamelCase(string text)
 		{
-			text = text.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
-			var words = text.Split(new string[] { " " }, StringSplitOptions.RemoveEmptyEntries);
-			words [words.Length - 1] = ToPlural (words [words.Length - 1]);
-			var result = "";
-			foreach (var word in words)
-			{
-				result += (char.ToUpper(word[0]) +
-					((word.Length > 1) ? word.Substring(1).ToLower() : string.Empty));
-			}
-
-			result = (char.ToLower(result[0]) +
-				((result.Length > 1) ? result.Substring(1) : string.Empty));
-			return result;
+		    string[] words = PrepareWordsArray(text);
+            words[words.Length - 1] = ToPlural(words[words.Length - 1]);
+	        var result = CombineWords(words);
+	        return ForceFirstLetterLower(result);
 		}
 
-		public string Sanitise(string text)
+	    private string[] PrepareWordsArray(string text)
+	    {
+	        string[] words;
+	        if (IsThisTableConvention(text))
+	        {
+	            //table conventions reveres the order
+	            words = SplitTheTableName(text);
+	            Array.Reverse(words);
+	            List<string> tempWords = new List<string>();
+	            for (int i = 0; i < words.Length; i++)
+	            {
+	                words[i] = RemoveConventionCharacters(words[i]);
+	                tempWords.AddRange(words[i].Split(new string[] {" "}, StringSplitOptions.RemoveEmptyEntries));
+	            }
+	            words = tempWords.ToArray();
+	        }
+	        else
+	        {
+	            text = RemoveConventionCharacters(text);
+	            words = text.Split(new string[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+	        }
+	        return words;
+	    }
+
+	    private string RemoveConventionCharacters(string word)
+	    {
+	        return word.Replace("_", " ").Replace(".", " ").Replace("-", " ").Replace("$", " ");
+	    }
+
+	    private string[] SplitTheTableName(string text)
+	    {
+	        return text.Split(new string[] { "$" }, StringSplitOptions.RemoveEmptyEntries);
+	    }
+
+	    private bool IsThisTableConvention(string text)
+	    {
+	        return text.Contains("$");
+	    }
+
+	    public string Sanitise(string text)
 		{
 			return text.Replace(" ", "").Replace("_", "").Replace(".", "").Trim();
 		}
-	}
+
+        private string ForceFirstLetterLower(string result)
+        {
+            return (char.ToLower(result[0]) +
+                    ((result.Length > 1) ? result.Substring(1) : string.Empty));
+        }
+
+        private string CombineWords(string[] words)
+        {
+            string result = "";
+            foreach (var word in words)
+            {
+                result += (char.ToUpper(word[0]) +
+                           ((word.Length > 1) ? word.Substring(1).ToLower() : string.Empty));
+            }
+            return result;
+        }
+
+    }
 }
 

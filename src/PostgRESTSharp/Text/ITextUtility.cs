@@ -18,7 +18,7 @@ namespace PostgRESTSharp.Text
 
 		string ToCamelCase(string text);
 
-		string ToPluralCamelCase(string text);
+		string ToPluralCamelCase(string IsThisTableConvention);
 
 		string Sanitise(string text);
 	}
