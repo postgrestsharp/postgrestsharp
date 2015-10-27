@@ -104,10 +104,12 @@
     <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithCategoryId.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithClientLegalEntityId.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithLegalEntityId.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceOwnerColumn.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceAccessColumn.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithProductId.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithSellerLegalEntityId.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithSpvId.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\DefaultColumnRemovalConvention.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\IColumnRemovalConvention.cs" />

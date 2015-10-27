@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
 {
-    public class ColumnRemovalForViewWithLegalEntityId : IColumnRemovalConvention, IImplicitViewConvention
+    public class ColumnRemovalForViewWithClientLegalEntityId : IColumnRemovalConvention, IImplicitViewConvention
     {
         public bool IsMatch(IViewMetaModel metaModel)
         {
@@ -12,7 +12,7 @@ namespace PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval
         
         public string ColumnToRemove()
         {
-            return "legalentityId";
+            return "clientlegalentityId";
         }
     }
 }
