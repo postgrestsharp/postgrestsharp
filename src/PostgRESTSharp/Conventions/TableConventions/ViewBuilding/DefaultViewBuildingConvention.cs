@@ -4,6 +4,7 @@ using PostgRESTSharp.Core.Managers;
 using PostgRESTSharp.Text;
 using System.Collections.Generic;
 using PostgRESTSharp.Conventions.ViewConventions.ColumnRemoval;
+using PostgRESTSharp.Conventions.ViewConventions.EntityRemoval;
 
 namespace PostgRESTSharp.Conventions
 {
@@ -44,7 +45,15 @@ namespace PostgRESTSharp.Conventions
             {
                 viewToBuild.SetColumnToHidden(columnRemovalConvention.ColumnToRemove());
             }
-            
+
+            foreach (var entityRemovalConvention in conventionResolver.ResolveViewConventions<IEntityRemovalConvention>(viewToBuild))
+            {
+                foreach (var column in entityRemovalConvention.ColumnsToRemove(viewToBuild))
+                {
+                    viewToBuild.SetColumnToHidden(column);
+                }
+            }
+
             return viewToBuild;
         }
     }
