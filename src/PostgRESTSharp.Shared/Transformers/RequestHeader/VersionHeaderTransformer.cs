@@ -5,7 +5,7 @@ using Nancy;
 
 namespace PostgRESTSharp.Shared
 {
-    public class PostgRestVersionHeaderTransformer : IRequestHeaderTransformer
+    public class VersionHeaderTransformer : IRequestHeaderTransformer
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, IEnumerable<string>>> postgRestHeadersToAddTo)
         {

@@ -6,12 +6,17 @@ using Nancy;
 namespace PostgRESTSharp.Shared
 {
     [Order(2)]
-    public class PostgRestRangeLimitHeaderTransformer : IRequestHeaderTransformer
+    public class RangeLimitHeaderTransformer : IRequestHeaderTransformer
     {
-        private const int countLimit = 100;
+        private readonly int countLimit;
         private const string rangeUnitHeaderKey = "Range-Unit";
         private const string rangeHeaderKey = "Range";
         private const string rangeValuePrefix = "items=";
+
+        public RangeLimitHeaderTransformer(int countLimit = 100)
+        {
+            this.countLimit = countLimit;
+        }
 
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, IEnumerable<string>>> postgRestHeadersToAddTo)
         {
@@ -81,12 +86,12 @@ namespace PostgRESTSharp.Shared
             AddRangeUnitHeaderIfNotPresent(postgRestHeadersToAddTo);
         }
 
-        private static int GetIndexForCountLimit(int startIndex)
+        private int GetIndexForCountLimit(int startIndex)
         {
             return startIndex + GetCountLimitAsIndex();
         }
 
-        private static int GetCountLimitAsIndex()
+        private int GetCountLimitAsIndex()
         {
             return countLimit - 1;
         }
