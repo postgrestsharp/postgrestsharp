@@ -105,6 +105,7 @@
     <Compile Include="TransformerSpecs\RequestHeader\Version\when_not_supplying_a_version_header.cs" />
     <Compile Include="TransformerSpecs\RequestHeader\Version\when_supplying_a_version_header.cs" />
     <Compile Include="TransformerSpecs\RequestTransformer\Mock\IMockTransformer.cs" />
+    <Compile Include="TransformerSpecs\RequestTransformer\should_not_have_duplicate_order_attribute_on_same_type.cs" />
     <Compile Include="TransformerSpecs\RequestTransformer\when_requesting_empty_headers.cs" />
     <Compile Include="TransformerSpecs\RequestTransformer\when_requesting_empty_query_string_parameters.cs" />
     <Compile Include="TransformerSpecs\RequestTransformer\when_transforming_an_incoming_request.cs" />
