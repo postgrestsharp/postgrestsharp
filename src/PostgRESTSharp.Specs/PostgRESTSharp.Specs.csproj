@@ -76,6 +76,10 @@
     <Compile Include="RestLinkSpecs\Builder\when_building_a_root_link.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_self_link.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_self_link_for_a_new_entity.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_an_IRestLinkArray.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_rest_link_uri.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_templated_link_uri.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_type_not_implementing_IRestLink.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Mock\RestLinkThatDoesntImplementIRestLink.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Mock\RestArrayLink.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Deserialising\when_deserialising_a_simple_rest_link.cs" />
