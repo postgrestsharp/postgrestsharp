@@ -89,6 +89,8 @@
     <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_templated_link_uri.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_rest_link_uri.cs" />
     <Compile Include="RestRequestFactorySpecs\when_creating_a_rest_request.cs" />
+    <Compile Include="RestSharpNewtonsoftJsonSerialiserSpecs\when_deserialising.cs" />
+    <Compile Include="RestSharpNewtonsoftJsonSerialiserSpecs\when_serialising.cs" />
     <Compile Include="RoleEnforcerSpecs\Mock\UserIdentity.cs" />
     <Compile Include="RoleEnforcerSpecs\when_enforcing_all_claims_with_no_claims_present.cs" />
     <Compile Include="RoleEnforcerSpecs\when_enforcing_all_claims_with_some_claims_present.cs" />
