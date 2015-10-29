@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Markup;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy.Json;
