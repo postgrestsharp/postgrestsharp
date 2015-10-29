@@ -1,15 +1,11 @@
-﻿using System;
-using System.Text;
+﻿using System.Dynamic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Dynamic;
 using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkJsonConverterSpecs
+namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter
 {
     public class when_serialising_a_templated_link_uri : WithFakes
     {
