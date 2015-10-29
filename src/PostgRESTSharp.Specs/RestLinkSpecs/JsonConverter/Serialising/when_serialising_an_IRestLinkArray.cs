@@ -1,15 +1,18 @@
-﻿using Machine.Fakes;
+using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
+using PostgRESTSharp.Shared;
 using PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Mock;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter
+namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Serialising
 {
-    public class when_serialising_a_type_not_implementing_IRestLink : WithFakes
+    public class when_serialising_an_IRestLinkArray : WithFakes
     {
         Establish that = () =>
         {
-            link = new RestLinkThatDoesntImplementIRestLink();
+            link = new RestArrayLink();
+            link.Uris = new IRestLinkUri[1];
+            link.Uris[0] = new RestLinkUri("http://localhosty/1");
         };
 
         private Because of = () =>
@@ -22,7 +25,7 @@ namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter
             json.ShouldBeEmpty();
         };
 
-        private static RestLinkThatDoesntImplementIRestLink link;
+        private static RestArrayLink link;
         private static string json;
         private static dynamic jsonObject;
     }
