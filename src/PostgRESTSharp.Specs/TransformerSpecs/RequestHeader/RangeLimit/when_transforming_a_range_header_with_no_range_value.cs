@@ -6,7 +6,7 @@ using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.Transformers.RequestHeader.RangeLimit
+namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.RangeLimit
 {
     public class when_transforming_a_range_header_with_no_range_value : WithFakes
     {

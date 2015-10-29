@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
 using Machine.Fakes;
 using Machine.Specifications;
 using PostgRESTSharp.Shared;
@@ -12,7 +7,7 @@ using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 
-namespace PostgRESTSharp.Specs.ConventionResolverSpecs
+namespace PostgRESTSharp.Specs.ApiClientSpecs
 {
     public class when_calling_execute_post : WithFakes
     {

@@ -1,15 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.CompilerServices;
 using Machine.Fakes;
 using Machine.Specifications;
 using NUnit.Framework;
 using PostgRESTSharp.Shared;
 using PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer.Mock;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs
+namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
 {
     public class should_not_have_duplicate_order_attribute_on_same_type : WithFakes
     {

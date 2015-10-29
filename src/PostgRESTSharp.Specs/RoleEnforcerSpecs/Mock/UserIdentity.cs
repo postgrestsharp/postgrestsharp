@@ -1,13 +1,7 @@
-﻿using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Security.Principal;
-using Nancy.Extensions;
+﻿using System.Collections.Generic;
 using Nancy.Security;
-using NSubstitute;
 
-namespace PostgRESTSharp.Specs
+namespace PostgRESTSharp.Specs.RoleEnforcerSpecs.Mock
 {
     public class UserIdentity : IUserIdentity
     {

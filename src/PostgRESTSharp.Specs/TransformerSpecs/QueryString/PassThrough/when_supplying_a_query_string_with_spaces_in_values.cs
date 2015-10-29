@@ -6,7 +6,7 @@ using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Range
+namespace PostgRESTSharp.Specs.TransformerSpecs.QueryString.PassThrough
 {
     public class when_supplying_a_query_string_with_spaces_in_values : WithFakes
     {

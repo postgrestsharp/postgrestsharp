@@ -1,25 +1,15 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using Machine.Fakes;
-using Machine.Fakes.Adapters.NSubstitute;
 using Machine.Specifications;
-using NSubstitute.Core.Arguments;
-using NSubstitute.Extensions;
-using NUnit.Framework.Constraints;
-using NUnit.Specifications;
 using NSubstitute;
- 
 using PostgRESTSharp.Shared;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 
-namespace PostgRESTSharp.Specs.ConventionResolverSpecs
+namespace PostgRESTSharp.Specs.ApiClientSpecs
 {
     public class when_calling_execute : WithFakes
     {

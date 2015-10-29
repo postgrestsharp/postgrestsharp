@@ -6,7 +6,7 @@ using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Range
+namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Version
 {
     public class when_not_supplying_a_version_header : WithFakes
     {

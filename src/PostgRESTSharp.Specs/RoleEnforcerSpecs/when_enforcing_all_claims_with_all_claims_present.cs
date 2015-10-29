@@ -4,8 +4,9 @@ using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
+using PostgRESTSharp.Specs.RoleEnforcerSpecs.Mock;
 
-namespace PostgRESTSharp.Specs
+namespace PostgRESTSharp.Specs.RoleEnforcerSpecs
 {
     public class when_enforcing_all_claims_with_all_claims_present : WithFakes
     {

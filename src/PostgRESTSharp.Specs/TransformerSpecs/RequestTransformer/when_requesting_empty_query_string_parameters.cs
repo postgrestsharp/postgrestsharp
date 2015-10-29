@@ -3,7 +3,7 @@ using Machine.Fakes;
 using Machine.Specifications;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs
+namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
 {
     public class when_requesting_empty_query_string_parameters : WithFakes
     {

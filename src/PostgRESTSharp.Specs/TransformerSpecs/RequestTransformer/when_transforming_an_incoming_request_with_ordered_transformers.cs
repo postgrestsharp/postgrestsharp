@@ -4,7 +4,7 @@ using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs
+namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
 {
     public class when_transforming_an_incoming_request_with_ordered_transformers : WithFakes
     {

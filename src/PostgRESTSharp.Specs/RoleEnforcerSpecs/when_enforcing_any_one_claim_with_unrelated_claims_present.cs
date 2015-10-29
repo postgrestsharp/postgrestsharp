@@ -5,8 +5,9 @@ using Machine.Specifications;
 using Nancy;
 using Nancy.ErrorHandling;
 using PostgRESTSharp.Shared;
+using PostgRESTSharp.Specs.RoleEnforcerSpecs.Mock;
 
-namespace PostgRESTSharp.Specs
+namespace PostgRESTSharp.Specs.RoleEnforcerSpecs
 {
     public class when_enforcing_any_one_claim_with_unrelated_claims_present : WithFakes
     {

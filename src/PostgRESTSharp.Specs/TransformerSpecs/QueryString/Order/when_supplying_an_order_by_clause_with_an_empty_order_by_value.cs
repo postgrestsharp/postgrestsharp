@@ -6,7 +6,7 @@ using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Range
+namespace PostgRESTSharp.Specs.TransformerSpecs.QueryString.Order
 {
     public class when_supplying_an_order_by_clause_with_an_empty_order_by_value : WithFakes
     {

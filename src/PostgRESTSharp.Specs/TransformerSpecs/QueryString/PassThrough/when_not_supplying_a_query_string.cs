@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
 using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Range
+namespace PostgRESTSharp.Specs.TransformerSpecs.QueryString.PassThrough
 {
     public class when_not_supplying_a_query_string : WithFakes
     {
