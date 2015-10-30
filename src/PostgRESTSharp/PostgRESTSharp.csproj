@@ -103,8 +103,10 @@
     <Compile Include="Conventions\TableConventions\TableExclusion\ITableExclusionConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewBuilding\IViewBuildingConvention.cs" />
     <Compile Include="Conventions\TableConventions\ViewNaming\IViewNamingConvention.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithAccountId.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceOwnerColumn.cs" />
     <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithOriginationSourceAccessColumn.cs" />
+    <Compile Include="Conventions\ViewConventions\ColumnRemoval\ColumnRemovalForViewWithResetDateId.cs" />
     <Compile Include="Conventions\ViewConventions\EntityRemoval\DefaultEntityRemovalConvention.cs" />
     <Compile Include="Conventions\ViewConventions\EntityRemoval\EntityRemovalForViewWithCategory.cs" />
     <Compile Include="Conventions\ViewConventions\EntityRemoval\EntityRemovalForViewWithColumnNameContainsConvention.cs" />
