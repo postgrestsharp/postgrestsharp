@@ -9,7 +9,7 @@ using RestSharp.Serializers;
 
 namespace PostgRESTSharp.Specs.ApiClientSpecs
 {
-    public class when_calling_execute_get_with_query_no_parameters : WithFakes
+    public class when_calling_execute_get : WithFakes
     {
 
         private static ApiClient apiClient;
