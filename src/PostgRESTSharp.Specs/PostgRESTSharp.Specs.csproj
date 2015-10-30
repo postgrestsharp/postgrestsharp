@@ -73,6 +73,27 @@
     <Compile Include="ApiClientSpecs\when_calling_execute_get.cs" />
     <Compile Include="AuthenticationFactorySpecs\when_retrieving_the_postgrest_authenticator.cs" />
     <Compile Include="ConventionResolverSpecs\when_initialising_the_resolver_with_conventions.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_client_error.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_client_error_with_a_non_client_error_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_informational.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_informational_with_a_non_informational_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_2x_multiple.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_3x_multiple.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_4x_multiple.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_5x_multiple.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_exact_minus_1.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_exact_multiple.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_exact_plus_1.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_redirection.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_redirection_with_a_non_redirection_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_server_error.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_server_error_with_non_server_error_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_success.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_success_with_a_non_success_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_converting_a_nancy_status_code_to_system_net_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_converting_a_system_net_status_code_to_nancy_status_code.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes.cs" />
+    <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes_with_non_matching_codes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_parent_link.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_root_link.cs" />
@@ -166,7 +187,5 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="HttpStatusCodeMatcherSpecs\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

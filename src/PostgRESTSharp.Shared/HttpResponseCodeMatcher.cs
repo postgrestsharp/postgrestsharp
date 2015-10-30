@@ -30,7 +30,7 @@ namespace PostgRESTSharp.Shared
 
         public bool IsInGroup(int httpStatusCode, int group)
         {
-            return httpStatusCode / group == 1;
+            return httpStatusCode >= group && httpStatusCode <= (group + 99);
         }
 
         public bool IsInformational(int httpStatusCode)
