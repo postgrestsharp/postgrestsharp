@@ -94,6 +94,7 @@
     <Compile Include="HttpStatusCodeMatcherSpecs\when_converting_a_system_net_status_code_to_nancy_status_code.cs" />
     <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes.cs" />
     <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes_with_non_matching_codes.cs" />
+    <Compile Include="PostgRestHttpRequestSpecs\when_creating_a_PostgRestHttpRequest_for_overriding_a_range_header.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_parent_link.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_root_link.cs" />
