@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace PostgRESTSharp.Shared
 {
+    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
     public class OrderAttribute : Attribute
     {
         public int Order { get; private set; }

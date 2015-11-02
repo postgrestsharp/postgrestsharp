@@ -12,13 +12,8 @@ namespace PostgRESTSharp.Shared
     {
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, string>> postgRestQueryStringValuesToAddTo)
         {
-            var query = incomingRequestToProcess.Query;
-            if (query == null)
-            {
-                return;
-            }
-            var requestOrderByValue = query.order;
-            if (requestOrderByValue == null)
+            var requestOrderByValue = (string)incomingRequestToProcess.Query.order;
+            if (string.IsNullOrWhiteSpace(requestOrderByValue))
             {
                 return;
             }

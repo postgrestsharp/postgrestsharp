@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgRESTSharp.Shared", "Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgRESTSharp.Tests", "PostgRESTSharp.Tests\PostgRESTSharp.Tests.csproj", "{58B6A164-292D-400F-A25E-4F89F1617530}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgRESTSharp.Shared.Specs", "PostgRESTSharp.Shared.Specs\PostgRESTSharp.Shared.Specs.csproj", "{A9DB6A71-A09B-41C7-A376-59E949A1DB54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{58B6A164-292D-400F-A25E-4F89F1617530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58B6A164-292D-400F-A25E-4F89F1617530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58B6A164-292D-400F-A25E-4F89F1617530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9DB6A71-A09B-41C7-A376-59E949A1DB54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9DB6A71-A09B-41C7-A376-59E949A1DB54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9DB6A71-A09B-41C7-A376-59E949A1DB54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9DB6A71-A09B-41C7-A376-59E949A1DB54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

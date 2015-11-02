@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using RestSharp;
@@ -14,37 +15,20 @@ namespace PostgRESTSharp.Shared
     /// </summary>
     public class PostgRestHttpRequest : Http
     {
-        private static string[] restrictedHeaderActionsToOverride = new[] { "Range" };
+        private static readonly string[] restrictedHeaderActionsToOverride = { "Range" };
 
-        private static object restrictedHeaderActionFieldInfoLock = new object();
-        private static FieldInfo restrictedHeaderActionFieldInfo = null;
+        private static readonly object restrictedHeaderActionFieldInfoLock = new object();
+        private static FieldInfo restrictedHeaderActionFieldInfo;
 
-        private static object setValueMethodInfoLock = new object();
-        private static MethodInfo setValueMethodInfo = null;
+        private static readonly object setValueMethodInfoLock = new object();
+        private static MethodInfo setValueMethodInfo;
+
+        private readonly object restrictedHeaderActionsLock = new object();
+        public IDictionary<string, Action<HttpWebRequest, string>> restrictedHeaderActions;
 
         public PostgRestHttpRequest()
         {
-            //standard double checked locking
-            if (restrictedHeaderActionFieldInfo == null)
-            {
-                lock (restrictedHeaderActionFieldInfoLock)
-                {
-                    if (restrictedHeaderActionFieldInfo == null)
-                    {
-                        var fieldInfo = this
-                            .GetType()
-                            .BaseType
-                            .GetField("restrictedHeaderActions", BindingFlags.NonPublic | BindingFlags.Instance);
-
-                        if (fieldInfo == null)
-                        {
-                            Throw();
-                        }
-
-                        restrictedHeaderActionFieldInfo = fieldInfo;
-                    }
-                }
-            }
+            SetRestrictedHeaderActionFieldInfo();
 
             var restrictedHeaderActions = restrictedHeaderActionFieldInfo.GetValue(this) as IDictionary<string, Action<HttpWebRequest, string>>;
             if (restrictedHeaderActions == null)
@@ -52,13 +36,64 @@ namespace PostgRESTSharp.Shared
                 Throw();
             }
 
-            foreach(var header in restrictedHeaderActionsToOverride)
+            SetRestrictedHeaderActions(restrictedHeaderActions);
+
+            SetNewMethodOnOverriddenHeaderActions();
+        }
+
+        private void SetNewMethodOnOverriddenHeaderActions()
+        {
+            foreach (var header in restrictedHeaderActionsToOverride)
             {
-                restrictedHeaderActions.Remove(header);
-                restrictedHeaderActions.Add(header, (request, value) =>
+                this.restrictedHeaderActions.Remove(header);
+                this.restrictedHeaderActions.Add(header,
+                    (request, value) =>
+                    {
+                        AddHeaderWithoutValidation(request, header, value);
+                    });
+            }
+        }
+
+        private void SetRestrictedHeaderActions(IDictionary<string, Action<HttpWebRequest, string>> restrictedHeaderActions)
+        {
+            if (this.restrictedHeaderActions != null)
+            {
+                return;
+            }
+            lock (restrictedHeaderActionsLock)
+            {
+                if (this.restrictedHeaderActions != null)
                 {
-                    AddHeaderWithoutValidation(request, header, value);
-                });
+                    return;
+                }
+                this.restrictedHeaderActions = restrictedHeaderActions;
+            }
+        }
+        
+        private void SetRestrictedHeaderActionFieldInfo()
+        {
+            //standard double checked locking
+            if (restrictedHeaderActionFieldInfo != null)
+            {
+                return;
+            }
+            lock (restrictedHeaderActionFieldInfoLock)
+            {
+                if (restrictedHeaderActionFieldInfo != null)
+                {
+                    return;
+                }
+                var fieldInfo = this
+                    .GetType()
+                    .BaseType
+                    .GetField("restrictedHeaderActions", BindingFlags.NonPublic | BindingFlags.Instance);
+
+                if (fieldInfo == null)
+                {
+                    Throw();
+                }
+
+                restrictedHeaderActionFieldInfo = fieldInfo;
             }
         }
 
@@ -69,21 +104,28 @@ namespace PostgRESTSharp.Shared
 
         private static void AddHeaderWithoutValidation(HttpWebRequest request, string name, string value)
         {
-            //standard double checked locking
-            if (setValueMethodInfo == null)
-            {
-                lock (setValueMethodInfoLock)
-                {
-                    if (setValueMethodInfo == null)
-                    {
-                        var type = request.Headers.GetType();
-                        var method = type.GetMethod("AddWithoutValidate", BindingFlags.NonPublic | BindingFlags.Instance);
-                        setValueMethodInfo = method;
-                    }
-                }
-            }
+            SetValueMethodInfo(request);
 
             setValueMethodInfo.Invoke(request.Headers, new[] { name, value });
+        }
+
+        private static void SetValueMethodInfo(HttpWebRequest request)
+        {
+            //standard double checked locking
+            if (setValueMethodInfo != null)
+            {
+                return;
+            }
+            lock (setValueMethodInfoLock)
+            {
+                if (setValueMethodInfo != null)
+                {
+                    return;
+                }
+                var type = request.Headers.GetType();
+                var method = type.GetMethod("AddWithoutValidate", BindingFlags.NonPublic | BindingFlags.Instance);
+                setValueMethodInfo = method;
+            }
         }
     }
 }

@@ -65,7 +65,8 @@ namespace PostgRESTSharp.Shared
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return null;
+            var message = string.Format("Deserialising {0} is not yet supported", typeof(IRestLink).Name);
+            throw new NotImplementedException(message);
         }
 
         public override bool CanConvert(Type objectType)
