@@ -105,7 +105,7 @@ namespace PostgRESTSharp
 
         private static IEnumerable<Grantee> GetAllSelectGrantees(IViewMetaModel view)
         {
-            return view.PrimarySource.Privileges
+            return view.OriginalSource.Privileges
                 .Where(x => x.Type.ToLower().Equals("select") && !x.IsOwner)
                 .GroupBy(x => x.Grantee)
                 .Select(group => new Grantee(@group.Key));
