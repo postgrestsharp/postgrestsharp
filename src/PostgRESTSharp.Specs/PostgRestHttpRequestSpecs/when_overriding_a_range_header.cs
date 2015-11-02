@@ -1,25 +1,16 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using System;
 using System.Net;
-using System.Reflection;
-using PostgRESTSharp.Shared;
 using Machine.Fakes;
 using Machine.Specifications;
+using PostgRESTSharp.Shared;
 using RestSharp;
 
 namespace PostgRESTSharp.Specs.PostgRestHttpRequestSpecs
 {
-    public class when_creating_a_PostgRestHttpRequest_for_overriding_a_range_header : WithFakes
+    public class when_overriding_a_range_header : WithFakes
     {
         Establish that = () =>
         {
-            baseRequest = new Http();
-            var fieldInfo = baseRequest.GetType().GetField("restrictedHeaderActions", BindingFlags.NonPublic | BindingFlags.Instance);
-            oldActions = fieldInfo.GetValue(baseRequest) as IDictionary<string, Action<HttpWebRequest, string>>;
-
             request = new PostgRestHttpRequest();
 
             //we're testing the side effect of request.Get(), so set the timeout to 1 millisecond
@@ -48,12 +39,6 @@ namespace PostgRESTSharp.Specs.PostgRestHttpRequestSpecs
             request.Get();
         };
 
-        //private It should_not_be_the_same_as_the_original_header_add_action = () =>
-        //{
-        //    //TODO: FIX
-        //    oldActions["Range"].ShouldEqual(rangeHeaderAction);
-        //};
-
         private It should_have_overridden_the_header_add_action = () =>
         {
             customMethodWasCalled.ShouldBeTrue();
@@ -63,8 +48,5 @@ namespace PostgRESTSharp.Specs.PostgRestHttpRequestSpecs
         private static HttpHeader header;
         private static Action<HttpWebRequest, string> rangeHeaderAction;
         private static bool customMethodWasCalled;
-        private static Http baseRequest;
-        private static Action<HttpWebRequest, string> oldRangeMethod;
-        private static IDictionary<string, Action<HttpWebRequest, string>> oldActions;
     }
 }

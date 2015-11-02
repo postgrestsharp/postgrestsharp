@@ -15,16 +15,16 @@ namespace PostgRESTSharp.Shared
     /// </summary>
     public class PostgRestHttpRequest : Http
     {
-        private static string[] restrictedHeaderActionsToOverride = new[] { "Range" };
+        private static readonly string[] restrictedHeaderActionsToOverride = { "Range" };
 
-        private static object restrictedHeaderActionFieldInfoLock = new object();
-        private static FieldInfo restrictedHeaderActionFieldInfo = null;
+        private static readonly object restrictedHeaderActionFieldInfoLock = new object();
+        private static FieldInfo restrictedHeaderActionFieldInfo;
 
-        private static object setValueMethodInfoLock = new object();
-        private static MethodInfo setValueMethodInfo = null;
+        private static readonly object setValueMethodInfoLock = new object();
+        private static MethodInfo setValueMethodInfo;
 
-        private object restrictedHeaderActionsLock = new object();
-        public IDictionary<string, Action<HttpWebRequest, string>> restrictedHeaderActions = null;
+        private readonly object restrictedHeaderActionsLock = new object();
+        public IDictionary<string, Action<HttpWebRequest, string>> restrictedHeaderActions;
 
         public PostgRestHttpRequest()
         {
