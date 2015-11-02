@@ -23,6 +23,8 @@ namespace PostgRESTSharp
 
 		ITableMetaModel PrimarySource { get; }
 
+		ITableMetaModel OriginalSource { get; }
+
 		IEnumerable<ViewMetaModelSource> JoinSources { get; }
 
         IEnumerable<ViewFilterElement> FilterElements { get; }
@@ -40,6 +42,8 @@ namespace PostgRESTSharp
         void AddFilterElements(IEnumerable<IViewFilterElement> viewFilterElement);
 
         void SetPrimaryTableSource(ITableMetaModel primaryTableSource);
+
+        void SetOriginalTableSource(ITableMetaModel originalTableSource);
 
 	    void SetColumnToHidden(string columnName);
 

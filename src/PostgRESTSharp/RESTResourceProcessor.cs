@@ -26,8 +26,15 @@ namespace PostgRESTSharp
                 string collectionGetSchemaDef = this.schemaConverter.ConvertCollection(getRestModel);
 
                 // GET on Collection
+                string rawComments =  view.OriginalSource.RawComment;
+                string[] comments = rawComments != null ? rawComments.Split(new char[] {'|'}) : new string[0];
+
+                string collectionComment = GetComment(comments, "{collection}");
+                string singleComment = GetComment(comments, "{single}");
+                 
                 var getCollectionMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Collection, new RESTParameter[] { }, new RESTParameter[] { },
-                    new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, collectionGetSchemaDef, "Some Example") }
+                    new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, collectionGetSchemaDef, "Some Example") },
+                    collectionComment
                 );
 
                 methods.Add(getCollectionMethod);
@@ -46,13 +53,12 @@ namespace PostgRESTSharp
                 // create a response schema for the collection item get
 
                 string itemGetSchemaDef = this.schemaConverter.Convert(getRestModel);//here
-
-
-
+                
                 var getItemMethod = new RESTMethod(RESTVerbEnum.GET, RESTVerbDetailEnum.Item, new RESTParameter[] {
                     new RESTParameter(pkCol.ColumnName.ToLower(), pkCol.ModelDataType, true)
                 }, new RESTParameter[] { },
-                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, itemGetSchemaDef, "Some Example") }
+                new List<RESTResponseDefinition>() { new RESTResponseDefinition(System.Net.HttpStatusCode.OK, itemGetSchemaDef, "Some Example") },
+                singleComment
                 );
 
 
@@ -84,6 +90,17 @@ namespace PostgRESTSharp
             }
 
             return resources;
+        }
+
+        private string GetComment(string[] comments, string commentType)
+        {
+            var comment = comments.FirstOrDefault(x => x.Contains(commentType));
+            if (comment != null)
+            {
+                return comment.Replace(commentType, "");
+            }
+
+            return "Error: Description not found";
         }
 
         private static IEnumerable<Grantee> GetAllSelectGrantees(IViewMetaModel view)

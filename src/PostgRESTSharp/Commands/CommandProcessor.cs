@@ -11,7 +11,7 @@ namespace PostgRESTSharp.Commands
 
 		protected void WriteFileContents(string fileName, string contents)
 		{
-			using (var sw = new StreamWriter(fileName,false,System.Text.Encoding.ASCII))
+			using (var sw = new StreamWriter(fileName,false, new System.Text.UTF8Encoding(false)))
 			{
 				sw.Write(contents);
 				sw.Flush();

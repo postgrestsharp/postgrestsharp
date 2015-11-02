@@ -42,6 +42,8 @@ namespace PostgRESTSharp
 
         public ITableMetaModel PrimarySource { get; protected set; }
 
+        public ITableMetaModel OriginalSource { get; protected set; }
+
         public IEnumerable<ViewMetaModelSource> JoinSources { get { return this.joinSources; } }
 
         public IEnumerable<ViewMetaModelColumn> Columns { get { return this.columns; } }
@@ -91,6 +93,11 @@ namespace PostgRESTSharp
         public void SetPrimaryTableSource(ITableMetaModel primaryTableSource)
         {
             this.PrimarySource = primaryTableSource;
+        }
+
+        public void SetOriginalTableSource(ITableMetaModel originalTableSource)
+        {
+            this.OriginalSource = originalTableSource;
         }
 
         public void SetColumnToHidden(string columnName)

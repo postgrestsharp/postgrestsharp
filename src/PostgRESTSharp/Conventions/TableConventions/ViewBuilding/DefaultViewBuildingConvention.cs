@@ -22,6 +22,7 @@ namespace PostgRESTSharp.Conventions
         {
             // there is only one table involved
             viewToBuild.SetPrimaryTableSource(storageModel);
+            viewToBuild.SetOriginalTableSource(storageModel);
 
             //find lookup tables and add to join
             if (storageModel != null)

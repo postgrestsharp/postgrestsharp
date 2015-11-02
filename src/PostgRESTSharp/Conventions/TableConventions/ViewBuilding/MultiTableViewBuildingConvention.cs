@@ -34,6 +34,7 @@ namespace PostgRESTSharp.Conventions
             ITableMetaModel currentTable = null;
             string currentTableName = "";
             var tableNames = storageModel.TableName.Split(new char[] { '$' });
+            viewToBuild.SetOriginalTableSource(storageModel);
             bool isPrimary = true;
             foreach (var tableName in tableNames)
             {

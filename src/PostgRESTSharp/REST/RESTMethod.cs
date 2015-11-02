@@ -4,18 +4,19 @@ namespace PostgRESTSharp.REST
 {
     public class RESTMethod
     {
-        public RESTMethod(RESTVerbEnum verb, RESTVerbDetailEnum verbDetail, IEnumerable<RESTParameter> uriParameters, IEnumerable<RESTParameter> queryParameters, IEnumerable<RESTResponseDefinition> responseDefinitions)
-            : this(verb, verbDetail, uriParameters, queryParameters)
+        public RESTMethod(RESTVerbEnum verb, RESTVerbDetailEnum verbDetail, IEnumerable<RESTParameter> uriParameters, IEnumerable<RESTParameter> queryParameters, 
+            IEnumerable<RESTResponseDefinition> responseDefinitions, string methodDescription)
+            : this(verb, verbDetail, uriParameters, queryParameters, methodDescription)
         {
             this.ResponseDefinitions = new List<RESTResponseDefinition>(responseDefinitions);
         }
-        public RESTMethod(RESTVerbEnum verb, RESTVerbDetailEnum verbDetail, IEnumerable<RESTParameter> uriParameters, IEnumerable<RESTParameter> queryParameters)
+        public RESTMethod(RESTVerbEnum verb, RESTVerbDetailEnum verbDetail, IEnumerable<RESTParameter> uriParameters, IEnumerable<RESTParameter> queryParameters, string methodDescription)
         {
             this.Verb = verb;
             this.VerbDetail = verbDetail;
             this.URIParameters = new List<RESTParameter>(uriParameters);
             this.QueryParameters = new List<RESTParameter>(queryParameters);
-            this.Description = "Temp Method Description";
+            this.Description = methodDescription;
             this.ResponseDefinitions = new List<RESTResponseDefinition>();
 
             //{ 
