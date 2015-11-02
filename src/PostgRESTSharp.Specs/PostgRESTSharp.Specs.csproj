@@ -45,17 +45,8 @@
       <HintPath>..\packages\SignedBuild-Machine.Specifications.Should.0.7.2\lib\net45\Machine.Specifications.Should.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Nancy, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\packages\Nancy.1.2.0\lib\net40\Nancy.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NSubstitute">
       <HintPath>..\packages\NSubstitute.1.9.1.0\lib\net45\NSubstitute.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.105.2.3\lib\net45\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="nunit.framework">
@@ -66,104 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiClientSpecs\when_calling_execute.cs" />
-    <Compile Include="ApiClientSpecs\when_calling_execute_get_with_headers.cs" />
-    <Compile Include="ApiClientSpecs\when_calling_execute_post.cs" />
-    <Compile Include="ApiClientSpecs\when_calling_execute_get_with_query_parameters.cs" />
-    <Compile Include="ApiClientSpecs\when_calling_execute_get.cs" />
-    <Compile Include="AuthenticationFactorySpecs\when_retrieving_the_postgrest_authenticator.cs" />
-    <Compile Include="ConventionResolverSpecs\when_initialising_the_resolver_with_conventions.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_client_error.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_client_error_with_a_non_client_error_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_informational.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_informational_with_a_non_informational_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_2x_multiple.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_3x_multiple.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_4x_multiple.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_5x_multiple.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_exact_minus_1.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_exact_multiple.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_in_group_with_exact_plus_1.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_redirection.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_redirection_with_a_non_redirection_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_server_error.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_server_error_with_non_server_error_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_success.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_checking_if_status_code_is_success_with_a_non_success_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_converting_a_nancy_status_code_to_system_net_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_converting_a_system_net_status_code_to_nancy_status_code.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes.cs" />
-    <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes_with_non_matching_codes.cs" />
-    <Compile Include="PostgRestHttpRequestSpecs\when_overriding_a_range_header.cs" />
-    <Compile Include="PostgRestHttpRequestSpecs\when_the_factory_creates_a_request.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RestLinkSpecs\Builder\when_building_a_parent_link.cs" />
-    <Compile Include="RestLinkSpecs\Builder\when_building_a_root_link.cs" />
-    <Compile Include="RestLinkSpecs\Builder\when_building_a_self_link.cs" />
-    <Compile Include="RestLinkSpecs\Builder\when_building_a_self_link_for_a_new_entity.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_an_IRestLinkArray.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_rest_link_uri.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_templated_link_uri.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_type_not_implementing_IRestLink.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Mock\RestLinkThatDoesntImplementIRestLink.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Mock\RestArrayLink.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Deserialising\when_deserialising_a_simple_rest_link.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_an_IRestLinkArray.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_type_not_implementing_IRestLink.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\when_checking_if_serialiser_can_convert_an_IRestLink.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\when_checking_if_serialiser_can_convert_unsupported_types.cs" />
-    <Compile Include="RestLinkSpecs\when_manually_adding_a_link.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_collection_of_templated_link_uris.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_collection_of_simple_link_uris.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_templated_link_uri.cs" />
-    <Compile Include="RestLinkSpecs\JsonConverter\Serialising\when_serialising_a_rest_link_uri.cs" />
-    <Compile Include="RestRequestFactorySpecs\when_creating_a_rest_request.cs" />
-    <Compile Include="RestSharpNewtonsoftJsonSerialiserSpecs\when_deserialising.cs" />
-    <Compile Include="RestSharpNewtonsoftJsonSerialiserSpecs\when_serialising.cs" />
-    <Compile Include="RoleEnforcerSpecs\Mock\UserIdentity.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_all_claims_with_no_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_all_claims_with_some_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_all_claims_with_all_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_all_claims_with_unrelated_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_any_one_claim_with_all_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_any_one_claim_with_no_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_any_one_claim_with_some_claims_present.cs" />
-    <Compile Include="RoleEnforcerSpecs\when_enforcing_any_one_claim_with_unrelated_claims_present.cs" />
-    <Compile Include="TransformerSpecs\QueryString\Order\when_not_supplying_an_order_by_clause.cs" />
-    <Compile Include="TransformerSpecs\QueryString\Order\when_supplying_an_order_by_clause_when_an_existing_order_by_clause_is_present.cs" />
-    <Compile Include="TransformerSpecs\QueryString\Order\when_supplying_an_order_by_clause.cs" />
-    <Compile Include="TransformerSpecs\QueryString\Order\when_supplying_an_order_by_clause_with_an_empty_order_by_value.cs" />
-    <Compile Include="TransformerSpecs\QueryString\PassThrough\when_not_supplying_a_query_string.cs" />
-    <Compile Include="TransformerSpecs\QueryString\PassThrough\when_supplying_a_query_string.cs" />
-    <Compile Include="TransformerSpecs\QueryString\PassThrough\when_supplying_a_query_string_with_missing_values.cs" />
-    <Compile Include="TransformerSpecs\QueryString\PassThrough\when_supplying_a_query_string_with_spaces_in_values.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_an_items_prefix.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_non_zero_starting_open_ended_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_within_count_limit_non_zero_starting_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_within_count_limit_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_an_open_ended_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_negative_starting_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_non_integer_end_index.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_non_integer_start_index.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_non_zero_starting_range_greater_than_the_count_limit.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_a_range_greater_than_the_count_limit.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_no_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_no_range_separator.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_no_range_unit.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\RangeLimit\when_transforming_a_range_header_with_no_range_value.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\Range\when_not_supplying_a_range_or_range_unit_header.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\Range\when_supplying_a_range_header.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\Range\when_supplying_a_range_header_with_no_range.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\Range\when_supplying_a_range_header_with_no_range_unit.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\Version\when_not_supplying_a_version_header.cs" />
-    <Compile Include="TransformerSpecs\RequestHeader\Version\when_supplying_a_version_header.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\Mock\IMockTransformer.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\should_not_have_duplicate_order_attribute_on_same_type.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\when_requesting_empty_headers.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\when_requesting_empty_query_string_parameters.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\when_transforming_an_incoming_request.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\when_transforming_an_incoming_request_with_ordered_transformers.cs" />
-    <Compile Include="TransformerSpecs\RequestTransformer\when_ordering_transformers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
@@ -176,17 +70,15 @@
     </MonoDevelop>
   </ProjectExtensions>
   <ItemGroup>
-    <ProjectReference Include="..\PostgRESTSharp.Shared\PostgRESTSharp.Shared.csproj">
-      <Project>{400BB0AC-325C-46B4-A1F6-4432B593AF88}</Project>
-      <Name>PostgRESTSharp.Shared</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PostgRESTSharp\PostgRESTSharp.csproj">
       <Project>{7992EB2A-3102-41D6-A746-AB9ADF116CDE}</Project>
       <Name>PostgRESTSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
