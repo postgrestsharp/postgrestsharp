@@ -1,7 +1,6 @@
 ﻿using PostgRESTSharp.Commands.GenerateViewScripts;
 ﻿using PostgRESTSharp.Commands.GenerateRAML;
 ﻿using System.Diagnostics;
-using PostgRESTSharp.Commands.GenerateViewScripts;
 using PostgRESTSharp.Configuration;
 using PostgRESTSharp.Conventions;
 using PostgRESTSharp.Data;
@@ -16,24 +15,7 @@ namespace PostgRESTSharp.Generator
     {
         public static void Main(string[] args)
         {
-
-            IContainer container = new Container(x =>
-                {
-                    x.Scan(y =>
-                        {
-                            y.LookForRegistries();
-                            y.WithDefaultConventions();
-                            y.AssembliesFromApplicationBaseDirectory();
-                            y.AddAllTypesOf<IConvention>();
-                            y.AddAllTypesOf<IMapping>();
-                        });
-
-                    x.For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();
-                    x.For<IDbConnectionProvider>().Singleton().Use<PgSqlDbConnectionProvider>();
-                    x.For<ITableMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
-                    x.For<ITableMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
-                    x.For<IConventionResolver>().Singleton().Use<ConventionResolver>();
-                });
+            var container = new Container(new GeneratorRegistry());
 
             // seed the convention resolver
             var conventionResolver = container.GetInstance<IConventionResolver>();
