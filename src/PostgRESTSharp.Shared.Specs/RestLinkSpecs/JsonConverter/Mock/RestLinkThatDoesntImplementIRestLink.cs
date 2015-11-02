@@ -1,7 +1,6 @@
 using Newtonsoft.Json;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Mock
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Mock
 {
     [JsonConverter(typeof(RestLinkJsonConverter))]
     class RestLinkThatDoesntImplementIRestLink

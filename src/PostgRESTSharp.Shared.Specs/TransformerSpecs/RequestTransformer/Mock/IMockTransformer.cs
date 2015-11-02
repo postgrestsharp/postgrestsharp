@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Nancy;
-using PostgRESTSharp.Shared;
-
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer.Mock
+﻿namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer.Mock
 {
     public interface IMockTransformer
     {

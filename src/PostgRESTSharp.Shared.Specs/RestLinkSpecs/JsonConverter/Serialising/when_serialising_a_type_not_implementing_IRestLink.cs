@@ -1,9 +1,9 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
-using PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Mock;
+using PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Mock;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Serialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Serialising
 {
     public class when_serialising_a_type_not_implementing_IRestLink : WithFakes
     {

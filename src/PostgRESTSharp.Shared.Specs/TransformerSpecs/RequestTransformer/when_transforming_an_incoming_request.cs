@@ -2,9 +2,8 @@
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer
 {
     public class when_transforming_an_incoming_request : WithFakes
     {

@@ -4,9 +4,8 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.QueryString.PassThrough
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.QueryString.PassThrough
 {
     public class when_supplying_a_query_string : WithFakes
     {

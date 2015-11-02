@@ -4,10 +4,9 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using NUnit.Framework;
-using PostgRESTSharp.Shared;
-using PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer.Mock;
+using PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer.Mock;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer
 {
     public class should_not_have_duplicate_order_attribute_on_same_type : WithFakes
     {

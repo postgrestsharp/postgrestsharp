@@ -1,8 +1,7 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.HttpStatusCodeMatcherSpecs
+namespace PostgRESTSharp.Shared.Specs.HttpStatusCodeMatcherSpecs
 {
     public class when_equating_status_codes_with_non_matching_codes : WithFakes
     {

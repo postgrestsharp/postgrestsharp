@@ -3,9 +3,8 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.Builder
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.Builder
 {
     public class when_building_a_root_link : WithFakes
     {

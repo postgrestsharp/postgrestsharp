@@ -1,13 +1,12 @@
 ﻿using System;
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
 using RestSharp.Serializers;
 
-namespace PostgRESTSharp.Specs.ApiClientSpecs
+namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
 {
     public class when_calling_execute_post : WithFakes
     {

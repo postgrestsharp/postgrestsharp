@@ -2,10 +2,9 @@
 using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
-using PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer.Mock;
+using PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer.Mock;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer
 {
     public class when_ordering_transformers : WithFakes
     {

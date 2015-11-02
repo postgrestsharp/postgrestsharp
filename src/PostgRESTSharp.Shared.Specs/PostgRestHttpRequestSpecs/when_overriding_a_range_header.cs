@@ -2,10 +2,9 @@ using System;
 using System.Net;
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 using RestSharp;
 
-namespace PostgRESTSharp.Specs.PostgRestHttpRequestSpecs
+namespace PostgRESTSharp.Shared.Specs.PostgRestHttpRequestSpecs
 {
     public class when_overriding_a_range_header : WithFakes
     {

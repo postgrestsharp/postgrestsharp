@@ -1,13 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Machine.Fakes;
+﻿using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.HttpStatusCodeMatcherSpecs
+namespace PostgRESTSharp.Shared.Specs.HttpStatusCodeMatcherSpecs
 {
     public class when_converting_a_system_net_status_code_to_nancy_status_code : WithFakes
     {

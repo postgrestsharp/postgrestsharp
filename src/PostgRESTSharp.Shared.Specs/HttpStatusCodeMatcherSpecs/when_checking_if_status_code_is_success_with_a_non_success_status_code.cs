@@ -1,8 +1,7 @@
 ﻿using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.HttpStatusCodeMatcherSpecs
+namespace PostgRESTSharp.Shared.Specs.HttpStatusCodeMatcherSpecs
 {
     public class when_checking_if_status_code_is_success_with_a_non_success_status_code : WithFakes
     {

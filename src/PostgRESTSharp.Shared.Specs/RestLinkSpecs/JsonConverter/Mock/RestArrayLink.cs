@@ -1,6 +1,4 @@
-using PostgRESTSharp.Shared;
-
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Mock
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Mock
 {
     public class RestArrayLink : IRestArrayLink
     {

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
+﻿using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs
 {
     public class when_manually_adding_a_link : WithFakes
     {

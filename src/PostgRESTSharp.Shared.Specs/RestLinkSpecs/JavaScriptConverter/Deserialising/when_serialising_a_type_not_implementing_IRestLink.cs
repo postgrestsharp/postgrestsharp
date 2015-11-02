@@ -3,10 +3,9 @@ using Machine.Fakes;
 using Machine.Specifications;
 using Nancy.Json;
 using Newtonsoft.Json;
-using PostgRESTSharp.Shared;
-using PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Mock;
+using PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Mock;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JavaScriptConverter.Deserialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Deserialising
 {
     public class when_serialising_a_type_not_implementing_IRestLink : WithFakes
     {

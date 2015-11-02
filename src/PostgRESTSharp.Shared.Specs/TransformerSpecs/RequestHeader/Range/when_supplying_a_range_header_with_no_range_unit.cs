@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Range
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestHeader.Range
 {
     public class when_supplying_a_range_header_with_no_range_unit : WithFakes
     {

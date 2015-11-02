@@ -4,9 +4,8 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.RangeLimit
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestHeader.RangeLimit
 {
     public class when_transforming_a_range_header_with_a_within_count_limit_non_zero_starting_range : WithFakes
     {

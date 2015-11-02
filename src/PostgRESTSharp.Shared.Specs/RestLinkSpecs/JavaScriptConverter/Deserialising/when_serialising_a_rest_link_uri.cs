@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Dynamic;
-using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy.Json;
 using Newtonsoft.Json;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JavaScriptConverter.Deserialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Deserialising
 {
     public class when_serialising_a_rest_link_uri : WithFakes
     {

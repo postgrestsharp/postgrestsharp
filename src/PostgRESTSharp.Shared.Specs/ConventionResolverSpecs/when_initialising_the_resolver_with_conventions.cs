@@ -1,12 +1,8 @@
-﻿using NUnit.Specifications;
+﻿using System.Collections.Generic;
+using NUnit.Specifications;
 using PostgRESTSharp.Conventions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace PostgRESTSharp.Specs.ConventionResolverSpecs
+namespace PostgRESTSharp.Shared.Specs.ConventionResolverSpecs
 {
     public class when_initialising_the_resolver_with_conventions : ContextSpecification
     {

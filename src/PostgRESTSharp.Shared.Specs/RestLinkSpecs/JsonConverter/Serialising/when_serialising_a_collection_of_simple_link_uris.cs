@@ -3,9 +3,8 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Serialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Serialising
 {
     public class when_serialising_a_collection_of_simple_link_uris : WithFakes
     {

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
-using Machine.Fakes;
+﻿using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter
 {
     public class when_checking_if_serialiser_can_convert_an_IRestLink : WithFakes
     {

@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 using RestSharp;
 
-namespace PostgRESTSharp.Specs.RestRequestFactorySpecs
+namespace PostgRESTSharp.Shared.Specs.RestRequestFactorySpecs
 {
     public class when_creating_a_rest_request : WithFakes
     {

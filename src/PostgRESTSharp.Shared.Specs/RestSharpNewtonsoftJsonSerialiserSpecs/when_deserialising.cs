@@ -2,10 +2,9 @@
 using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
-using PostgRESTSharp.Shared;
 using RestSharp;
 
-namespace PostgRESTSharp.Specs.RestSharpNewtonsoftJsonSerialiserSpecs
+namespace PostgRESTSharp.Shared.Specs.RestSharpNewtonsoftJsonSerialiserSpecs
 {
     public class when_deserialising : WithFakes
     {

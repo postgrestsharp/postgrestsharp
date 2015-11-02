@@ -2,9 +2,8 @@
 using Machine.Fakes;
 using Machine.Specifications;
 using Newtonsoft.Json;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.RestLinkSpecs.JsonConverter.Deserialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Deserialising
 {
     public class when_deserialising_a_simple_rest_link : WithFakes
     {

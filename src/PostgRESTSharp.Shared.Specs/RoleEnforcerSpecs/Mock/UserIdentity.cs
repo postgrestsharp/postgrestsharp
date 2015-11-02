@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Nancy.Security;
 
-namespace PostgRESTSharp.Specs.RoleEnforcerSpecs.Mock
+namespace PostgRESTSharp.Shared.Specs.RoleEnforcerSpecs.Mock
 {
     public class UserIdentity : IUserIdentity
     {

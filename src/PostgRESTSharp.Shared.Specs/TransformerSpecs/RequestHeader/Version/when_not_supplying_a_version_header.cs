@@ -4,9 +4,8 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestHeader.Version
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestHeader.Version
 {
     public class when_not_supplying_a_version_header : WithFakes
     {

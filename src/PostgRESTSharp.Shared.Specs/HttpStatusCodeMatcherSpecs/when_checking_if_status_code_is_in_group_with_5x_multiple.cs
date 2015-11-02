@@ -1,8 +1,7 @@
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.HttpStatusCodeMatcherSpecs
+namespace PostgRESTSharp.Shared.Specs.HttpStatusCodeMatcherSpecs
 {
     public class when_checking_if_status_code_is_in_group_with_5x_multiple : WithFakes
     {

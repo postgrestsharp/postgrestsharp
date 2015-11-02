@@ -4,9 +4,8 @@ using System.Linq;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.QueryString.Order
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.QueryString.Order
 {
     public class when_supplying_an_order_by_clause : WithFakes
     {

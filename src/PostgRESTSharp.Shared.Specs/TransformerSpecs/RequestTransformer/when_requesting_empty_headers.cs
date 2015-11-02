@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Specifications;
-using PostgRESTSharp.Shared;
 
-namespace PostgRESTSharp.Specs.TransformerSpecs.RequestTransformer
+namespace PostgRESTSharp.Shared.Specs.TransformerSpecs.RequestTransformer
 {
     public class when_requesting_empty_headers : WithFakes
     {
