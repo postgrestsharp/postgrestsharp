@@ -66,6 +66,8 @@
   <ItemGroup>
     <Compile Include="GeneratorRegistryTests\TestGeneratorRegistry.cs" />
     <Compile Include="GeneratorRegistryTests\Mock\ITestDefaultConventions.cs" />
+    <Compile Include="GeneratorTests\TestGenerator.cs" />
+    <Compile Include="ProgramTests\TestProgram.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StructureMapCommandDependencyResolverTests\TestStructureMapCommandDependencyResolver.cs" />
   </ItemGroup>

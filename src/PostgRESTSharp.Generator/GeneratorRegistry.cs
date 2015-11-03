@@ -25,11 +25,12 @@ namespace PostgRESTSharp.Generator
                 a.AddAllTypesOf<IMapping>();
             });
 
-            this.For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();
-            this.For<IDbConnectionProvider>().Singleton().Use<PgSqlDbConnectionProvider>();
-            this.For<ITableMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
-            this.For<ITableMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
-            this.For<IConventionResolver>().Singleton().Use<ConventionResolver>();
+            For<IConnectionStringConfigurationProvider>().Singleton().Use<SimpleConnectionStringConfigurationProvider>();
+            For<IDbConnectionProvider>().Singleton().Use<PgSqlDbConnectionProvider>();
+            For<ITableMetaModelQueryProvider>().Singleton().Use<PgSqlDataStorageQueryProvider>();
+            For<IConventionResolver>().Singleton().Use<ConventionResolver>();
+
+            For<ITableMetaModelTypeConvertor>().Use<PgSqlDataStorageTypeConvertor>();
         }
     }
 }
