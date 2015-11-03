@@ -12,16 +12,21 @@ namespace PostgRESTSharp.Generator.Tests.StructureMapCommandDependencyResolverTe
     [TestFixture]
     public class TestStructureMapCommandDependencyResolver
     {
+        private static readonly object containerLock = new object();
+
         [Test]
         public void Constructor_ShouldResolveAnInstance_GivenAnInstanceTypeToResolve()
         {
-            var container = Substitute.For<IContainer>();
-            var resolver = new StructureMapCommandDependencyResolver(container);
+            lock (containerLock)
+            {
+                var container = Substitute.For<IContainer>();
+                var resolver = new StructureMapCommandDependencyResolver(container);
 
-            var serviceType = typeof(object);
-            resolver.Resolve(serviceType);
+                var serviceType = typeof(object);
+                resolver.Resolve(serviceType);
 
-            container.Received(1).GetInstance(serviceType);
+                container.Received(1).GetInstance(serviceType);
+            }
         }
     }
 }

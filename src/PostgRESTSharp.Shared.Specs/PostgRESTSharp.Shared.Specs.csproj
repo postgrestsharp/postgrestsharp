@@ -107,6 +107,7 @@
     <Compile Include="HttpStatusCodeMatcherSpecs\when_converting_a_system_net_status_code_to_nancy_status_code.cs" />
     <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes.cs" />
     <Compile Include="HttpStatusCodeMatcherSpecs\when_equating_status_codes_with_non_matching_codes.cs" />
+    <Compile Include="LocationHeaderParserSpecs\when_parsing_a_location_header.cs" />
     <Compile Include="PostgRestHttpRequestSpecs\when_overriding_a_range_header.cs" />
     <Compile Include="PostgRestHttpRequestSpecs\when_the_factory_creates_a_request.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,10 +115,12 @@
     <Compile Include="RestLinkSpecs\Builder\when_building_a_root_link.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_self_link.cs" />
     <Compile Include="RestLinkSpecs\Builder\when_building_a_self_link_for_a_new_entity.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_an_IRestLinkArray.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_rest_link_uri.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_templated_link_uri.cs" />
-    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialising\when_serialising_a_type_not_implementing_IRestLink.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Deserialise\when_deserialising.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Serialising\when_serialising_an_IRestLinkArray.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Serialising\when_serialising_a_rest_link_uri.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Serialising\when_serialising_a_templated_link_uri.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\Serialising\when_serialising_a_type_not_implementing_IRestLink.cs" />
+    <Compile Include="RestLinkSpecs\JavaScriptConverter\when_determining_the_supported_types.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Deserialising\when_deserialising_a_simple_rest_link.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Mock\RestArrayLink.cs" />
     <Compile Include="RestLinkSpecs\JsonConverter\Mock\RestLinkThatDoesntImplementIRestLink.cs" />

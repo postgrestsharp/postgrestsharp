@@ -83,8 +83,7 @@ namespace PostgRESTSharp.Shared
                 {
                     return;
                 }
-                var fieldInfo = this
-                    .GetType()
+                var fieldInfo = GetType()
                     .BaseType
                     .GetField("restrictedHeaderActions", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -106,7 +105,7 @@ namespace PostgRESTSharp.Shared
         {
             SetValueMethodInfo(request);
 
-            setValueMethodInfo.Invoke(request.Headers, new[] { name, value });
+            setValueMethodInfo.Invoke(request.Headers, new object[] { name, value });
         }
 
         private static void SetValueMethodInfo(HttpWebRequest request)

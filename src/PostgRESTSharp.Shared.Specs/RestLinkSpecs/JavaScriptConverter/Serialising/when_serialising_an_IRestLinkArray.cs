@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Specifications;
 using Nancy.Json;
 using Newtonsoft.Json;
 using PostgRESTSharp.Shared.Specs.RestLinkSpecs.JsonConverter.Mock;
 
-namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Deserialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Serialising
 {
-    public class when_serialising_a_type_not_implementing_IRestLink : WithFakes
+    public class when_serialising_an_IRestLinkArray : WithFakes
     {
         Establish that = () =>
         {
-            link = new RestLinkThatDoesntImplementIRestLink();
+            link = new RestArrayLink();
+            link.Uris = new IRestLinkUri[1];
+            link.Uris[0] = new RestLinkUri("http://localhosty/1");
+
             converter = new RestLinksJavaScriptConverter();
         };
 
@@ -23,16 +26,16 @@ namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Deserial
 
         private It should_not_have_serialised_the_object = () =>
         {
-            values.ShouldBeNull();
+            values.Count.ShouldEqual(0);
         };
 
         private It should_have_similar_values_to_the_newtonsoft_JsonConverter_result = () =>
         {
-            //values is null, so we can assume it is equivalent to an empty string for the sake of json serialisation
+            //values is empty, so we can assume it is equivalent to an empty string for the sake of json serialisation
             json.ShouldEqual(string.Empty);
         };
 
-        private static RestLinkThatDoesntImplementIRestLink link;
+        private static RestArrayLink link;
         private static string json;
         private static dynamic jsonObject;
         private static RestLinksJavaScriptConverter converter;

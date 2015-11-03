@@ -58,4 +58,3 @@ namespace PostgRESTSharp.Shared
 		}
 	}
 }
-

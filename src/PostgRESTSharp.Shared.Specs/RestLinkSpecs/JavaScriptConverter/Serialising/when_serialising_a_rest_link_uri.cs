@@ -5,7 +5,7 @@ using Machine.Specifications;
 using Nancy.Json;
 using Newtonsoft.Json;
 
-namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Deserialising
+namespace PostgRESTSharp.Shared.Specs.RestLinkSpecs.JavaScriptConverter.Serialising
 {
     public class when_serialising_a_rest_link_uri : WithFakes
     {
