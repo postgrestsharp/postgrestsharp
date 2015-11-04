@@ -82,6 +82,7 @@
     <Compile Include="ApiClientSpecs\when_calling_execute_get.cs" />
     <Compile Include="ApiClientSpecs\when_calling_execute_get_with_headers.cs" />
     <Compile Include="ApiClientSpecs\when_calling_execute_get_with_query_parameters.cs" />
+    <Compile Include="ApiClientSpecs\when_calling_execute_get_with_query_parameters_with_multiple_requests.cs" />
     <Compile Include="ApiClientSpecs\when_calling_execute_post.cs" />
     <Compile Include="AuthenticationFactorySpecs\when_retrieving_the_postgrest_authenticator.cs" />
     <Compile Include="ConventionResolverSpecs\when_initialising_the_resolver_with_conventions.cs" />

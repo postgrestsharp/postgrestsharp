@@ -56,7 +56,12 @@ namespace PostgRESTSharp.Shared
             client.BaseUrl = new Uri(baseUrl);
             client.AddHandler("application/json", deserialiser);
             request.JsonSerializer = serialiser;
-            return await client.ExecuteTaskAsync<T>(request);
+            var result = await client.ExecuteTaskAsync<T>(request);
+            if (request.Parameters != null)
+            {
+                request.Parameters.Clear();
+            }
+            return result;
         }
 
         public virtual async Task<IApiResponse<T>> ExecuteWrappedAsync<T>(IRestRequest request, string baseUrl, IAuthenticator authenticator = null)
