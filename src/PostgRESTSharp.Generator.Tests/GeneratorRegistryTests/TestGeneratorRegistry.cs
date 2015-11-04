@@ -16,7 +16,6 @@ namespace PostgRESTSharp.Generator.Tests.GeneratorRegistryTests
     {
         [TestCase(typeof(IConvention), new[] { typeof(DefaultTableExclusionConvention), typeof(DefaultViewInclusionConvention)})]
         [TestCase(typeof(IMapping), new[] { typeof(MethodMapping), typeof(ParamterMapping)})]
-        [Test]
         public void Constructor_ShouldAddAllGivenTypes_GivenInterfaceWithMultipleImplementors(Type interfaceType, Type[] concreteTypes)
         {
             var container = new Container(new GeneratorRegistry());
@@ -36,7 +35,6 @@ namespace PostgRESTSharp.Generator.Tests.GeneratorRegistryTests
         [TestCase(typeof(ITableMetaModelQueryProvider), typeof(PgSqlDataStorageQueryProvider), true)]
         [TestCase(typeof(ITableMetaModelTypeConvertor), typeof(PgSqlDataStorageTypeConvertor), false)]
         [TestCase(typeof(IConventionResolver), typeof(ConventionResolver), true)]
-        [Test]
         public void Constructor_ShouldMatchInterfacesToConcreteTypes_GivenInterface_And_GivenConcreteType(Type interfaceType, Type concreteType, bool shouldBeSingleton)
         {
             var container = new Container(new GeneratorRegistry());

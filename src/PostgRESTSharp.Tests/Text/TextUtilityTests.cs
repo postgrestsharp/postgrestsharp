@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using PostgRESTSharp.Text;
 
 namespace PostgRESTSharp.Tests.Text
@@ -13,16 +14,14 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("application$mortgage-loan", "mortgageLoanApplications")]
         public void ToPluralCamelCase_GivenComplexTableName_ShouldReturnCamelCasePuralisedInReverseEntityOrder(string input, string expectedOutput)
         {
-            
             //arrange
             var textUtility = new TextUtility();
-            
+
             //action
             var result = textUtility.ToPluralCamelCase(input);
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
         [TestCase("mortgage_loan_id", "mortgageLoanIds")]
@@ -30,16 +29,14 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("mortgage.loan_id", "mortgageLoanIds")]
         public void ToPluralCamelCase_GivenSimpleColumnName_ShouldReturnCamelCasePuralisedInTheOrderSupplied(string input, string expectedOutput)
         {
-            
             //arrange
             var textUtility = new TextUtility();
-            
+
             //action
             var result = textUtility.ToPluralCamelCase(input);
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
         [TestCase("application$mortgageloan", "mortgageloanApplication")]
@@ -49,16 +46,14 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("application$mortgage-loan", "mortgageLoanApplication")]
         public void ToCamelCase_GivenComplexTableName_ShouldReturnCamelCaseInReverseEntityOrder(string input, string expectedOutput)
         {
-            
             //arrange
             var textUtility = new TextUtility();
-            
+
             //action
             var result = textUtility.ToCamelCase(input);
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
         [TestCase("mortgage_loan_id", "mortgageLoanId")]
@@ -66,18 +61,16 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("mortgage.loan_id", "mortgageLoanId")]
         public void ToCamelCase_GivenSimpleColumnName_ShouldReturnCamelCasInTheOrderSupplied(string input, string expectedOutput)
         {
-            
             //arrange
             var textUtility = new TextUtility();
-            
+
             //action
             var result = textUtility.ToCamelCase(input);
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
-        
+
         [TestCase("application$mortgageloan", "MortgageloanApplication")]
         [TestCase("application$mortgageloan$new_purchase", "NewPurchaseMortgageloanApplication")]
         [TestCase("application$mortgage_loan$refinance", "RefinanceMortgageLoanApplication")]
@@ -85,7 +78,6 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("application$mortgage-loan", "MortgageLoanApplication")]
         public void ToCapitalCase_GivenComplexTableName_ShouldReturnCapitalCaseInReverseEntityOrder(string input, string expectedOutput)
         {
-
             //arrange
             var textUtility = new TextUtility();
 
@@ -94,7 +86,6 @@ namespace PostgRESTSharp.Tests.Text
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
         [TestCase("mortgage_loan_id", "MortgageLoanId")]
@@ -102,7 +93,6 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("mortgage.loan_id", "MortgageLoanId")]
         public void ToCapitalCase_GivenSimpleColumnName_ShouldReturnCapitalCaseInTheOrderSupplied(string input, string expectedOutput)
         {
-
             //arrange
             var textUtility = new TextUtility();
 
@@ -111,7 +101,6 @@ namespace PostgRESTSharp.Tests.Text
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
         [TestCase("application$mortgageloan", "MortgageloanApplications")]
@@ -119,9 +108,9 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("application$mortgage_loan$refinance", "RefinanceMortgageLoanApplications")]
         [TestCase("application$mortgage-loan$refinance", "RefinanceMortgageLoanApplications")]
         [TestCase("application$mortgage-loan", "MortgageLoanApplications")]
-        public void ToPluralCapitalCase_GivenComplexTableName_ShouldReturnCapitalCasePluralisedInReverseEntityOrder(string input, string expectedOutput)
+        public void ToPluralCapitalCase_GivenComplexTableName_ShouldReturnCapitalCasePluralisedInReverseEntityOrder(string input,
+            string expectedOutput)
         {
-
             //arrange
             var textUtility = new TextUtility();
 
@@ -130,7 +119,6 @@ namespace PostgRESTSharp.Tests.Text
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
         [TestCase("mortgage_loan_id", "MortgageLoanIds")]
@@ -138,7 +126,6 @@ namespace PostgRESTSharp.Tests.Text
         [TestCase("mortgage.loan_id", "MortgageLoanIds")]
         public void ToPluralCapitalCase_GivenSimpleColumnName_ShouldReturnCapitalCasePluralisedInTheOrderSupplied(string input, string expectedOutput)
         {
-
             //arrange
             var textUtility = new TextUtility();
 
@@ -147,9 +134,101 @@ namespace PostgRESTSharp.Tests.Text
 
             //assert
             Assert.AreEqual(expectedOutput, result);
-
         }
 
-    }
+        [TestCase("id", "id")]
+        [TestCase("someOtherId", "someOtherId")]
+        public void Sanitise_GivenSimpleColumnNameWithNoDirtyCharacters_ShouldReturnStringUnchanged(string input, string expectedOutput)
+        {
+            var utility = new TextUtility();
 
+            var result = utility.Sanitise(input);
+
+            Assert.AreEqual(expectedOutput, result);
+        }
+
+        [TestCase("some_id", "someid")]
+        [TestCase("some Other Id", "someOtherId")]
+        [TestCase("some.Other.Id", "someOtherId")]
+        public void Sanitise_GivenSimpleColumnNameWithDirtyCharacters_ShouldReturnColumnNameWithoutDirtyCharacters(string input, string expectedOutput)
+        {
+            var utility = new TextUtility();
+
+            var result = utility.Sanitise(input);
+
+            Assert.AreEqual(expectedOutput, result);
+        }
+
+        [TestCase("oranges", false, true)]
+        [TestCase("orange", true, false)]
+        [TestCase("identities", false, true)]
+        [TestCase("identity", true, false)]
+        [TestCase("cars", false, true)]
+        [TestCase("car", true, false)]
+        [TestCase("accounts", false, true)]
+        [TestCase("account", true, false)]
+        [TestCase("sheep", true, true)]
+        //[TestCase("bread", true, true)] //breaks
+        public void IsSingular_IsPlural_GivenCriteria_ShouldAssert(string input, bool isSingular, bool isPlural)
+        {
+            //we should only really be testing one method here
+            //but pluralisation requires both singular and plurals to be correct for consistency
+
+            var utility = new TextUtility();
+
+            var isSingularResult = utility.IsSingular(input);
+            var isPluralResult = utility.IsPlural(input);
+
+            if (!isSingular && !isPlural)
+            {
+                throw new NotImplementedException();
+            }
+
+            if (isSingular)
+            {
+                Assert.IsTrue(isSingularResult);
+            }
+
+            if (isPlural)
+            {
+                Assert.IsTrue(isPluralResult);
+            }
+        }
+
+        [TestCase("oranges", false, true)]
+        [TestCase("orange", true, false)]
+        [TestCase("identities", false, true)]
+        [TestCase("identity", true, false)]
+        [TestCase("cars", false, true)]
+        [TestCase("car", true, false)]
+        [TestCase("accounts", false, true)]
+        [TestCase("account", true, false)]
+        [TestCase("sheep", true, true)]
+        //[TestCase("bread", true, true)] //breaks
+        public void ToSingular_ToPlural_GivenCriteria_ShouldAssert(string input, bool isSingular, bool isPlural)
+        {
+            //we should only really be testing one method here
+            //but pluralisation requires both singular and plurals to be correct for consistency
+
+            var utility = new TextUtility();
+
+            var singularResult = utility.ToSingular(input);
+            var pluralResult = utility.ToPlural(input);
+
+            if (!isSingular && !isPlural)
+            {
+                throw new NotImplementedException();
+            }
+
+            if (isSingular)
+            {
+                Assert.AreEqual(singularResult, input);
+            }
+
+            if (isPlural)
+            {
+                Assert.AreEqual(pluralResult, input);
+            }
+        }
+    }
 }
