@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClientSpecs\Mock\TestModel.cs" />
     <Compile Include="ApiClientSpecs\when_calling_execute.cs" />
     <Compile Include="ApiClientSpecs\when_calling_execute_get.cs" />
     <Compile Include="ApiClientSpecs\when_calling_execute_get_with_headers.cs" />

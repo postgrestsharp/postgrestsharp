@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Specifications;
 using PostgRESTSharp.Shared;
+using PostgRESTSharp.Shared.Specs.ApiClientSpecs.Mock;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
@@ -18,7 +19,7 @@ namespace PostgRESTSharp.Specs.ApiClientSpecs
         private static IRestResponse restResponse;
         private static string url = "http://test.com/";
         private static string endpointResource = "test";
-        private static SimpleTest result1;
+        private static TestModel result1;
 
         Establish that = async () =>
         {
@@ -45,7 +46,7 @@ namespace PostgRESTSharp.Specs.ApiClientSpecs
                 new KeyValuePair<string, string>("Id", "1")
             };
 
-            result1 = await apiClient.ExecuteGetAsync<SimpleTest>(endpointResource, url, parameters1, null, authenticator);
+            result1 = await apiClient.ExecuteGetAsync<TestModel>(endpointResource, url, parameters1, null, authenticator);
 
             restRequest.Parameters.ShouldBeEmpty();
         };
@@ -56,7 +57,7 @@ namespace PostgRESTSharp.Specs.ApiClientSpecs
             {
                 new KeyValuePair<string, string>("Description", "2")
             };
-            result2 = await apiClient.ExecuteGetAsync<SimpleTest>(endpointResource, url, parameters2, null, authenticator);
+            result2 = await apiClient.ExecuteGetAsync<TestModel>(endpointResource, url, parameters2, null, authenticator);
         };
 
         public It should_add_query_parameters1 = () =>
@@ -72,7 +73,7 @@ namespace PostgRESTSharp.Specs.ApiClientSpecs
         private static IRestRequestFactory restRequestFactory;
         private static ISerializer serialiser;
         private static IDeserializer deserialiser;
-        private static SimpleTest result2;
+        private static TestModel result2;
         private static List<Parameter> parameters;
         private static IAuthenticator authenticator;
     }

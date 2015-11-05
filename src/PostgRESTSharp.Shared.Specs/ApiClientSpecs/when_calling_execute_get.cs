@@ -1,6 +1,7 @@
 ﻿using System;
 using Machine.Fakes;
 using Machine.Specifications;
+using PostgRESTSharp.Shared.Specs.ApiClientSpecs.Mock;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
@@ -17,7 +18,7 @@ namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
         private static IRestResponse restResponse;
         private static string url = "http://test.com/";
         private static string endpointResource = "test";
-        private static SimpleTest test;
+        private static TestModel testModel;
 
         Establish that = () =>
         {
@@ -40,7 +41,7 @@ namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
         public Because of = async () =>
         {
             IAuthenticator authenticator = An<IAuthenticator>();
-            test = await apiClient.ExecuteGetAsync<SimpleTest>(endpointResource, url, null, null, authenticator);
+            testModel = await apiClient.ExecuteGetAsync<TestModel>(endpointResource, url, null, null, authenticator);
         };
 
         public It should_have_base_url_set_on_client = () => restClient.BaseUrl.ShouldEqual(new Uri(url));
@@ -51,7 +52,7 @@ namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync<SimpleTest>(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync<TestModel>(restRequest));
 
         private static IRestRequestFactory restRequestFactory;
         private static ISerializer serialiser;

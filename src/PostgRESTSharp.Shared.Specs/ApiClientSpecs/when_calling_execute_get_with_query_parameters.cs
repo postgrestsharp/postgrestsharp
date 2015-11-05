@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Machine.Fakes;
 using Machine.Specifications;
+using PostgRESTSharp.Shared.Specs.ApiClientSpecs.Mock;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Deserializers;
@@ -18,7 +19,7 @@ namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
         private static IRestResponse restResponse;
         private static string url = "http://test.com/";
         private static string endpointResource = "test";
-        private static SimpleTest test;
+        private static TestModel testModel;
 
         Establish that = () =>
         {
@@ -46,7 +47,7 @@ namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
                 new KeyValuePair<string, string>("Id", "1")
             };
             
-            test = await apiClient.ExecuteGetAsync<SimpleTest>(endpointResource, url, parameters, null, authenticator);
+            testModel = await apiClient.ExecuteGetAsync<TestModel>(endpointResource, url, parameters, null, authenticator);
         };
 
         public It should_add_query_parameters = () => restRequest.WasToldTo(x => x.AddQueryParameter("Id", "1"));
@@ -59,7 +60,7 @@ namespace PostgRESTSharp.Shared.Specs.ApiClientSpecs
 
         public It should_have_authenticator_set = () => restClient.Authenticator.ShouldNotBeNull();
 
-        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync<SimpleTest>(restRequest));
+        public It should_execute_call_on_client = () => restClient.WasToldTo(x => x.ExecuteTaskAsync<TestModel>(restRequest));
 
         private static IRestRequestFactory restRequestFactory;
         private static ISerializer serialiser;
