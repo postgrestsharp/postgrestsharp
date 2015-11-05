@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
@@ -12,13 +13,15 @@ namespace PostgRESTSharp.Generator.Tests.StructureMapCommandDependencyResolverTe
     [TestFixture]
     public class TestStructureMapCommandDependencyResolver
     {
-        private static readonly object containerLock = new object();
+        private readonly Mutex blocker = new Mutex(false, "TestStructureMapCommandDependencyResolver");
 
         [Test]
         public void Constructor_ShouldResolveAnInstance_GivenAnInstanceTypeToResolve()
         {
-            lock (containerLock)
+            try
             {
+                blocker.WaitOne(TimeSpan.FromSeconds(10D), false);
+
                 var container = Substitute.For<IContainer>();
                 var resolver = new StructureMapCommandDependencyResolver(container);
 
@@ -26,6 +29,11 @@ namespace PostgRESTSharp.Generator.Tests.StructureMapCommandDependencyResolverTe
                 resolver.Resolve(serviceType);
 
                 container.Received(1).GetInstance(serviceType);
+
+            }
+            finally
+            {
+                blocker.ReleaseMutex();
             }
         }
     }
