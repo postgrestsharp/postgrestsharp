@@ -100,7 +100,7 @@ namespace PostgRESTSharp
                 return comment.Replace(commentType, "");
             }
 
-            return "Error: Description not found";
+            return "";
         }
 
         private static IEnumerable<Grantee> GetAllSelectGrantees(IViewMetaModel view)
