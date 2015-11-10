@@ -8,14 +8,15 @@ namespace PostgRESTSharp.Shared
     [Order(2)]
     public class RangeLimitHeaderTransformer : IRequestHeaderTransformer
     {
-        private readonly int countLimit;
         private const string rangeUnitHeaderKey = "Range-Unit";
         private const string rangeHeaderKey = "Range";
         private const string rangeValuePrefix = "items=";
 
-        public RangeLimitHeaderTransformer(int countLimit = 100)
+        public int CountLimit { get; set; }
+
+        public RangeLimitHeaderTransformer()
         {
-            this.countLimit = countLimit;
+            CountLimit = 100;
         }
 
         public void Transform(Request incomingRequestToProcess, IList<KeyValuePair<string, IEnumerable<string>>> postgRestHeadersToAddTo)
@@ -93,7 +94,7 @@ namespace PostgRESTSharp.Shared
 
         private int GetCountLimitAsIndex()
         {
-            return countLimit - 1;
+            return CountLimit - 1;
         }
 
         private static void AddRangeHeader(IList<KeyValuePair<string, IEnumerable<string>>> postgRestHeadersToAddTo, int startIndex, int endIndex)
