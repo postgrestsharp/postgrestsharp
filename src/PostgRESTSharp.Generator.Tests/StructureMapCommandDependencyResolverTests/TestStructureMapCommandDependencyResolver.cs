@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
 using NUnit.Framework;
+using PostgRESTSharp.Generator.Tests.StructureMapCommandDependencyResolverTests.Mock;
 using StructureMap;
 
 namespace PostgRESTSharp.Generator.Tests.StructureMapCommandDependencyResolverTests
@@ -13,28 +14,16 @@ namespace PostgRESTSharp.Generator.Tests.StructureMapCommandDependencyResolverTe
     [TestFixture]
     public class TestStructureMapCommandDependencyResolver
     {
-        private readonly Mutex blocker = new Mutex(false, "TestStructureMapCommandDependencyResolver");
-
         [Test]
         public void Constructor_ShouldResolveAnInstance_GivenAnInstanceTypeToResolve()
         {
-            try
-            {
-                blocker.WaitOne(TimeSpan.FromSeconds(10D), false);
+            var container = Substitute.For<IContainer>();
+            var resolver = new StructureMapCommandDependencyResolverExposed(container);
 
-                var container = Substitute.For<IContainer>();
-                var resolver = new StructureMapCommandDependencyResolver(container);
+            var serviceType = typeof(object);
+            resolver.Resolve(serviceType);
 
-                var serviceType = typeof(object);
-                resolver.Resolve(serviceType);
-
-                container.Received(1).GetInstance(serviceType);
-
-            }
-            finally
-            {
-                blocker.ReleaseMutex();
-            }
+            Assert.That(resolver.WasResolvedCalled);
         }
     }
 }

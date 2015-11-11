@@ -13,7 +13,7 @@ namespace PostgRESTSharp.Generator
             this.container = container;
         }
 
-        public object Resolve(Type serviceType)
+        public virtual object Resolve(Type serviceType)
         {
             return container.GetInstance(serviceType);
         }
