@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Conventions\TableConventions\ViewNamingConventions\ViewNameForEnumTablesConventionTests.cs" />
     <Compile Include="Conventions\TableExclusion\EligibilityTableExclusionConventionTests.cs" />
     <Compile Include="Conventions\TableExclusion\DeclarationTableExclusionConventionTests.cs" />
     <Compile Include="Conventions\TableExclusion\CalculationTableExclusionConventionTests.cs" />

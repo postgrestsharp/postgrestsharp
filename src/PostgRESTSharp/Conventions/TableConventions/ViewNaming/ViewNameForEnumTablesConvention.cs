@@ -1,4 +1,5 @@
-﻿using PostgRESTSharp.Text;
+﻿using System;
+using PostgRESTSharp.Text;
 
 namespace PostgRESTSharp.Conventions
 {
@@ -33,7 +34,12 @@ namespace PostgRESTSharp.Conventions
 
         private string Process(string inputString)
         {
-            return inputString.Replace("Enum", "").Replace("enum", "");
+            int index = inputString.LastIndexOf("enum", StringComparison.CurrentCultureIgnoreCase);
+            if (index > 0)
+            {
+                return inputString.Substring(0, index) + inputString.Substring(index + 3, inputString.Length - (index + 4));
+            }
+            return inputString;
         }
     }
 }
