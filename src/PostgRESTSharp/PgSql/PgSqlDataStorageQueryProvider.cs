@@ -20,10 +20,14 @@ namespace PostgRESTSharp.Pgsql
 		                pg_catalog.obj_description(c.oid)
 		            FROM
 		                pg_catalog.pg_class c
+                    Inner Join 
+                        pg_namespace ns On c.relnamespace = ns.oid
 		            WHERE
 		                c.relname = tabs.table_name	
                     AND
                         c.relkind = 'r'
+                    AND 
+                        ns.nspname = tabs.table_schema
                 ) as TableComment
                 from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW')", databaseName, schemaName);
         }
