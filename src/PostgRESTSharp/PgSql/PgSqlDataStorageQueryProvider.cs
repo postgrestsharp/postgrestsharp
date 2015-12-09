@@ -29,7 +29,7 @@ namespace PostgRESTSharp.Pgsql
                     AND 
                         ns.nspname = tabs.table_schema
                 ) as TableComment
-                from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW')", databaseName, schemaName);
+                from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW') and table_name not LIKE 'test_%'", databaseName, schemaName);
         }
 
         public string GetColumnsQuery(string databaseName, string schemaName, string tableName)
