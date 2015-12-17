@@ -16,6 +16,7 @@ namespace PostgRESTSharp.Generator
     {
         public static void Main(string[] args)
         {
+           
             var generator = new Generator(new Container(), new CommandRunner());
             generator.Process(args);
 

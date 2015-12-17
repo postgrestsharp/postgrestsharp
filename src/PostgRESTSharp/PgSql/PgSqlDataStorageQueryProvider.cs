@@ -29,7 +29,13 @@ namespace PostgRESTSharp.Pgsql
                     AND 
                         ns.nspname = tabs.table_schema
                 ) as TableComment
-                from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW') and table_name not LIKE 'test_%'", databaseName, schemaName);
+                from information_schema.tables tabs where table_catalog = '{0}' 
+                and table_schema = '{1}' 
+                and (table_type = 'BASE TABLE' OR table_type = 'VIEW') 
+                and table_name not LIKE 'test_%'", databaseName, schemaName);
+
+            //from information_schema.tables tabs where table_catalog = '{0}' and table_schema = '{1}' and (table_type = 'BASE TABLE' OR table_type = 'VIEW') and table_name not LIKE 'test_%'", databaseName, schemaName);
+
         }
 
         public string GetColumnsQuery(string databaseName, string schemaName, string tableName)
@@ -78,8 +84,12 @@ namespace PostgRESTSharp.Pgsql
 			            pg_catalog.col_description(c.oid, sc.ordinal_position::int)
 			        FROM
 			            pg_catalog.pg_class c
+                    Inner Join 
+                        pg_namespace ns On c.relnamespace = ns.oid
 			        WHERE
 			            c.relname = sc.table_name
+                    AND 
+                        ns.nspname = sc.table_schema
                     AND
                         c.relkind = 'r'
 		        ) as ColumnComment    
@@ -100,8 +110,13 @@ namespace PostgRESTSharp.Pgsql
                 kcu.ordinal_position as OrdinalPosition,
                 kcu.position_in_unique_constraint as PositionInUniqueConstraint
                 from information_schema.key_column_usage kcu
-                join information_schema.table_constraints tc on tc.constraint_catalog = kcu.constraint_catalog and tc.constraint_schema = kcu.constraint_schema and tc.constraint_name = kcu.constraint_name
-                where kcu.table_catalog = '{0}' and kcu.table_schema = '{1}' and kcu.table_name = '{2}'", databaseName, schemaName, tableName); //and kcu.column_name = '{3}'
+                join information_schema.table_constraints tc 
+                    on tc.constraint_catalog = kcu.constraint_catalog 
+                    and tc.constraint_schema = kcu.constraint_schema 
+                    and tc.constraint_name = kcu.constraint_name
+                where kcu.table_catalog = '{0}' 
+                and kcu.table_schema = '{1}' 
+                and kcu.table_name = '{2}'", databaseName, schemaName, tableName); //and kcu.column_name = '{3}'
         }
 
         public string GetForeignKeysQuery(string databaseName, string schemaName, string tableName)
@@ -178,7 +193,10 @@ namespace PostgRESTSharp.Pgsql
                 table_name as TableName,
                 privilege_type as PrivilegeType,
                 CASE When grantee = grantor Then 1 else 0 END as IsOwner 
-                from information_schema.role_table_grants where table_catalog = '{0}' and table_schema = '{1}' and table_name = '{2}' and grantee != 'postgres'", databaseName, schemaName, tableName);
+                from information_schema.role_table_grants 
+                where table_catalog = '{0}' 
+                and table_schema = '{1}' 
+                and table_name = '{2}' and grantee != 'postgres'", databaseName, schemaName, tableName);
         }
     }
 }
